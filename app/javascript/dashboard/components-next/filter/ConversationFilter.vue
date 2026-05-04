@@ -147,7 +147,7 @@ const outsideClickHandler = [
       </template>
     </ul>
     <div class="flex gap-2 justify-between">
-      <Button sm ghost blue @click="addFilter">
+      <Button sm ghost teal @click="addFilter">
         {{ $t('FILTER.ADD_NEW_FILTER') }}
       </Button>
       <div class="flex gap-2">
@@ -158,13 +158,13 @@ const outsideClickHandler = [
           v-if="isFolderView"
           sm
           solid
-          blue
+          teal
           :disabled="!folderNameLocal"
           @click="updateSavedCustomViews"
         >
           {{ t('FILTER.UPDATE_BUTTON_LABEL') }}
         </Button>
-        <Button v-else sm solid blue @click="validateAndSubmit">
+        <Button v-else sm solid teal @click="validateAndSubmit">
           {{ t('FILTER.SUBMIT_BUTTON_LABEL') }}
         </Button>
       </div>

@@ -222,7 +222,7 @@ const handleSubmit = async () => {
         type="button"
         sm
         ghost
-        blue
+        teal
         icon="i-lucide-plus"
         :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
         @click="addParam"

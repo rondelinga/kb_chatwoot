@@ -182,7 +182,7 @@ const handleRegisterWebhook = () => {
         <ButtonV4
           sm
           solid
-          blue
+          teal
           class="flex-shrink-0"
           @click="handleGoToSettings"
         >
@@ -278,7 +278,7 @@ const handleRegisterWebhook = () => {
               v-if="!webhookConfigured || webhookUrlMismatch"
               sm
               solid
-              blue
+              teal
               :loading="isRegisteringWebhook"
               :disabled="isRegisteringWebhook"
               class="flex-shrink-0"

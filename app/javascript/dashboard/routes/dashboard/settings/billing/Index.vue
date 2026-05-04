@@ -166,7 +166,7 @@ onMounted(handleBillingPageLogic);
           :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
         >
           <template #action>
-            <ButtonV4 sm solid blue @click="onClickBillingPortal">
+            <ButtonV4 sm solid teal @click="onClickBillingPortal">
               {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
             </ButtonV4>
           </template>
@@ -211,7 +211,7 @@ onMounted(handleBillingPageLogic);
                 v-if="canPurchaseCredits"
                 sm
                 solid
-                blue
+                teal
                 @click="openPurchaseCreditsModal"
               >
                 {{ $t('BILLING_SETTINGS.TOPUP.BUY_CREDITS') }}

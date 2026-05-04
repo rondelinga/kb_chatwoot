@@ -176,7 +176,7 @@ export default {
         <NextButton
           type="submit"
           data-testid="label-submit"
-          color="blue"
+          color="teal"
           :label="$t('LABEL_MGMT.FORM.CREATE')"
           :disabled="v$.title.$invalid || uiFlags.isCreating"
           :is-loading="uiFlags.isCreating"

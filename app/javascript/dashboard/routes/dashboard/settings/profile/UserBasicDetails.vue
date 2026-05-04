@@ -104,7 +104,7 @@ export default {
     </div>
 
     <div class="flex justify-end pt-2 border-t border-white/10">
-      <NextButton blue type="submit" :label="$t('PROFILE_SETTINGS.BTN_TEXT')" />
+      <NextButton teal type="submit" :label="$t('PROFILE_SETTINGS.BTN_TEXT')" />
     </div>
   </form>
 </template>

@@ -349,7 +349,7 @@ export default {
         <NextButton
           type="submit"
           :label="$t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT')"
-          color="blue"
+          color="teal"
           :is-loading="isUpdating"
           :disabled="isButtonDisabled"
         />

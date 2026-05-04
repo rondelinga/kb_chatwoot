@@ -35,7 +35,7 @@ const getAvatarName = sender =>
 
 const getMessageStyle = sender =>
   isUserMessage(sender)
-    ? 'bg-n-solid-blue text-n-slate-12 rounded-br-sm rounded-bl-xl rounded-t-xl'
+    ? 'bg-n-teal text-n-slate-12 rounded-br-sm rounded-bl-xl rounded-t-xl'
     : 'bg-n-teal-5 text-n-slate-12 rounded-bl-sm rounded-br-xl rounded-t-xl';
 
 const scrollToBottom = async () => {

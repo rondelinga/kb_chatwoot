@@ -270,18 +270,33 @@ defineExpose({ dialogRef });
   >
     <div class="flex flex-col gap-0">
       <div class="px-8 pt-8 pb-6 border-b border-white/10">
-        <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">Bots</p>
-        <h2 class="text-3xl font-black tracking-wide text-white uppercase">{{ dialogTitle }}</h2>
-        <p v-if="dialogDescription" class="text-sm text-n-slate-10 mt-1">{{ dialogDescription }}</p>
+        <p
+          class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
+        >
+          Bots
+        </p>
+        <h2 class="text-3xl font-black tracking-wide text-white uppercase">
+          {{ dialogTitle }}
+        </h2>
+        <p v-if="dialogDescription" class="text-sm text-n-slate-10 mt-1">
+          {{ dialogDescription }}
+        </p>
       </div>
 
-      <form class="flex flex-col gap-6 px-8 py-6" @submit.prevent="handleSubmit">
-
+      <form
+        class="flex flex-col gap-6 px-8 py-6"
+        @submit.prevent="handleSubmit"
+      >
         <template v-if="!showAccessToken || type === 'edit'">
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-[#4ade80] tracking-widest">01</span>
-              <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">Identity</span>
+              <span class="text-xs font-bold text-[#4ade80] tracking-widest"
+                >01</span
+              >
+              <span
+                class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+                >Identity</span
+              >
             </div>
             <div class="flex items-center gap-4">
               <Avatar
@@ -297,7 +312,10 @@ defineExpose({ dialogRef });
                 class="flex-1 flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
                 :class="{ 'border-red-500/50': v$.botName.$error }"
               >
-                <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">{{ $t('AGENT_BOTS.FORM.NAME.LABEL') }}</span>
+                <span
+                  class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase"
+                  >{{ $t('AGENT_BOTS.FORM.NAME.LABEL') }}</span
+                >
                 <input
                   v-model="formState.botName"
                   type="text"
@@ -313,15 +331,23 @@ defineExpose({ dialogRef });
 
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-[#4ade80] tracking-widest">02</span>
-              <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">Configuration</span>
+              <span class="text-xs font-bold text-[#4ade80] tracking-widest"
+                >02</span
+              >
+              <span
+                class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+                >Configuration</span
+              >
             </div>
             <div class="flex flex-col gap-3">
               <div
                 class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
                 :class="{ 'border-red-500/50': v$.botUrl.$error }"
               >
-                <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">{{ $t('AGENT_BOTS.FORM.WEBHOOK_URL.LABEL') }}</span>
+                <span
+                  class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+                  >{{ $t('AGENT_BOTS.FORM.WEBHOOK_URL.LABEL') }}</span
+                >
                 <input
                   v-model="formState.botUrl"
                   type="text"
@@ -331,8 +357,13 @@ defineExpose({ dialogRef });
                 />
               </div>
 
-              <div class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-2 pb-3 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
-                <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">{{ $t('AGENT_BOTS.FORM.DESCRIPTION.LABEL') }}</span>
+              <div
+                class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-2 pb-3 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+              >
+                <span
+                  class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+                  >{{ $t('AGENT_BOTS.FORM.DESCRIPTION.LABEL') }}</span
+                >
                 <textarea
                   v-model="formState.botDescription"
                   :placeholder="$t('AGENT_BOTS.FORM.DESCRIPTION.PLACEHOLDER')"
@@ -347,8 +378,13 @@ defineExpose({ dialogRef });
         <div v-if="showAccessTokenInput" class="flex flex-col gap-3">
           <div class="border-t border-white/10" />
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest">03</span>
-            <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">{{ $t('AGENT_BOTS.ACCESS_TOKEN.TITLE') }}</span>
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest"
+              >03</span
+            >
+            <span
+              class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+              >{{ $t('AGENT_BOTS.ACCESS_TOKEN.TITLE') }}</span
+            >
           </div>
           <AccessToken
             v-if="type === 'edit'"
@@ -377,7 +413,7 @@ defineExpose({ dialogRef });
           <NextButton
             v-if="!showAccessToken"
             type="submit"
-            color="blue"
+            color="teal"
             :label="confirmButtonLabel"
             :is-loading="isLoading"
             :disabled="v$.$invalid"

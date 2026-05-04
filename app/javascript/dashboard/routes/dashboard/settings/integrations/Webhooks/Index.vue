@@ -132,7 +132,7 @@ export default {
         </template>
         <template #actions>
           <NextButton
-            blue
+            teal
             :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
             size="sm"
             @click="openAddPopup"

@@ -125,7 +125,7 @@ export default {
             type="submit"
             :is-loading="isCreating"
             solid
-            blue
+            teal
             :label="$t('INBOX_MGMT.AGENTS.BUTTON_TEXT')"
           />
         </div>

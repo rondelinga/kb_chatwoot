@@ -49,7 +49,7 @@ const props = defineProps({
   },
   colorScheme: {
     type: String,
-    default: 'blue',
+    default: 'teal',
   },
 });
 

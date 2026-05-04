@@ -189,7 +189,7 @@ defineExpose({ open, close });
           @click="close"
         />
         <Button
-          color="blue"
+          color="teal"
           :label="$t('BILLING_SETTINGS.TOPUP.PURCHASE')"
           class="w-full"
           :disabled="!selectedCredits"
@@ -208,7 +208,7 @@ defineExpose({ open, close });
           @click="goBackToSelectStep"
         />
         <Button
-          color="blue"
+          color="teal"
           :label="$t('BILLING_SETTINGS.TOPUP.CONFIRM.CONFIRM_PURCHASE')"
           class="w-full"
           :is-loading="isLoading"

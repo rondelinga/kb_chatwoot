@@ -138,7 +138,7 @@ const handleInputUpdate = async () => {
       />
       <Button
         icon="i-lucide-check"
-        :color="hasError ? 'ruby' : 'blue'"
+        :color="hasError ? 'ruby' : 'teal'"
         size="sm"
         class="flex-shrink-0 ltr:rounded-l-none rtl:rounded-r-none"
         @click="handleInputUpdate"

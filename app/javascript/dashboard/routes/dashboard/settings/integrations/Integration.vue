@@ -109,7 +109,7 @@ const confirmDeletion = () => {
           <div v-else>
             <Button
               faded
-              blue
+              teal
               :label="t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE')"
             />
           </div>
@@ -120,7 +120,7 @@ const confirmDeletion = () => {
           <a :href="integrationAction">
             <Button
               faded
-              blue
+              teal
               :label="t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
             />
           </a>

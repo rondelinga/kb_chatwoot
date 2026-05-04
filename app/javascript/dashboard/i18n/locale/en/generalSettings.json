@@ -1,6 +1,5 @@
 {
   "GENERAL_SETTINGS": {
-    "WORKSPACE_LABEL": "Workspace",
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
@@ -36,6 +35,7 @@
       }
     },
     "FORM": {
+      "WORKSPACE_LABEL": "Workspace",
       "AGENT_LIMIT": {
         "DESCRIPTION": "Restrict how many simultaneous chats each agent can handle",
         "UNLIMITED_LABEL": "Unlimited",

@@ -73,7 +73,7 @@ const handleCopySecret = async () => {
         </label>
         <div class="flex justify-end mt-4">
           <NextButton
-            blue
+            teal
             :label="t('INTEGRATION_SETTINGS.WEBHOOK.SECRET.DONE')"
             @click="props.onClose()"
           />

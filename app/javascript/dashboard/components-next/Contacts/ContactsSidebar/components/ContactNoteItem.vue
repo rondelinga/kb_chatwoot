@@ -92,7 +92,7 @@ onMounted(() => {
     <p v-if="collapsible && needsCollapse">
       <Button
         variant="faded"
-        color="blue"
+        color="teal"
         size="xs"
         :icon="isExpanded ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
         @click="() => toggleExpanded()"

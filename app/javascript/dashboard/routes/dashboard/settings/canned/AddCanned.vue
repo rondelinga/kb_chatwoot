@@ -203,7 +203,7 @@ export default {
           />
           <NextButton
             type="submit"
-            color="blue"
+            color="teal"
             :label="$t('CANNED_MGMT.ADD.FORM.SUBMIT')"
             :disabled="v$.content.$invalid || v$.shortCode.$invalid || addCanned.showLoading"
             :is-loading="addCanned.showLoading"

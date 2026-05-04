@@ -23,7 +23,7 @@ const props = defineProps({
   },
   colorScheme: {
     type: String,
-    default: 'blue',
+    default: 'green',
     validator: value => ['blue', 'green'].includes(value),
   },
 });

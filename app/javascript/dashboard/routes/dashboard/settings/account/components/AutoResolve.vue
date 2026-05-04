@@ -201,7 +201,7 @@ const toggleAutoResolve = async () => {
         </WithLabel>
         <div class="flex gap-2">
           <NextButton
-            blue
+            teal
             type="submit"
             :is-loading="isSubmitting"
             :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.UPDATE_BUTTON')"

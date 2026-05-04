@@ -272,7 +272,7 @@ onMounted(() => {
       <LimitBanner class="mb-5" />
       <Banner
         v-if="pendingCount > 0"
-        color="blue"
+        color="teal"
         class="mb-4 -mt-3"
         :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
         @action="navigateToPendingFAQs"

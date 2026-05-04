@@ -162,6 +162,7 @@ export default {
         section-number="01">
         <form
           v-if="!uiFlags.isFetchingItem"
+          id="general-settings-form"
           class="flex flex-col gap-4"
           @submit.prevent="updateAccount">
           <div class="grid grid-cols-2 gap-3">
@@ -214,7 +215,7 @@ export default {
               </span>
             </div>
 
-            <div
+            <!-- <div
               v-if="featureCustomReplyEmailEnabled"
               class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 col-span-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
               <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
@@ -225,13 +226,7 @@ export default {
                 type="text"
                 :placeholder="$t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.PLACEHOLDER')"
                 class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0" />
-            </div>
-          </div>
-
-          <div class="flex justify-end pt-2 border-t border-white/10">
-            <NextButton blue :is-loading="isUpdating" type="submit">
-              {{ $t('GENERAL_SETTINGS.SUBMIT') }}
-            </NextButton>
+            </div> -->
           </div>
         </form>
         <woot-loading-state v-if="uiFlags.isFetchingItem" />
@@ -353,6 +348,17 @@ export default {
 
       <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
         <AccountDelete />
+      </div>
+
+      <div class="flex justify-end pt-4 mt-2 border-t border-white/10">
+        <NextButton
+          teal
+          :is-loading="isUpdating"
+          type="submit"
+          form="general-settings-form"
+          @click="updateAccount">
+          {{ $t('GENERAL_SETTINGS.SUBMIT') }}
+        </NextButton>
       </div>
     </div>
   </div>

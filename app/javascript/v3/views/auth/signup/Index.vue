@@ -60,7 +60,7 @@ const resizeContainers = () => {
             <p class="mt-2 text-sm text-n-slate-11">
               {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}{{ ' '
               }}<router-link
-                class="text-n-blue-10 font-medium hover:text-n-blue-11"
+                class="text-n-teal-10 font-medium hover:text-n-teal-11"
                 to="/app/login"
               >
                 {{ $t('LOGIN.SUBMIT') }}

@@ -26,7 +26,7 @@ defineProps({
             height="15"
             viewBox="0 0 15 15"
             fill="none"
-            class="stroke-n-blue-text"
+            class="stroke-n-teal-text"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -51,7 +51,7 @@ defineProps({
             height="15"
             viewBox="0 0 15 15"
             fill="none"
-            class="stroke-n-blue-text"
+            class="stroke-n-teal-text"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path

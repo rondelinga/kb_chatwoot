@@ -169,7 +169,7 @@ const addAgent = async () => {
         <Button
           type="submit"
           :label="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
-          color="blue"
+          color="teal"
           :disabled="v$.$invalid || uiFlags.isCreating"
           :is-loading="uiFlags.isCreating"
         />

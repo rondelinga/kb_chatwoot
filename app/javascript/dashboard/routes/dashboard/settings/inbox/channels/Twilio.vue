@@ -245,7 +245,7 @@ export default {
         :is-loading="uiFlags.isCreating"
         type="submit"
         solid
-        blue
+        teal
         :label="$t('INBOX_MGMT.ADD.TWILIO.SUBMIT_BUTTON')"
       />
     </div>

@@ -258,7 +258,7 @@ const isSubmitDisabled = computed(
         <Button
           type="submit"
           :label="submitButtonText"
-          color="blue"
+          color="teal"
           :disabled="isSubmitDisabled"
           :is-loading="addCustomRole.showLoading"
         />

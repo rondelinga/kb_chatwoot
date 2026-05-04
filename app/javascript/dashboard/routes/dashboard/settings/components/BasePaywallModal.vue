@@ -30,7 +30,7 @@ const emit = defineEmits(['upgrade']);
   >
     <div class="flex items-center w-full gap-2 mb-4">
       <span
-        class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-blue"
+        class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-teal"
       >
         <Icon
           class="flex-shrink-0 text-n-brand size-[14px]"
@@ -52,7 +52,7 @@ const emit = defineEmits(['upgrade']);
       </span>
     </p>
     <template v-if="isOnChatwootCloud">
-      <ButtonV4 blue solid md @click="emit('upgrade')">
+      <ButtonV4 teal solid md @click="emit('upgrade')">
         {{ $t(`${featurePrefix}.PAYWALL.UPGRADE_NOW`) }}
       </ButtonV4>
       <span class="mt-2 text-xs tracking-tight text-center text-n-slate-11">
@@ -61,7 +61,7 @@ const emit = defineEmits(['upgrade']);
     </template>
     <template v-else-if="isSuperAdmin">
       <a href="/super_admin" class="block w-full">
-        <ButtonV4 solid blue md class="w-full">
+        <ButtonV4 solid teal md class="w-full">
           {{ $t(`${featurePrefix}.PAYWALL.UPGRADE_NOW`) }}
         </ButtonV4>
       </a>

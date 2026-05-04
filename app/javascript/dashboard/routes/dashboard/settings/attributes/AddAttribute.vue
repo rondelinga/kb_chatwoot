@@ -372,7 +372,7 @@ export default {
           <NextButton
             type="submit"
             :label="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
-            color="blue"
+            color="teal"
             :disabled="isButtonDisabled"
             :is-loading="uiFlags.isCreating"
           />

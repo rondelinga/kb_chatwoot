@@ -196,7 +196,7 @@ export default {
             :is-loading="uiFlags.isCreating"
             :disabled="!channelWebsiteUrl || !inboxName"
             solid
-            blue
+            teal
             :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
           />
         </div>

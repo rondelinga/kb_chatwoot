@@ -146,7 +146,7 @@ const outsideClickHandler = [
       </template>
     </ul>
     <div class="flex justify-between gap-2">
-      <Button sm ghost blue class="flex-shrink-0" @click="addFilter">
+      <Button sm ghost teal class="flex-shrink-0" @click="addFilter">
         {{ $t('CONTACTS_LAYOUT.FILTER.BUTTONS.ADD_FILTER') }}
       </Button>
       <div class="flex gap-2 flex-shrink-0">
@@ -157,13 +157,13 @@ const outsideClickHandler = [
           v-if="isSegmentView"
           sm
           solid
-          blue
+          teal
           :disabled="!segmentNameLocal"
           @click="updateSavedSegment"
         >
           {{ $t('CONTACTS_LAYOUT.FILTER.BUTTONS.UPDATE_SEGMENT') }}
         </Button>
-        <Button v-else sm solid blue @click="validateAndSubmit">
+        <Button v-else sm solid teal @click="validateAndSubmit">
           {{ $t('CONTACTS_LAYOUT.FILTER.BUTTONS.APPLY_FILTERS') }}
         </Button>
       </div>

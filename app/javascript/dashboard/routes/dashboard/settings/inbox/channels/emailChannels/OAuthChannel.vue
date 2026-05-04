@@ -70,7 +70,7 @@ async function requestAuthorization() {
         :is-loading="isRequestingAuthorization"
         type="submit"
         solid
-        blue
+        teal
         :label="submitButtonText"
       />
     </form>

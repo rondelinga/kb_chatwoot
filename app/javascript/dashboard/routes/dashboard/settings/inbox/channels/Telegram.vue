@@ -96,7 +96,7 @@ export default {
           :is-loading="uiFlags.isCreating"
           type="submit"
           solid
-          blue
+          teal
           :label="$t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.SUBMIT_BUTTON')"
         />
       </div>

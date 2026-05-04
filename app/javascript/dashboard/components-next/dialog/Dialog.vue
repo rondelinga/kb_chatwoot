@@ -163,7 +163,7 @@ defineExpose({ open, close });
               />
               <Button
                 v-if="showConfirmButton"
-                :color="type === 'edit' ? 'blue' : 'ruby'"
+                :color="type === 'edit' ? 'teal' : 'ruby'"
                 :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
                 class="w-full"
                 :is-loading="isLoading"

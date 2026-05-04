@@ -183,7 +183,7 @@ export default {
         />
         <NextButton
           type="submit"
-          color="blue"
+          color="teal"
           :label="$t('LABEL_MGMT.FORM.EDIT')"
           :disabled="v$.title.$invalid || uiFlags.isUpdating"
           :is-loading="uiFlags.isUpdating"

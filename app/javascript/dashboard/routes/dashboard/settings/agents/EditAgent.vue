@@ -272,7 +272,7 @@ const resetPassword = async () => {
           <Button
             type="submit"
             :label="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
-            color="blue"
+            color="teal"
             :disabled="v$.$invalid || uiFlags.isUpdating"
             :is-loading="uiFlags.isUpdating"
           />

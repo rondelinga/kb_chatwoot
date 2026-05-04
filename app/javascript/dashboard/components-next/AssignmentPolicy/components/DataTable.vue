@@ -70,7 +70,7 @@ const handleNavigate = item => {
           rounded-full
         />
         <span
-          class="text-sm text-n-slate-12 truncate min-w-0 group-hover:text-n-blue-11 dark:group-hover:text-n-blue-10 transition-colors"
+          class="text-sm text-n-slate-12 truncate min-w-0 group-hover:text-n-teal-11 dark:group-hover:text-n-teal-10 transition-colors"
         >
           {{ item.name }}
         </span>

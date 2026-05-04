@@ -242,7 +242,7 @@ onMounted(() => {
 
       <div class="flex gap-2">
         <NextButton
-          blue
+          teal
           type="submit"
           :is-loading="isSubmitting"
           :label="t('SECURITY_SETTINGS.SAML.UPDATE_BUTTON')"

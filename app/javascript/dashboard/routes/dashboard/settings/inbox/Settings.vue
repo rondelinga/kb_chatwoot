@@ -576,7 +576,7 @@ export default {
     v-if="uiFlags.isFetching"
     class="flex items-center justify-center h-full w-full"
   >
-    <SpinnerLoader :size="28" class="text-n-blue-9" />
+    <SpinnerLoader :size="28" class="text-n-teal-9" />
   </div>
   <div
     v-else
@@ -779,7 +779,7 @@ export default {
               <NextButton
                 v-if="!showBusinessNameInput"
                 ghost
-                blue
+                teal
                 sm
                 :label="
                   $t(

@@ -34,7 +34,7 @@ export default {
     <NextButton
       slate
       ghost
-      blue
+      teal
       trailing-icon
       :icon="selected ? 'i-lucide-circle-check' : ''"
       class="w-full !px-2.5 justify-between"

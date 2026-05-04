@@ -110,7 +110,7 @@ export default {
 
     <div class="flex justify-end pt-2 border-t border-white/10">
       <NextButton
-        blue
+        teal
         type="submit"
         :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT')"
         :disabled="isButtonDisabled"

@@ -257,7 +257,7 @@ const onToggleDropdown = () => {
             <Button
               sm
               solid
-              color="blue"
+              color="teal"
               :label="t('SEARCH.DATE_RANGE.APPLY')"
               :disabled="!hasCustomDates"
               class="flex-1 justify-center"

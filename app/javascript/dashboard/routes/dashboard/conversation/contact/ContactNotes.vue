@@ -153,7 +153,7 @@ watch(
         <div class="flex items-center justify-end gap-3">
           <NextButton
             solid
-            blue
+            teal
             :label="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.SAVE')"
             :is-loading="isCreatingNote"
             :disabled="!noteContent || isCreatingNote"

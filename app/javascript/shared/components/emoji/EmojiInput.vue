@@ -95,7 +95,7 @@ export default {
           ref="searchbar"
           v-model="search"
           type="text"
-          class="focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
+          class="focus:box-shadow-teal dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
         <NextButton
@@ -195,9 +195,9 @@ export default {
 @tailwind components;
 
 @layer components {
-  .box-shadow-blue {
+  .box-shadow-teal {
     box-shadow:
-      0 0 0 1px #1f93ff,
+      0 0 0 1px #10A37F,
       0 0 1px 2px #c7e3ff;
   }
 

@@ -76,7 +76,7 @@ const computedColor = computed(() => {
   if (attrs.amber || attrs.amber === '') return 'amber';
   if (attrs.slate || attrs.slate === '') return 'slate';
   if (attrs.teal || attrs.teal === '') return 'teal';
-  return 'blue'; // Default color
+  return 'teal'; // Default color
 });
 
 const computedSize = computed(() => {

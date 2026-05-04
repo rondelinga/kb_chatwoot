@@ -84,7 +84,7 @@ const openConfirmDeleteContactDialog = () => {
         <span class="text-sm text-n-slate-12 truncate">{{ field.value }}</span>
       </div>
       <button
-        class="mt-2 text-sm text-n-blue-9 hover:text-n-blue-10 transition-colors self-start"
+        class="mt-2 text-sm text-n-teal-9 hover:text-n-teal-10 transition-colors self-start"
         @click="goToEditContact"
       >
         {{ t('CONTACTS_LAYOUT.DETAILS.EDIT_CONTACT') }}
