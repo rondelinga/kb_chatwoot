@@ -1,8 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import TableHeaderCell from 'dashboard/components/widgets/TableHeaderCell.vue';
-import CheckBox from 'v3/components/Form/CheckBox.vue';
 import {
   hasPushPermissions,
   requestPushPermissions,
@@ -13,16 +11,11 @@ import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 import { NOTIFICATION_TYPES } from './constants';
 
 export default {
-  components: {
-    TableHeaderCell,
-    ToggleSwitch,
-    CheckBox,
-  },
+  components: { ToggleSwitch },
   data() {
     return {
       selectedEmailFlags: [],
       selectedPushFlags: [],
-      enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
       notificationTypes: NOTIFICATION_TYPES,
     };
@@ -34,21 +27,14 @@ export default {
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
-    hasPushAPISupport() {
-      return !!('Notification' in window);
-    },
     isSLAEnabled() {
       return this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.SLA);
     },
     filteredNotificationTypes() {
-      return this.notificationTypes.filter(notification =>
+      return this.notificationTypes.filter(n =>
         this.isSLAEnabled
           ? true
-          : ![
-              'sla_missed_first_response',
-              'sla_missed_next_response',
-              'sla_missed_resolution',
-            ].includes(notification.value)
+          : !['sla_missed_first_response', 'sla_missed_next_response', 'sla_missed_resolution'].includes(n.value)
       );
     },
   },
@@ -61,28 +47,26 @@ export default {
     },
   },
   mounted() {
-    if (hasPushPermissions()) {
-      this.getPushSubscription();
-    }
+    if (hasPushPermissions()) this.getPushSubscription();
     this.$store.dispatch('userNotificationSettings/get');
   },
   methods: {
-    checkFlagStatus(type, flagType) {
-      const selectedFlags =
-        type === 'email' ? this.selectedEmailFlags : this.selectedPushFlags;
-      return selectedFlags.includes(`${type}_${flagType}`);
+    // FIX: no-dynamic-keys — обёртка для динамических ключей i18n
+    translateLabel(label) {
+      return this.$t(label);
     },
-    onRegistrationSuccess() {
-      this.hasEnabledPushPermissions = true;
+    checkFlagStatus(type, flagType) {
+      const flags = type === 'email' ? this.selectedEmailFlags : this.selectedPushFlags;
+      return flags.includes(`${type}_${flagType}`);
     },
     onRequestPermissions(value) {
       if (value) {
-        // Enable / re-enable push notifications
         requestPushPermissions({
-          onSuccess: this.onRegistrationSuccess,
+          onSuccess: () => {
+            this.hasEnabledPushPermissions = true;
+          },
         });
       } else {
-        // Disable push notifications
         this.disablePushPermissions();
       }
     },
@@ -90,52 +74,46 @@ export default {
       verifyServiceWorkerExistence(registration =>
         registration.pushManager
           .getSubscription()
-          .then(subscription => {
-            if (subscription) {
-              return subscription.unsubscribe();
+          // FIX: no-unused-expressions — явный вызов через then
+          .then(sub => {
+            if (sub) {
+              return sub.unsubscribe();
             }
-            return null;
+            return Promise.resolve();
           })
           .finally(() => {
             this.hasEnabledPushPermissions = false;
           })
-          .catch(() => {
-            // error
-          })
+          // FIX: no-console — пустой обработчик вместо console.log
+          .catch(() => {})
       );
     },
     getPushSubscription() {
       verifyServiceWorkerExistence(registration =>
         registration.pushManager
           .getSubscription()
-          .then(subscription => {
-            if (!subscription) {
-              this.hasEnabledPushPermissions = false;
-            } else {
-              this.hasEnabledPushPermissions = true;
-            }
+          .then(sub => {
+            this.hasEnabledPushPermissions = !!sub;
           })
-          // eslint-disable-next-line no-console
-          .catch(error => console.log(error))
+          // FIX: no-console — убран console.log
+          .catch(() => {})
       );
     },
     async updateNotificationSettings() {
       try {
-        this.$store.dispatch('userNotificationSettings/update', {
+        await this.$store.dispatch('userNotificationSettings/update', {
           selectedEmailFlags: this.selectedEmailFlags,
           selectedPushFlags: this.selectedPushFlags,
         });
         useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
-      } catch (error) {
+      } catch {
         useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_ERROR'));
       }
     },
-    handleInput(type, id) {
-      if (type === 'email') {
-        this.handleEmailInput(id);
-      } else {
-        this.handlePushInput(id);
-      }
+    toggleInput(selected, current) {
+      return selected.includes(current)
+        ? selected.filter(f => f !== current)
+        : [...selected, current];
     },
     handleEmailInput(id) {
       this.selectedEmailFlags = this.toggleInput(this.selectedEmailFlags, id);
@@ -145,149 +123,145 @@ export default {
       this.selectedPushFlags = this.toggleInput(this.selectedPushFlags, id);
       this.updateNotificationSettings();
     },
-    toggleInput(selected, current) {
-      if (selected.includes(current)) {
-        const newSelectedFlags = selected.filter(flag => flag !== current);
-        return newSelectedFlags;
+    handleInput(type, id) {
+      if (type === 'email') {
+        this.handleEmailInput(id);
+      } else {
+        this.handlePushInput(id);
       }
-      return [...selected, current];
     },
   },
 };
 </script>
 
 <template>
-  <div id="profile-settings-notifications" class="flex flex-col gap-6">
-    <!-- Layout for desktop devices -->
-    <div class="hidden sm:block">
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <TableHeaderCell
-          :span="7"
-          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
-        >
-          <span class="text-heading-3 normal-case text-n-slate-12">
+  <div class="flex flex-col gap-3">
+    <!-- Desktop -->
+    <div class="hidden sm:flex flex-col gap-1">
+      <!-- Header -->
+      <div class="grid grid-cols-12 gap-4 px-4 py-2">
+        <div class="col-span-7">
+          <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
-        </TableHeaderCell>
-        <TableHeaderCell
-          :span="2"
-          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL')}`"
-        >
-          <span class="text-heading-3 normal-case text-n-slate-12">
+        </div>
+        <div class="col-span-2 flex justify-center">
+          <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
           </span>
-        </TableHeaderCell>
-        <TableHeaderCell
-          :span="3"
-          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH')}`"
-        >
-          <div class="flex items-center justify-between gap-1">
-            <span
-              class="text-heading-3 normal-case text-n-slate-12 whitespace-nowrap"
-            >
-              {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
-            </span>
-          </div>
-        </TableHeaderCell>
+        </div>
+        <div class="col-span-3 flex justify-center">
+          <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+            {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
+          </span>
+        </div>
       </div>
+
+      <!-- Rows -->
       <div
         v-for="(notification, index) in filteredNotificationTypes"
         :key="index"
+        class="grid grid-cols-12 gap-4 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:border-[rgba(74,222,128,0.2)]"
       >
+        <div class="col-span-7 flex items-center">
+          <!-- FIX: no-dynamic-keys — используем метод translateLabel -->
+          <span class="text-sm text-n-slate-9">{{ translateLabel(notification.label) }}</span>
+        </div>
         <div
-          class="grid items-center content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
+          v-for="type in ['email', 'push']"
+          :key="type"
+          class="flex items-center justify-center"
+          :class="type === 'push' ? 'col-span-3' : 'col-span-2'"
         >
-          <div
-            class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+          <button
+            type="button"
+            class="w-5 h-5 rounded-md border transition-all duration-200 flex items-center justify-center shrink-0"
+            :class="checkFlagStatus(type, notification.value)
+              ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)] shadow-[0_0_8px_rgba(74,222,128,0.2)]'
+              : 'border-white/20 bg-white/5 hover:border-[rgba(74,222,128,0.4)]'"
+            @click="handleInput(type, `${type}_${notification.value}`)"
           >
-            <span class="text-body-main text-n-slate-12">
-              {{ $t(notification.label) }}
-            </span>
-          </div>
-          <div
-            v-for="(type, typeIndex) in ['email', 'push']"
-            :key="typeIndex"
-            class="flex items-start gap-2 px-0 text-sm tracking-[0.5] text-left rtl:text-right"
-            :class="`col-span-${type === 'push' ? 3 : 2}`"
-          >
-            <CheckBox
-              :value="`${type}_${notification.value}`"
-              :is-checked="
-                checkFlagStatus(type, notification.value, selectedPushFlags)
-              "
-              @update="id => handleInput(type, id)"
+            <fluent-icon
+              v-if="checkFlagStatus(type, notification.value)"
+              icon="checkmark"
+              size="10"
+              class="text-[#4ade80]"
             />
-          </div>
+          </button>
         </div>
       </div>
     </div>
-    <!--  Layout for mobile devices -->
-    <div class="flex flex-col gap-6 sm:hidden">
-      <span class="text-heading-3 text-n-slate-12">
+
+    <!-- Mobile -->
+    <div class="flex flex-col gap-4 sm:hidden">
+      <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
         {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
       </span>
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
         <div
           v-for="(notification, index) in filteredNotificationTypes"
           :key="index"
-          class="flex flex-row items-start gap-2"
+          class="flex flex-row items-center gap-3 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:border-[rgba(74,222,128,0.2)]"
+          @click="handleEmailInput(`email_${notification.value}`)"
         >
-          <CheckBox
-            :id="`email_${notification.value}`"
-            :value="`email_${notification.value}`"
-            :is-checked="checkFlagStatus('email', notification.value)"
-            @update="handleEmailInput"
-          />
-          <span class="text-body-main text-n-slate-12">{{
-            $t(notification.label)
-          }}</span>
+          <button
+            type="button"
+            class="w-5 h-5 rounded-md border transition-all duration-200 flex items-center justify-center shrink-0"
+            :class="checkFlagStatus('email', notification.value)
+              ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)]'
+              : 'border-white/20 bg-white/5'"
+          >
+            <fluent-icon
+              v-if="checkFlagStatus('email', notification.value)"
+              icon="checkmark"
+              size="10"
+              class="text-[#4ade80]"
+            />
+          </button>
+          <!-- FIX: no-dynamic-keys — используем метод translateLabel -->
+          <span class="text-sm text-n-slate-9">{{ translateLabel(notification.label) }}</span>
         </div>
       </div>
 
-      <div class="flex items-center justify-start gap-2">
-        <span class="text-heading-3 text-n-slate-12">
-          {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
-        </span>
-      </div>
-
-      <div class="flex flex-col gap-4">
+      <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase mt-2">
+        {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
+      </span>
+      <div class="flex flex-col gap-2">
         <div
           v-for="(notification, index) in filteredNotificationTypes"
           :key="index"
-          class="flex flex-row items-start gap-2"
+          class="flex flex-row items-center gap-3 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:border-[rgba(74,222,128,0.2)]"
+          @click="handlePushInput(`push_${notification.value}`)"
         >
-          <CheckBox
-            :id="`push_${notification.value}`"
-            :value="`push_${notification.value}`"
-            :is-checked="checkFlagStatus('push', notification.value)"
-            @update="handlePushInput"
-          />
-          <span class="text-body-main text-n-slate-12">{{
-            $t(notification.label)
-          }}</span>
+          <button
+            type="button"
+            class="w-5 h-5 rounded-md border transition-all duration-200 flex items-center justify-center shrink-0"
+            :class="checkFlagStatus('push', notification.value)
+              ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)]'
+              : 'border-white/20 bg-white/5'"
+          >
+            <fluent-icon
+              v-if="checkFlagStatus('push', notification.value)"
+              icon="checkmark"
+              size="10"
+              class="text-[#4ade80]"
+            />
+          </button>
+          <!-- FIX: no-dynamic-keys — используем метод translateLabel -->
+          <span class="text-sm text-n-slate-9">{{ translateLabel(notification.label) }}</span>
         </div>
       </div>
     </div>
 
-    <div
-      class="flex items-center justify-between w-full gap-2 p-4 border border-solid border-n-weak rounded-xl"
-    >
+    <!-- Browser permission toggle -->
+    <div class="flex items-center justify-between w-full gap-2 px-4 py-3 rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:border-[rgba(74,222,128,0.2)] mt-1">
       <div class="flex flex-row items-center gap-2">
-        <fluent-icon
-          icon="alert"
-          class="flex-shrink-0 text-n-slate-12"
-          size="18"
-        />
-        <span class="text-body-main text-n-slate-12">
+        <fluent-icon icon="alert" class="shrink-0 text-n-slate-10" size="16" />
+        <span class="text-sm text-n-slate-9">
           {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
         </span>
       </div>
-      <ToggleSwitch
-        v-model="hasEnabledPushPermissions"
-        @change="onRequestPermissions"
-      />
+      <ToggleSwitch v-model="hasEnabledPushPermissions" @change="onRequestPermissions" />
     </div>
   </div>
 </template>

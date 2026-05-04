@@ -6,9 +6,7 @@ import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
-  components: {
-    NextButton,
-  },
+  components: { NextButton },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -17,40 +15,21 @@ export default {
       currentPassword: '',
       password: '',
       passwordConfirmation: '',
-      isPasswordChanging: false,
-      errorMessage: '',
-      inputStyles: {
-        borderRadius: '0.75rem',
-        padding: '0.375rem 0.75rem',
-        fontSize: '0.875rem',
-        marginBottom: '0.125rem',
-      },
     };
   },
   validations: {
-    currentPassword: {
-      required,
-    },
-    password: {
-      minLength: minLength(6),
-    },
+    currentPassword: { required },
+    password: { minLength: minLength(6) },
     passwordConfirmation: {
       minLength: minLength(6),
       isEqPassword(value) {
-        if (value !== this.password) {
-          return false;
-        }
-        return true;
+        return value === this.password;
       },
     },
   },
   computed: {
     isButtonDisabled() {
-      return (
-        !this.currentPassword ||
-        !this.passwordConfirmation ||
-        !this.v$.passwordConfirmation.isEqPassword
-      );
+      return !this.currentPassword || !this.passwordConfirmation || !this.v$.passwordConfirmation.isEqPassword;
     },
   },
   methods: {
@@ -68,9 +47,7 @@ export default {
           currentPassword: this.currentPassword,
         });
       } catch (error) {
-        alertMessage =
-          parseAPIErrorResponse(error) ||
-          this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        alertMessage = parseAPIErrorResponse(error) || this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
       } finally {
         useAlert(alertMessage);
       }
@@ -80,63 +57,64 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="changePassword()">
-    <div class="flex flex-col w-full gap-4">
-      <woot-input
+  <form class="flex flex-col gap-3" @submit.prevent="changePassword">
+    <div
+      class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+      :class="{ 'border-red-500/50': v$.currentPassword.$error }"
+    >
+      <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+        {{ $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL') }}
+      </span>
+      <input
         v-model="currentPassword"
         type="password"
-        :styles="inputStyles"
-        :class="{ error: v$.currentPassword.$error }"
-        :label="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL')"
         :placeholder="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')"
-        :error="`${
-          v$.currentPassword.$error
-            ? $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR')
-            : ''
-        }`"
-        @input="v$.currentPassword.$touch"
+        class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
         @blur="v$.currentPassword.$touch"
       />
+    </div>
 
-      <woot-input
-        v-model="password"
-        type="password"
-        :styles="inputStyles"
-        :class="{ error: v$.password.$error }"
-        :label="$t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL')"
-        :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
-        :error="`${
-          v$.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
-        }`"
-        @input="v$.password.$touch"
-        @blur="v$.password.$touch"
-      />
-
-      <woot-input
-        v-model="passwordConfirmation"
-        type="password"
-        :styles="inputStyles"
-        :class="{ error: v$.passwordConfirmation.$error }"
-        :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL')"
-        :placeholder="
-          $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
-        "
-        :error="`${
-          v$.passwordConfirmation.$error
-            ? $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR')
-            : ''
-        }`"
-        @input="v$.passwordConfirmation.$touch"
-        @blur="v$.passwordConfirmation.$touch"
-      />
-
-      <div>
-        <NextButton
-          type="submit"
-          :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT')"
-          :disabled="isButtonDisabled"
+    <div class="grid grid-cols-2 gap-3">
+      <div
+        class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+        :class="{ 'border-red-500/50': v$.password.$error }"
+      >
+        <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL') }}
+        </span>
+        <input
+          v-model="password"
+          type="password"
+          :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
+          class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
+          @blur="v$.password.$touch"
         />
       </div>
+
+      <div
+        class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+        :class="{ 'border-red-500/50': v$.passwordConfirmation.$error }"
+      >
+        <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL') }}
+        </span>
+        <input
+          v-model="passwordConfirmation"
+          type="password"
+          :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')"
+          class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
+          @blur="v$.passwordConfirmation.$touch"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-end pt-2 border-t border-white/10">
+      <NextButton
+        blue
+        type="submit"
+        :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT')"
+        :disabled="isButtonDisabled"
+      />
     </div>
   </form>
 </template>

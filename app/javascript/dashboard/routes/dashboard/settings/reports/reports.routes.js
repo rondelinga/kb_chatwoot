@@ -20,7 +20,7 @@ import LabelReports from './LabelReports.vue';
 import TeamReports from './TeamReports.vue';
 
 import CsatResponses from './CsatResponses.vue';
-import BotReports from './BotReports.vue';
+// import BotReports from './BotReports.vue';
 import AgentActivityReports from './AgentActivityReports.vue';
 import AgentActivityDetail from './AgentActivityDetail.vue'; 
 import LiveReports from './LiveReports.vue';
@@ -164,12 +164,12 @@ export default {
           meta,
           component: CsatResponses,
         },
-        {
-          path: 'bot',
-          name: 'bot_reports',
-          meta,
-          component: BotReports,
-        },
+        // {
+        //   path: 'bot',
+        //   name: 'bot_reports',
+        //   meta,
+        //   component: BotReports,
+        // },
         {
           path: 'agent_activity',
           name: 'agent_activity_reports',

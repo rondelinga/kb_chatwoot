@@ -12,52 +12,22 @@ defineProps({
     type: String,
     default: '',
   },
-  lightImage: {
-    type: String,
-    default: '',
-  },
-  darkImage: {
-    type: String,
-    default: '',
-  },
 });
 </script>
 
 <template>
   <button
-    class="flex flex-col gap-4 w-full h-fit p-4 rounded-md border border-n-weak dark:border-n-weak"
-    :class="{
-      'border-n-brand ': active,
-    }"
+    class="flex flex-col gap-2 w-full px-4 py-3 rounded-xl border text-left transition-all duration-200 cursor-pointer"
+    :class="active
+      ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+      : 'border-white/10 bg-white/5 hover:border-white/20'"
   >
-    <div class="flex flex-col gap-2 items-center w-full rounded-t-[5px]">
-      <div class="grid grid-cols-[1fr_auto] items-center w-full gap-1">
-        <div class="overflow-hidden text-heading-2 text-n-slate-12 text-start">
-          <span class="block truncate">{{ title }}</span>
-        </div>
-        <input
-          :checked="active"
-          type="radio"
-          :name="`hotkey-${title}`"
-          class="shadow cursor-pointer grid place-items-center border-2 border-n-strong appearance-none rounded-full w-5 h-5 checked:bg-n-brand before:content-[''] before:bg-n-brand before:border-4 before:rounded-full before:border-n-strong checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-n-brand"
-        />
-      </div>
-      <span class="text-n-slate-11 line-clamp-2 text-body-para text-start">
-        {{ description }}
-      </span>
-    </div>
-
-    <div>
-      <img
-        :src="lightImage"
-        :alt="`Light themed image for ${title}`"
-        class="block object-cover w-full dark:hidden"
-      />
-      <img
-        :src="darkImage"
-        :alt="`Dark themed image for ${title}`"
-        class="hidden object-cover w-full dark:block"
-      />
-    </div>
+    <span
+      class="text-[10px] font-semibold tracking-[0.15em] uppercase"
+      :class="active ? 'text-[#4ade80]' : 'text-n-slate-10'"
+    >
+      {{ title }}
+    </span>
+    <span class="text-xs text-n-slate-9 line-clamp-2">{{ description }}</span>
   </button>
 </template>

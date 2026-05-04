@@ -19,7 +19,7 @@ defineProps({
   isCollapsed: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['close', 'openKeyShortcutModal']);
+// const emit = defineEmits(['close', 'openKeyShortcutModal']);
 
 defineOptions({
   inheritAttrs: false,
@@ -81,24 +81,24 @@ const menuItems = computed(() => {
     //     ninja.open({ parent: 'appearance_settings' });
     //   },
     // },
-    {
-      show: true,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.DOCS'),
-      icon: 'i-lucide-book',
-      link: 'https://www.chatwoot.com/hc/user-guide/en',
-      nativeLink: true,
-      target: '_blank',
-    },
-    {
-      show: true,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.CHANGELOG'),
-      icon: 'i-lucide-scroll-text',
-      link: 'https://www.chatwoot.com/changelog/',
-      nativeLink: true,
-      target: '_blank',
-    },
+    // {
+    //   show: true,
+    //   showOnCustomBrandedInstance: false,
+    //   label: t('SIDEBAR_ITEMS.DOCS'),
+    //   icon: 'i-lucide-book',
+    //   link: 'https://www.chatwoot.com/hc/user-guide/en',
+    //   nativeLink: true,
+    //   target: '_blank',
+    // },
+    // {
+    //   show: true,
+    //   showOnCustomBrandedInstance: false,
+    //   label: t('SIDEBAR_ITEMS.CHANGELOG'),
+    //   icon: 'i-lucide-scroll-text',
+    //   link: 'https://www.chatwoot.com/changelog/',
+    //   nativeLink: true,
+    //   target: '_blank',
+    // },
     {
       show: currentUser.value.type === 'SuperAdmin',
       showOnCustomBrandedInstance: true,

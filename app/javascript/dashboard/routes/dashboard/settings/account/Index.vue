@@ -6,37 +6,23 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { FEATURE_FLAGS } from '../../../../featureFlags';
-import WithLabel from 'v3/components/Form/WithLabel.vue';
-import NextInput from 'next/input/Input.vue';
-import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import AccountId from './components/AccountId.vue';
-import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
-import AudioTranscription from './components/AudioTranscription.vue';
 import SectionLayout from './components/SectionLayout.vue';
-import NextSwitch from 'next/switch/Switch.vue';
 
 export default {
   components: {
-    BaseSettingsHeader,
     NextButton,
     AccountId,
-    BuildInfo,
     AccountDelete,
-    AudioTranscription,
     SectionLayout,
-    WithLabel,
-    NextInput,
-    NextSwitch,
   },
   setup() {
     const { updateUISettings, uiSettings } = useUISettings();
     const { enabledLanguages } = useConfig();
     const { accountId } = useAccount();
     const v$ = useVuelidate();
-
     return { updateUISettings, uiSettings, v$, enabledLanguages, accountId };
   },
   data() {
@@ -54,36 +40,17 @@ export default {
     };
   },
   validations: {
-    name: {
-      required,
-    },
-    locale: {
-      required,
-    },
-  },
-  watch: {
-    activeChatLimitValue(val) {
-      if (val !== null && val < 0) {
-        this.activeChatLimitValue = 0;
-      }
-    },
+    name: { required },
+    locale: { required },
   },
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
-    showAudioTranscriptionConfig() {
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.CAPTAIN
-      );
-    },
     languagesSortedByCode() {
-      const enabledLanguages = [...this.enabledLanguages];
-      return enabledLanguages.sort((l1, l2) =>
+      return [...this.enabledLanguages].sort((l1, l2) =>
         l1.iso_639_1_code.localeCompare(l2.iso_639_1_code)
       );
     },
@@ -94,17 +61,20 @@ export default {
       return !!this.features?.inbound_emails;
     },
     featureCustomReplyDomainEnabled() {
-      return (
-        this.featureInboundEmailEnabled && !!this.features.custom_reply_domain
-      );
+      return this.featureInboundEmailEnabled && !!this.features.custom_reply_domain;
     },
     featureCustomReplyEmailEnabled() {
-      return (
-        this.featureInboundEmailEnabled && !!this.features.custom_reply_email
-      );
+      return this.featureInboundEmailEnabled && !!this.features.custom_reply_email;
     },
     currentAccount() {
       return this.getAccount(this.accountId) || {};
+    },
+  },
+  watch: {
+    activeChatLimitValue(val) {
+      if (val !== null && val < 0) {
+        this.activeChatLimitValue = 0;
+      }
     },
   },
   mounted() {
@@ -114,22 +84,11 @@ export default {
     async initializeAccount() {
       try {
         const {
-          name,
-          locale,
-          id,
-          domain,
-          support_email,
-          features,
-          queue_enabled,
-          queue_message,
-          active_chat_limit_enabled,
-          active_chat_limit_value,
+          name, locale, id, domain, support_email, features,
+          queue_enabled, queue_message, active_chat_limit_enabled, active_chat_limit_value,
         } = this.getAccount(this.accountId);
-
         const effectiveLocale = this.uiSettings?.locale || locale;
-        if (effectiveLocale) {
-          this.$root.$i18n.locale = effectiveLocale;
-        }
+        if (effectiveLocale) this.$root.$i18n.locale = effectiveLocale;
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -144,21 +103,16 @@ export default {
         // Ignore error
       }
     },
-
     handleLimitKeydown(event) {
       const blockedKeys = ['-', 'e', 'E', '+'];
       if (blockedKeys.includes(event.key)) {
         event.preventDefault();
         return;
       }
-      if (
-        event.key === 'ArrowDown' &&
-        (this.activeChatLimitValue ?? 0) <= 0
-      ) {
+      if (event.key === 'ArrowDown' && (this.activeChatLimitValue ?? 0) <= 0) {
         event.preventDefault();
       }
     },
-
     async updateAccount() {
       this.v$.$touch();
       if (this.v$.$invalid) {
@@ -177,9 +131,7 @@ export default {
           active_chat_limit_value: this.activeChatLimitValue,
         });
         const updatedLocale = this.uiSettings?.locale || this.locale;
-        if (updatedLocale) {
-          this.$root.$i18n.locale = updatedLocale;
-        }
+        if (updatedLocale) this.$root.$i18n.locale = updatedLocale;
         this.getAccount(this.id).locale = this.locale;
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
@@ -192,136 +144,216 @@ export default {
 
 <template>
   <div class="flex flex-col w-full max-w-2xl ltr:mr-auto rtl:ml-auto">
-    <BaseSettingsHeader :title="$t('GENERAL_SETTINGS.TITLE')" />
-    <div class="flex-grow flex-shrink min-w-0 mt-3">
+    <div class="pb-6 border-b border-white/10 mb-2">
+      <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">
+        {{ $t('GENERAL_SETTINGS.FORM.WORKSPACE_LABEL') }}
+      </p>
+      <h2 class="text-3xl font-black tracking-wide text-white uppercase">
+        {{ $t('GENERAL_SETTINGS.TITLE') }}
+      </h2>
+    </div>
+
+    <AccountId />
+
+    <div class="flex-grow flex-shrink min-w-0">
       <SectionLayout
         :title="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE')"
         :description="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE')"
-        class="!pt-0"
-      >
+        section-number="01">
         <form
           v-if="!uiFlags.isFetchingItem"
-          class="grid gap-4"
-          @submit.prevent="updateAccount"
-        >
-          <WithLabel
-            name="account-name"
-            :has-error="v$.name.$error"
-            :label="$t('GENERAL_SETTINGS.FORM.NAME.LABEL')"
-            :error-message="$t('GENERAL_SETTINGS.FORM.NAME.ERROR')"
-          >
-            <NextInput
-              v-model="name"
-              type="text"
-              class="w-full"
-              :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              @blur="v$.name.$touch"
-            />
-          </WithLabel>
-          <WithLabel
-            name="site-language"
-            :has-error="v$.locale.$error"
-            :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
-            :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
-          >
-            <select v-model="locale" class="!mb-0 text-sm">
-              <option
-                v-for="lang in languagesSortedByCode"
-                :key="lang.iso_639_1_code"
-                :value="lang.iso_639_1_code"
-              >
-                {{ lang.name }}
-              </option>
-            </select>
-          </WithLabel>
-          <WithLabel
-            v-if="featureCustomReplyDomainEnabled"
-            name="custom-domain"
-            :label="$t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL')"
-          >
-            <NextInput
-              v-model="domain"
-              type="text"
-              class="w-full"
-              :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
-            />
-            <template #help>
-              {{
-                featureInboundEmailEnabled &&
-                $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED')
-              }}
-              {{
-                featureCustomReplyDomainEnabled &&
-                $t('GENERAL_SETTINGS.FORM.FEATURES.CUSTOM_EMAIL_DOMAIN_ENABLED')
-              }}
-            </template>
-          </WithLabel>
-          <WithLabel
-            v-if="featureCustomReplyEmailEnabled"
-            name="support-email"
-            :label="$t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL')"
-          >
-            <NextInput
-              v-model="supportEmail"
-              type="text"
-              class="w-full"
-              :placeholder="
-                $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.PLACEHOLDER')
-              "
-            />
-          </WithLabel>
-          <div class="mb-2 text-sm font-medium leading-6 text-n-slate-12">
-            <div class="flex items-center justify-between">
-              <span>{{ $t('GENERAL_SETTINGS.FORM.LIMIT_ENABLED') }}</span>
-              <NextSwitch v-model="activeChatLimitEnabled" />
+          class="flex flex-col gap-4"
+          @submit.prevent="updateAccount">
+          <div class="grid grid-cols-2 gap-3">
+            <div
+              class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+              :class="{ 'border-red-500/50': v$.name.$error }">
+              <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">
+                {{ $t('GENERAL_SETTINGS.FORM.NAME.LABEL') }}
+              </span>
+              <input
+                v-model="name"
+                type="text"
+                :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
+                class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
+                @blur="v$.name.$touch" />
             </div>
-            <div v-if="activeChatLimitEnabled" class="mt-2">
-              <NextInput
-                v-model.number="activeChatLimitValue"
-                type="number"
-                class="w-full"
-                :min="0"
-                :placeholder="$t('GENERAL_SETTINGS.FORM.LIMIT_VALUE')"
-                @keydown="handleLimitKeydown"
-              />
+
+            <div
+              class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+              :class="{ 'border-red-500/50': v$.locale.$error }">
+              <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+                {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
+              </span>
+              <select
+                v-model="locale"
+                class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 p-0 appearance-none cursor-pointer">
+                <option
+                  v-for="lang in languagesSortedByCode"
+                  :key="lang.iso_639_1_code"
+                  :value="lang.iso_639_1_code"
+                  class="bg-n-solid-3">
+                  {{ lang.name }}
+                </option>
+              </select>
+            </div>
+
+            <div
+              v-if="featureCustomReplyDomainEnabled"
+              class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 col-span-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
+              <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+                {{ $t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL') }}
+              </span>
+              <input
+                v-model="domain"
+                type="text"
+                :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
+                class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0" />
+              <span v-if="featureInboundEmailEnabled" class="text-[10px] text-n-slate-9 mt-0.5">
+                {{ $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED') }}
+              </span>
+            </div>
+
+            <div
+              v-if="featureCustomReplyEmailEnabled"
+              class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 col-span-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
+              <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+                {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
+              </span>
+              <input
+                v-model="supportEmail"
+                type="text"
+                :placeholder="$t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.PLACEHOLDER')"
+                class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0" />
             </div>
           </div>
-          <div
-            class="flex items-center justify-between mb-2 text-sm font-medium leading-6 text-n-slate-12"
-          >
-            <span>{{ $t('GENERAL_SETTINGS.FORM.QUEUE_ENABLED') }}</span>
-            <NextSwitch v-model="queueEnabled" />
-          </div>
-          <div v-if="queueEnabled" class="mt-4">
-            <WithLabel
-              :label="$t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.LABEL')"
-              :help="$t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.HELP')"
-            >
-              <textarea
-                v-model="queueMessage"
-                class="w-full min-h-[80px] px-3 py-2 text-sm border border-n-weak rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                :placeholder="
-                  $t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.PLACEHOLDER')
-                "
-                rows="3"
-              />
-            </WithLabel>
-          </div>
-          <div>
+
+          <div class="flex justify-end pt-2 border-t border-white/10">
             <NextButton blue :is-loading="isUpdating" type="submit">
               {{ $t('GENERAL_SETTINGS.SUBMIT') }}
             </NextButton>
           </div>
         </form>
+        <woot-loading-state v-if="uiFlags.isFetchingItem" />
       </SectionLayout>
 
-      <woot-loading-state v-if="uiFlags.isFetchingItem" />
+      <SectionLayout
+        :title="$t('GENERAL_SETTINGS.FORM.LIMIT_ENABLED')"
+        :description="$t('GENERAL_SETTINGS.FORM.AGENT_LIMIT.DESCRIPTION')"
+        with-border
+        section-number="02">
+        <div class="flex flex-col gap-3">
+          <div class="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              class="flex flex-col gap-1 rounded-xl border px-4 py-3 text-left transition-all duration-200 cursor-pointer"
+              :class="!activeChatLimitEnabled
+                ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+                : 'border-white/10 bg-white/5 hover:border-white/20'"
+              @click="activeChatLimitEnabled = false">
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] uppercase"
+                :class="!activeChatLimitEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'">
+                {{ $t('GENERAL_SETTINGS.FORM.AGENT_LIMIT.UNLIMITED_LABEL') }}
+              </span>
+              <span class="text-xs text-n-slate-9">
+                {{ $t('GENERAL_SETTINGS.FORM.AGENT_LIMIT.UNLIMITED_NOTE') }}
+              </span>
+            </button>
+            <button
+              type="button"
+              class="flex flex-col gap-1 rounded-xl border px-4 py-3 text-left transition-all duration-200 cursor-pointer"
+              :class="activeChatLimitEnabled
+                ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+                : 'border-white/10 bg-white/5 hover:border-white/20'"
+              @click="activeChatLimitEnabled = true">
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] uppercase"
+                :class="activeChatLimitEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'">
+                {{ $t('GENERAL_SETTINGS.FORM.AGENT_LIMIT.CUSTOM_LABEL') }}
+              </span>
+              <span class="text-xs text-n-slate-9">
+                {{ $t('GENERAL_SETTINGS.FORM.AGENT_LIMIT.CUSTOM_NOTE') }}
+              </span>
+            </button>
+          </div>
+
+          <div
+            v-if="activeChatLimitEnabled"
+            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
+            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+              {{ $t('GENERAL_SETTINGS.FORM.LIMIT_VALUE') }}
+            </span>
+            <input
+              v-model.number="activeChatLimitValue"
+              type="number"
+              :min="0"
+              :placeholder="$t('GENERAL_SETTINGS.FORM.LIMIT_VALUE')"
+              class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
+              @keydown="handleLimitKeydown" />
+          </div>
+        </div>
+      </SectionLayout>
+
+      <SectionLayout
+        :title="$t('GENERAL_SETTINGS.FORM.QUEUE_ENABLED')"
+        :description="$t('GENERAL_SETTINGS.FORM.QUEUE_MODE.DESCRIPTION')"
+        with-border
+        section-number="03">
+        <div class="flex flex-col gap-3">
+          <div class="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              class="flex flex-col gap-1 rounded-xl border px-4 py-3 text-left transition-all duration-200 cursor-pointer"
+              :class="!queueEnabled
+                ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+                : 'border-white/10 bg-white/5 hover:border-white/20'"
+              @click="queueEnabled = false">
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] uppercase"
+                :class="!queueEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'">
+                {{ $t('GENERAL_SETTINGS.FORM.QUEUE_MODE.DISABLED_LABEL') }}
+              </span>
+              <span class="text-xs text-n-slate-9">
+                {{ $t('GENERAL_SETTINGS.FORM.QUEUE_MODE.DISABLED_NOTE') }}
+              </span>
+            </button>
+            <button
+              type="button"
+              class="flex flex-col gap-1 rounded-xl border px-4 py-3 text-left transition-all duration-200 cursor-pointer"
+              :class="queueEnabled
+                ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+                : 'border-white/10 bg-white/5 hover:border-white/20'"
+              @click="queueEnabled = true">
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] uppercase"
+                :class="queueEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'">
+                {{ $t('GENERAL_SETTINGS.FORM.QUEUE_MODE.ENABLED_LABEL') }}
+              </span>
+              <span class="text-xs text-n-slate-9">
+                {{ $t('GENERAL_SETTINGS.FORM.QUEUE_MODE.ENABLED_NOTE') }}
+              </span>
+            </button>
+          </div>
+
+          <div
+            v-if="queueEnabled"
+            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-3 transition-all duration-200 focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
+            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+              {{ $t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.LABEL') }}
+            </span>
+            <textarea
+              v-model="queueMessage"
+              :placeholder="$t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.PLACEHOLDER')"
+              rows="3"
+              class="bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0 resize-none mt-1" />
+          </div>
+        </div>
+      </SectionLayout>
+
+      <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
+        <AccountDelete />
+      </div>
     </div>
-    <AudioTranscription v-if="showAudioTranscriptionConfig" />
-    <AccountId />
-    <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
-      <AccountDelete />
-    </div>
-    <BuildInfo />
   </div>
 </template>

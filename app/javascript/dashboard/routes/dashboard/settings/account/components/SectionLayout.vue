@@ -7,51 +7,61 @@ defineProps({
   withBorder: { type: Boolean, default: false },
   hideContent: { type: Boolean, default: false },
   beta: { type: Boolean, default: false },
+  sectionNumber: { type: String, default: '' },
 });
 const { t } = useI18n();
 </script>
 
 <template>
   <section
-    class="grid grid-cols-1 pt-8 gap-5 [interpolate-size:allow-keywords]"
+    class="flex flex-col gap-4 [interpolate-size:allow-keywords]"
     :class="{
-      'border-t border-n-weak': withBorder,
-      'pb-8': !hideContent,
+      'pt-8 border-t border-white/10': withBorder,
+      'pt-6': !withBorder,
+      'pb-6': !hideContent,
     }"
   >
-    <header class="grid grid-cols-4">
-      <div
-        v-if="
-          title || beta || $slots.title || description || $slots.description
-        "
-        class="col-span-3"
-      >
-        <h4
-          v-if="title || beta || $slots.title"
-          class="text-heading-2 text-n-slate-12 flex items-center gap-2"
-        >
-          <slot name="title">{{ title }}</slot>
-          <div
-            v-if="beta"
-            v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
-            class="text-xs uppercase text-n-iris-11 border border-1 border-n-iris-10 leading-none rounded-lg px-1 py-0.5"
+    <header
+      v-if="
+        title ||
+        $slots.title ||
+        description ||
+        $slots.description ||
+        $slots.headerActions
+      "
+      class="flex flex-col gap-1"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span
+            v-if="sectionNumber"
+            class="text-xs font-bold text-[#4ade80] tracking-widest"
+            >{{ sectionNumber }}</span
           >
-            {{ t('GENERAL.BETA') }}
-          </div>
-        </h4>
-        <p
-          v-if="description || $slots.description"
-          class="text-n-slate-11 text-body-main mt-2"
-        >
-          <slot name="description">{{ description }}</slot>
-        </p>
-      </div>
-      <div class="col-span-1">
+          <h4
+            class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase flex items-center gap-2"
+          >
+            <slot name="title">{{ title }}</slot>
+            <div
+              v-if="beta"
+              v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
+              class="text-[10px] uppercase text-[#4ade80] border border-[#4ade80]/30 leading-none rounded-lg px-1 py-0.5"
+            >
+              {{ t('GENERAL.BETA') }}
+            </div>
+          </h4>
+        </div>
         <slot name="headerActions" />
       </div>
+      <p
+        v-if="description || $slots.description"
+        class="text-xs text-n-slate-9 max-w-xl"
+      >
+        <slot name="description">{{ description }}</slot>
+      </p>
     </header>
     <div
-      class="transition-[height] duration-300 ease-in-out text-n-slate-12"
+      class="transition-[height] duration-300 ease-in-out"
       :class="{ 'overflow-hidden h-0': hideContent, 'h-auto': !hideContent }"
     >
       <slot />

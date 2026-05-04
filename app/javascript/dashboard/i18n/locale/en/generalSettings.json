@@ -1,134 +1,149 @@
 {
   "GENERAL_SETTINGS": {
+    "WORKSPACE_LABEL": "Workspace",
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
       "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },
-    "TITLE": "Account settings",
-    "SUBMIT": "Update settings",
+    "TITLE": "Workspace configuration",
+    "SUBMIT": "Save changes",
     "BACK": "Back",
     "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "Could not update settings, try again!",
-      "SUCCESS": "Successfully updated account settings"
+      "SUCCESS": "Workspace settings saved successfully"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "Danger zone",
+      "NOTE": "Deleting your workspace is permanent and cannot be undone. All data will be lost.",
+      "BUTTON_TEXT": "Delete workspace",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
-        "BUTTON_TEXT": "Delete",
+        "TITLE": "Confirm workspace deletion",
+        "MESSAGE": "This action is irreversible. Type your workspace name below to confirm permanent deletion.",
+        "BUTTON_TEXT": "Delete permanently",
         "DISMISS": "Cancel",
-        "PLACE_HOLDER": "Please type {accountName} to confirm"
+        "PLACE_HOLDER": "Type {accountName} to confirm"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Workspace scheduled for deletion",
+      "FAILURE": "Could not delete workspace, try again!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Deletion scheduled",
+        "MESSAGE_MANUAL": "This workspace will be deleted on {deletionDate}. Requested by an administrator. You can cancel before this date.",
+        "MESSAGE_INACTIVITY": "This workspace will be deleted on {deletionDate} due to inactivity. You can cancel before this date.",
+        "CLEAR_BUTTON": "Cancel deletion"
       }
     },
     "FORM": {
-      "ERROR": "Please fix form errors",
+      "AGENT_LIMIT": {
+        "DESCRIPTION": "Restrict how many simultaneous chats each agent can handle",
+        "UNLIMITED_LABEL": "Unlimited",
+        "UNLIMITED_NOTE": "No cap on active chats",
+        "CUSTOM_LABEL": "Custom limit",
+        "CUSTOM_NOTE": "Set max chats per agent"
+      },
+      "QUEUE_MODE": {
+        "DESCRIPTION": "Place customers in a queue when all agents are at capacity",
+        "DISABLED_LABEL": "Disabled",
+        "DISABLED_NOTE": "New chats assigned immediately",
+        "ENABLED_LABEL": "Enabled",
+        "ENABLED_NOTE": "Customers wait until agent is free"
+      },
+      "ERROR": "Please fix the errors before saving",
       "GENERAL_SECTION": {
-        "TITLE": "General settings",
+        "TITLE": "Identity",
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "Workspace ID",
+        "NOTE": "Use this ID when building API-based integrations"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "TITLE": "Auto-resolve",
+        "NOTE": "Automatically close conversations after a period of inactivity.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
-          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "LABEL": "Inactivity window",
+          "HELP": "Time after which an idle conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Duration must be between 10 minutes and 999 days",
           "API": {
-            "SUCCESS": "Auto resolve settings updated successfully",
-            "ERROR": "Failed to update auto resolve settings"
+            "SUCCESS": "Auto-resolve settings updated",
+            "ERROR": "Failed to update auto-resolve settings"
           }
         },
         "MESSAGE": {
-          "LABEL": "Custom auto-resolution message",
-          "PLACEHOLDER": "Chat was marked resolved by system due to 15 days of inactivity",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "LABEL": "Resolution message",
+          "PLACEHOLDER": "This conversation was closed due to inactivity",
+          "HELP": "Sent to the customer when a conversation is auto-resolved"
         },
         "PREFERENCES": "Preferences",
         "LABEL": {
-          "LABEL": "Add label after auto-resolution",
+          "LABEL": "Label on auto-resolve",
           "PLACEHOLDER": "Select a label"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Skip conversations waiting for agent’s reply"
+          "LABEL": "Skip conversations awaiting agent reply"
         },
-        "UPDATE_BUTTON": "Save Changes"
+        "UPDATE_BUTTON": "Save"
       },
       "QUEUE_MESSAGE": {
-          "LABEL": "Custom queue message",
-          "HELP": "Message sent to the customer if conversation is in queue",
-          "PLACEHOLDER": "All agents are currently busy. We will connect you to a free agent as soon as one is available."
+        "LABEL": "Queue message",
+        "HELP": "Shown to customers while waiting in queue",
+        "PLACEHOLDER": "All agents are currently busy. You'll be connected to someone shortly."
       },
       "NAME": {
-        "LABEL": "Account name",
-        "PLACEHOLDER": "Your account name",
-        "ERROR": "Please enter a valid account name"
+        "LABEL": "Workspace name",
+        "PLACEHOLDER": "Enter your workspace name",
+        "ERROR": "Workspace name is required"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
-        "PLACEHOLDER": "Your account name",
+        "LABEL": "Default language",
+        "PLACEHOLDER": "Select a language",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Email domain",
+        "PLACEHOLDER": "Domain for incoming emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "Support address",
+        "PLACEHOLDER": "Your support email address",
         "ERROR": ""
       },
-      "QUEUE_ENABLED": "Enable queue",
-      "LIMIT_ENABLED": "Enable global chat limit",
-      "LIMIT_VALUE": "Enter the maximum number of active chats",
+      "QUEUE_ENABLED": "Queue mode",
+      "LIMIT_ENABLED": "Agent chat limit",
+      "LIMIT_VALUE": "Max concurrent chats per agent",
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+        "LABEL": "Skip unanswered conversations",
+        "HELP": "When enabled, conversations waiting for an agent reply will not be auto-resolved."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
-        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "TITLE": "Audio transcription",
+        "NOTE": "Automatically generate text transcripts for audio messages in conversations.",
         "API": {
-          "SUCCESS": "Audio transcription setting updated successfully",
+          "SUCCESS": "Audio transcription setting updated",
           "ERROR": "Failed to update audio transcription setting"
         }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Inactivity duration for resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "LABEL": "Inactivity window",
+        "HELP": "Duration of inactivity after which a conversation is auto-resolved",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "Duration must be between 10 minutes and 999 days",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
+          "SUCCESS": "Auto-resolve settings updated",
+          "ERROR": "Failed to update auto-resolve settings"
         },
-        "UPDATE_BUTTON": "Update",
-        "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Chat was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+        "UPDATE_BUTTON": "Save",
+        "MESSAGE_LABEL": "Resolution message",
+        "MESSAGE_PLACEHOLDER": "This conversation was closed due to inactivity",
+        "MESSAGE_HELP": "Sent to the customer when a conversation is automatically resolved due to inactivity."
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Chat continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "Email continuity is active for this workspace.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Custom reply domain is configured."
       }
     },
     "UPDATE_QODEQ CHAT": "An update {latestQODEQ CHATVersion} for QODEQ CHAT is available. Please update your instance.",

@@ -23,8 +23,5 @@ export default {
     validLabelCharacters,
   },
   description: {},
-  color: {
-    required,
-  },
   showOnSidebar: {},
 };

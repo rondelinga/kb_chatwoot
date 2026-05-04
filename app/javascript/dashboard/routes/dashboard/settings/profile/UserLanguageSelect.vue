@@ -6,8 +6,6 @@ import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
-import FormSelect from 'v3/components/Form/Select.vue';
-
 defineProps({
   label: { type: String, default: '' },
   description: { type: String, default: '' },
@@ -33,7 +31,6 @@ const languageOptions = computed(() => [
 const updateLanguage = async languageCode => {
   try {
     if (!languageCode) {
-      // Clear preference to use account default
       await updateUISettings({ locale: null });
       locale.value = currentAccount.value.locale;
       useAlert(
@@ -41,63 +38,51 @@ const updateLanguage = async languageCode => {
       );
       return;
     }
-
     const valid = (enabledLanguages || []).some(
       l => l.iso_639_1_code === languageCode
     );
-    if (!valid) {
-      throw new Error(`Invalid language code: ${languageCode}`);
-    }
-
+    if (!valid) throw new Error(`Invalid language code: ${languageCode}`);
     await updateUISettings({ locale: languageCode });
-    // Apply immediately if the user explicitly chose a preference
     locale.value = languageCode;
-
     useAlert(
       t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.UPDATE_SUCCESS')
     );
-  } catch (error) {
+  } catch {
     useAlert(
       t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.UPDATE_ERROR')
     );
-    throw error;
   }
 };
 
 const selectedValue = computed({
   get: () => currentLanguage.value,
-  set: value => {
-    updateLanguage(value);
-  },
+  set: value => updateLanguage(value),
 });
 </script>
 
 <template>
-  <div class="flex gap-2 justify-between w-full items-start">
-    <div>
-      <label class="text-n-gray-12 font-medium leading-6 text-sm">
-        {{ label }}
-      </label>
-      <p class="text-n-gray-11">
-        {{ description }}
-      </p>
+  <div
+    class="flex gap-3 justify-between w-full items-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)]"
+  >
+    <div class="flex flex-col gap-0.5">
+      <span
+        class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+        >{{ label }}</span
+      >
+      <p class="text-xs text-n-slate-9">{{ description }}</p>
     </div>
-    <FormSelect
+    <select
       v-model="selectedValue"
-      name="language"
-      spacing="compact"
-      class="min-w-28 mt-px"
-      :options="languageOptions"
-      label=""
+      class="bg-white/5 border border-white/10 rounded-lg text-sm text-n-slate-9 px-2 py-1 outline-none cursor-pointer hover:border-[rgba(74,222,128,0.4)] transition-all duration-200 min-w-28"
     >
       <option
         v-for="option in languageOptions"
         :key="option.iso_639_1_code || 'default'"
         :value="option.iso_639_1_code"
-        :selected="option.iso_639_1_code === selectedValue"
+        class="bg-n-solid-3"
       >
         {{ option.name }}
       </option>
-    </FormSelect>
+    </select>
   </div>
 </template>

@@ -161,7 +161,7 @@ const automationRuleEvents = computed(() =>
 const hasAutomationMutated = computed(() => {
   return Boolean(
     automation.value?.conditions[0]?.values ||
-      automation.value?.actions[0]?.action_params?.length
+    automation.value?.actions[0]?.action_params?.length
   );
 });
 
@@ -249,9 +249,10 @@ defineExpose({ open, close });
     overflow-y-auto
   >
     <div v-if="automation" class="flex flex-col w-full">
-
-      <div class="pb-6 border-b border-white/10">
-        <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">
+      <div class="px-8 pb-6 pt-8 border-b border-white/10">
+        <p
+          class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
+        >
           {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
         </p>
         <h2 class="text-3xl font-black tracking-wide text-white uppercase">
@@ -259,12 +260,16 @@ defineExpose({ open, close });
         </h2>
       </div>
 
-      <div class="flex flex-col gap-6 py-6">
-
+      <div class="flex flex-col gap-6 py-6 px-8">
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest">01</span>
-            <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">Rule Info</span>
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest"
+              >01</span
+            >
+            <span
+              class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+              >Rule Info</span
+            >
           </div>
 
           <div class="grid grid-cols-2 gap-3">
@@ -272,7 +277,9 @@ defineExpose({ open, close });
               class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
               :class="{ 'border-red-500/50': errors.name }"
             >
-              <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase"
+              >
                 {{ $t('AUTOMATION.ADD.FORM.NAME.LABEL') }}
               </span>
               <input
@@ -287,7 +294,9 @@ defineExpose({ open, close });
               class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
               :class="{ 'border-red-500/50': errors.description }"
             >
-              <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+              >
                 {{ $t('AUTOMATION.ADD.FORM.DESC.LABEL') }}
               </span>
               <input
@@ -302,7 +311,9 @@ defineExpose({ open, close });
               class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 col-span-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
               :class="{ 'border-red-500/50': errors.event_name }"
             >
-              <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+              >
                 {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
               </span>
               <select
@@ -334,7 +345,9 @@ defineExpose({ open, close });
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest">02</span>
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest"
+              >02</span
+            >
             <span
               class="text-xs font-semibold tracking-[0.18em] uppercase"
               :class="hasConditionErrors ? 'text-red-400' : 'text-n-slate-10'"
@@ -345,14 +358,20 @@ defineExpose({ open, close });
 
           <ul
             class="grid gap-4 list-none p-3 rounded-xl outline outline-1 -outline-offset-1"
-            :class="hasConditionErrors ? 'outline-n-ruby-5 bg-n-ruby-2/50' : 'outline-n-weak dark:outline-n-strong'"
+            :class="
+              hasConditionErrors
+                ? 'outline-n-ruby-5 bg-n-ruby-2/50'
+                : 'outline-n-weak dark:outline-n-strong'
+            "
           >
             <template v-for="(condition, i) in automation.conditions" :key="i">
               <ConditionRow
                 v-if="i === 0"
                 ref="conditionsRef"
                 v-model:attribute-key="automation.conditions[i].attribute_key"
-                v-model:filter-operator="automation.conditions[i].filter_operator"
+                v-model:filter-operator="
+                  automation.conditions[i].filter_operator
+                "
                 v-model:values="automation.conditions[i].values"
                 :filter-types="filterTypes"
                 :show-query-operator="false"
@@ -362,8 +381,12 @@ defineExpose({ open, close });
                 v-else
                 ref="conditionsRef"
                 v-model:attribute-key="automation.conditions[i].attribute_key"
-                v-model:filter-operator="automation.conditions[i].filter_operator"
-                v-model:query-operator="automation.conditions[i - 1].query_operator"
+                v-model:filter-operator="
+                  automation.conditions[i].filter_operator
+                "
+                v-model:query-operator="
+                  automation.conditions[i - 1].query_operator
+                "
                 v-model:values="automation.conditions[i].values"
                 :filter-types="filterTypes"
                 show-query-operator
@@ -387,7 +410,9 @@ defineExpose({ open, close });
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest">03</span>
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest"
+              >03</span
+            >
             <span
               class="text-xs font-semibold tracking-[0.18em] uppercase"
               :class="hasActionErrors ? 'text-red-400' : 'text-n-slate-10'"
@@ -398,7 +423,11 @@ defineExpose({ open, close });
 
           <ul
             class="grid list-none p-3 rounded-xl outline outline-1 -outline-offset-1"
-            :class="hasActionErrors ? 'outline-n-ruby-5 bg-n-ruby-2/50' : 'outline-n-weak dark:outline-n-strong'"
+            :class="
+              hasActionErrors
+                ? 'outline-n-ruby-5 bg-n-ruby-2/50'
+                : 'outline-n-weak dark:outline-n-strong'
+            "
           >
             <AutomationActionInput
               v-for="(action, i) in automation.actions"
@@ -407,9 +436,17 @@ defineExpose({ open, close });
               :action-types="automationActionTypes"
               dropdown-max-height="max-h-[7.5rem]"
               :dropdown-values="getActionDropdownValues(action.action_name)"
-              :show-action-input="showActionInput(automationActionTypes, action.action_name)"
-              :error-message="errors[`action_${i}`] ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`) : ''"
-              :initial-file-name="isEditMode ? getFileName(action, automation.files) : ''"
+              :show-action-input="
+                showActionInput(automationActionTypes, action.action_name)
+              "
+              :error-message="
+                errors[`action_${i}`]
+                  ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
+                  : ''
+              "
+              :initial-file-name="
+                isEditMode ? getFileName(action, automation.files) : ''
+              "
               @reset-action="resetAction(i)"
               @remove-action="removeAction(i)"
             />

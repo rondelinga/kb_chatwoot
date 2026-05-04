@@ -1,62 +1,45 @@
 <script setup>
 import { computed } from 'vue';
-import FormSelect from 'v3/components/Form/Select.vue';
 import { useFontSize } from 'dashboard/composables/useFontSize';
 
 const props = defineProps({
-  value: {
-    type: String,
-    default: 'default',
-  },
-  label: {
-    type: String,
-    default: '',
-  },
-  description: {
-    type: String,
-    default: '',
-  },
+  value: { type: String, default: 'default' },
+  label: { type: String, default: '' },
+  description: { type: String, default: '' },
 });
 
 const emit = defineEmits(['change']);
-
 const { fontSizeOptions } = useFontSize();
 
 const selectedValue = computed({
   get: () => props.value,
-  set: value => {
-    emit('change', value);
-  },
+  set: value => emit('change', value),
 });
 </script>
 
 <template>
-  <div class="flex gap-2 justify-between w-full items-start">
-    <div>
-      <label class="text-n-gray-12 font-medium leading-6 text-sm">
-        {{ label }}
-      </label>
-      <p class="text-n-gray-11">
-        {{ description }}
-      </p>
+  <div
+    class="flex gap-3 justify-between w-full items-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)]"
+  >
+    <div class="flex flex-col gap-0.5">
+      <span
+        class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+        >{{ label }}</span
+      >
+      <p class="text-xs text-n-slate-9">{{ description }}</p>
     </div>
-    <FormSelect
+    <select
       v-model="selectedValue"
-      name="fontSize"
-      spacing="compact"
-      class="min-w-28 mt-px"
-      :value="selectedValue"
-      :options="fontSizeOptions"
-      label=""
+      class="bg-white/5 border border-white/10 rounded-lg text-sm text-n-slate-9 px-2 py-1 outline-none cursor-pointer hover:border-[rgba(74,222,128,0.4)] transition-all duration-200 min-w-28"
     >
       <option
         v-for="option in fontSizeOptions"
         :key="option.value"
         :value="option.value"
-        :selected="option.value === selectedValue"
+        class="bg-n-solid-3"
       >
         {{ option.label }}
       </option>
-    </FormSelect>
+    </select>
   </div>
 </template>

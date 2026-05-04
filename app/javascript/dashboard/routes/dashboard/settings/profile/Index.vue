@@ -17,14 +17,10 @@ import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import SectionLayout from '../account/components/SectionLayout.vue';
-import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AccessToken from './AccessToken.vue';
 import MfaSettingsCard from './MfaSettingsCard.vue';
 import Policy from 'dashboard/components/policy.vue';
-import {
-  ROLES,
-  CONVERSATION_PERMISSIONS,
-} from 'dashboard/constants/permissions.js';
+import { ROLES, CONVERSATION_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 export default {
   components: {
@@ -40,13 +36,11 @@ export default {
     AudioNotifications,
     AccessToken,
     MfaSettingsCard,
-    BaseSettingsHeader,
   },
   setup() {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
     const { currentFontSize, updateFontSize } = useFontSize();
     const { replaceInstallationName } = useBranding();
-
     return {
       currentFontSize,
       updateFontSize,
@@ -65,26 +59,17 @@ export default {
       hotKeys: [
         {
           key: 'enter',
-          title: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
-          ),
-          description: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
-          ),
+          title: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'),
+          description: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'),
           lightImage: '/assets/images/dashboard/profile/hot-key-enter.svg',
           darkImage: '/assets/images/dashboard/profile/hot-key-enter-dark.svg',
         },
         {
           key: 'cmd_enter',
-          title: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
-          ),
-          description: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
-          ),
+          title: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'),
+          description: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'),
           lightImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
-          darkImage:
-            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
+          darkImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
         },
       ],
       notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
@@ -100,11 +85,78 @@ export default {
     isMfaEnabled() {
       return parseBoolean(window.chatwootConfig?.isMfaEnabled);
     },
+    sections() {
+      return [
+        {
+          id: 'profile',
+          title: this.$t('PROFILE_SETTINGS.SECTIONS.PROFILE.TITLE'),
+          description: this.$t('PROFILE_SETTINGS.SECTIONS.PROFILE.DESCRIPTION'),
+          visible: true,
+          withBorder: false,
+        },
+        {
+          id: 'password',
+          title: this.$t('PROFILE_SETTINGS.SECTIONS.PASSWORD.TITLE'),
+          description: this.$t('PROFILE_SETTINGS.SECTIONS.PASSWORD.DESCRIPTION'),
+          visible: !this.globalConfig.disableUserProfileUpdate,
+          withBorder: true,
+        },
+        {
+          id: 'mfa',
+          title: this.$t('PROFILE_SETTINGS.SECTIONS.MFA.TITLE'),
+          description: this.$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE'),
+          visible: this.isMfaEnabled,
+          withBorder: true,
+        },
+        {
+          id: 'display',
+          title: this.$t('PROFILE_SETTINGS.SECTIONS.DISPLAY.TITLE'),
+          description: this.replaceInstallationName(
+            this.$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')
+          ),
+          visible: true,
+          withBorder: true,
+        },
+        {
+          id: 'shortcut',
+          title: this.$t('PROFILE_SETTINGS.SECTIONS.SHORTCUT.TITLE'),
+          description: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE'),
+          visible: true,
+          withBorder: true,
+        },
+        {
+          id: 'notifications',
+          title: this.$t('PROFILE_SETTINGS.SECTIONS.NOTIFICATIONS.TITLE'),
+          description: this.$t('PROFILE_SETTINGS.SECTIONS.NOTIFICATIONS.DESCRIPTION'),
+          visible: true,
+          withBorder: true,
+        },
+        {
+          id: 'audio',
+          title: this.$t('PROFILE_SETTINGS.SECTIONS.AUDIO.TITLE'),
+          description: this.$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE'),
+          visible: true,
+          withBorder: true,
+        },
+        {
+          id: 'token',
+          title: this.$t('PROFILE_SETTINGS.SECTIONS.TOKEN.TITLE'),
+          description: this.replaceInstallationName(
+            this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE')
+          ),
+          visible: true,
+          withBorder: true,
+        },
+      ]
+        .filter(s => s.visible)
+        .map((s, i) => ({ ...s, number: String(i + 1).padStart(2, '0') }));
+    },
+    sectionMap() {
+      return Object.fromEntries(this.sections.map(s => [s.id, s]));
+    },
   },
   mounted() {
-    if (this.currentUserId) {
-      this.initializeUser();
-    }
+    if (this.currentUserId) this.initializeUser();
   },
   methods: {
     initializeUser() {
@@ -118,12 +170,10 @@ export default {
       try {
         await this.$store.dispatch('updateProfile', payload);
         alertMessage = successMessage;
-
-        return true; // return the value so that the status can be known
+        return true;
       } catch (error) {
         alertMessage = parseAPIErrorResponse(error) || errorMessage;
-
-        return false; // return the value so that the status can be known
+        return false;
       } finally {
         useAlert(alertMessage);
       }
@@ -134,22 +184,18 @@ export default {
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
-
-      const updatePayload = {
-        name: this.name,
-        email: this.email,
-        displayName: this.displayName,
-        avatar: this.avatarFile,
-      };
-
       const success = await this.dispatchUpdate(
-        updatePayload,
+        {
+          name: this.name,
+          email: this.email,
+          displayName: this.displayName,
+          avatar: this.avatarFile,
+        },
         hasEmailChanged
           ? this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED')
           : this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'),
         this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
       );
-
       if (hasEmailChanged && success) clearCookiesOnLogout();
     },
     updateProfilePicture({ file, url }) {
@@ -162,13 +208,13 @@ export default {
         this.avatarUrl = '';
         this.avatarFile = '';
         useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
-      } catch (error) {
+      } catch {
         useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
     },
     toggleHotKey(key) {
-      this.hotKeys = this.hotKeys.map(hotKey =>
-        hotKey.key === key ? { ...hotKey, active: !hotKey.active } : hotKey
+      this.hotKeys = this.hotKeys.map(h =>
+        h.key === key ? { ...h, active: !h.active } : h
       );
       this.updateUISettings({ editor_message_key: key });
       useAlert(this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS'));
@@ -179,21 +225,37 @@ export default {
     },
     async resetAccessToken() {
       const success = await this.$store.dispatch('resetAccessToken');
-      if (success) {
-        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS'));
-      } else {
-        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR'));
-      }
+      useAlert(
+        success
+          ? this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS')
+          : this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR')
+      );
     },
   },
 };
 </script>
 
 <template>
-  <div class="grid max-w-2xl ltr:mr-auto rtl:ml-auto">
-    <BaseSettingsHeader :title="$t('PROFILE_SETTINGS.TITLE')" description="" />
-    <SectionLayout title="" description="" class="!pt-0">
-      <div class="flex flex-col gap-6">
+  <div class="flex flex-col max-w-2xl ltr:mr-auto rtl:ml-auto">
+
+    <div class="pb-6 border-b border-white/10 mb-2">
+      <!-- FIX: no-bare-strings-in-template — заменён хардкод 'Account' на i18n-ключ -->
+      <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">
+        {{ $t('PROFILE_SETTINGS.ACCOUNT_LABEL') }}
+      </p>
+      <h2 class="text-3xl font-black tracking-wide text-white uppercase">
+        {{ $t('PROFILE_SETTINGS.TITLE') }}
+      </h2>
+    </div>
+
+    <SectionLayout
+      v-if="sectionMap.profile"
+      :title="sectionMap.profile.title"
+      :description="sectionMap.profile.description"
+      :section-number="sectionMap.profile.number"
+      :with-border="sectionMap.profile.withBorder"
+    >
+      <div class="flex flex-col gap-4">
         <UserProfilePicture
           :src="avatarUrl"
           :name="name"
@@ -209,104 +271,103 @@ export default {
         />
       </div>
     </SectionLayout>
+
     <SectionLayout
-      with-border
-      :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
-      :description="
-        replaceInstallationName(
-          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')
-        )
-      "
-    >
-      <div class="flex flex-col gap-6 items-start">
-        <FontSize
-          :value="currentFontSize"
-          :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.TITLE')"
-          :description="
-            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
-          "
-          @change="updateFontSize"
-        />
-        <UserLanguageSelect
-          :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
-          :description="
-            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
-          "
-        />
-      </div>
-    </SectionLayout>
-    <SectionLayout
-      with-border
-      :title="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
-      :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
-    >
-      <div
-        class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
-      >
-        <button
-          v-for="hotKey in hotKeys"
-          :key="hotKey.key"
-          class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
-          :class="
-            isEditorHotKeyEnabled(hotKey.key)
-              ? 'outline-n-brand/30'
-              : 'outline-n-weak'
-          "
-        >
-          <HotKeyCard
-            :key="hotKey.title"
-            :title="hotKey.title"
-            :description="hotKey.description"
-            :light-image="hotKey.lightImage"
-            :dark-image="hotKey.darkImage"
-            :active="isEditorHotKeyEnabled(hotKey.key)"
-            @click="toggleHotKey(hotKey.key)"
-          />
-        </button>
-      </div>
-    </SectionLayout>
-    <SectionLayout
-      v-if="!globalConfig.disableUserProfileUpdate"
-      with-border
-      :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
-      description=""
+      v-if="sectionMap.password"
+      :title="sectionMap.password.title"
+      :description="sectionMap.password.description"
+      :section-number="sectionMap.password.number"
+      :with-border="sectionMap.password.withBorder"
     >
       <ChangePassword />
     </SectionLayout>
+
     <SectionLayout
-      v-if="isMfaEnabled"
-      with-border
-      :title="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.TITLE')"
-      :description="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE')"
+      v-if="sectionMap.mfa"
+      :title="sectionMap.mfa.title"
+      :description="sectionMap.mfa.description"
+      :section-number="sectionMap.mfa.number"
+      :with-border="sectionMap.mfa.withBorder"
     >
       <MfaSettingsCard />
     </SectionLayout>
-    <Policy :permissions="audioNotificationPermissions">
+
+    <SectionLayout
+      v-if="sectionMap.display"
+      :title="sectionMap.display.title"
+      :description="sectionMap.display.description"
+      :section-number="sectionMap.display.number"
+      :with-border="sectionMap.display.withBorder"
+    >
+      <div class="flex flex-col gap-3">
+        <UserLanguageSelect
+          :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
+          :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')"
+        />
+        <FontSize
+          :value="currentFontSize"
+          :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.TITLE')"
+          :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')"
+          @change="updateFontSize"
+        />
+      </div>
+    </SectionLayout>
+
+    <SectionLayout
+      v-if="sectionMap.shortcut"
+      :title="sectionMap.shortcut.title"
+      :description="sectionMap.shortcut.description"
+      :section-number="sectionMap.shortcut.number"
+      :with-border="sectionMap.shortcut.withBorder"
+    >
+      <div class="grid grid-cols-2 gap-3">
+        <HotKeyCard
+          v-for="hotKey in hotKeys"
+          :key="hotKey.key"
+          :title="hotKey.title"
+          :description="hotKey.description"
+          :light-image="hotKey.lightImage"
+          :dark-image="hotKey.darkImage"
+          :active="isEditorHotKeyEnabled(hotKey.key)"
+          @click="toggleHotKey(hotKey.key)"
+        />
+      </div>
+    </SectionLayout>
+
+    <Policy
+      v-if="sectionMap.notifications"
+      :permissions="notificationPermissions"
+    >
       <SectionLayout
-        with-border
-        :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
-        :description="
-          $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
-        "
-      >
-        <AudioNotifications />
-      </SectionLayout>
-    </Policy>
-    <Policy :permissions="notificationPermissions">
-      <SectionLayout
-        with-border
-        :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
-        description=""
+        :title="sectionMap.notifications.title"
+        :description="sectionMap.notifications.description"
+        :section-number="sectionMap.notifications.number"
+        :with-border="sectionMap.notifications.withBorder"
       >
         <NotificationPreferences />
       </SectionLayout>
     </Policy>
+
+    <Policy
+      v-if="sectionMap.audio"
+      :permissions="audioNotificationPermissions"
+    >
+      <SectionLayout
+        :title="sectionMap.audio.title"
+        :description="sectionMap.audio.description"
+        :section-number="sectionMap.audio.number"
+        :with-border="sectionMap.audio.withBorder"
+      >
+        <AudioNotifications />
+      </SectionLayout>
+    </Policy>
+
     <SectionLayout
-      with-border
-      :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
-      :description="
-        replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
-      "
+      v-if="sectionMap.token"
+      :title="sectionMap.token.title"
+      :description="sectionMap.token.description"
+      :section-number="sectionMap.token.number"
+      :with-border="sectionMap.token.withBorder"
     >
       <AccessToken
         :value="currentUser.access_token"
@@ -314,5 +375,6 @@ export default {
         @on-reset="resetAccessToken"
       />
     </SectionLayout>
+
   </div>
 </template>

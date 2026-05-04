@@ -8,7 +8,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+// import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useWindowSize, useEventListener } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -50,10 +50,10 @@ const isRTL = useMapGetter('accounts/isRTL');
 const { width: windowWidth } = useWindowSize();
 const isMobile = computed(() => windowWidth.value < 768);
 
-const accountId = useMapGetter('getCurrentAccountId');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
+// const accountId = useMapGetter('getCurrentAccountId');
+// const isFeatureEnabledonAccount = useMapGetter(
+//   'accounts/isFeatureEnabledonAccount'
+// );
 
 // const hasAdvancedAssignment = computed(() => {
 //   return isFeatureEnabledonAccount.value(
@@ -84,7 +84,7 @@ const {
   setSidebarWidth,
   saveWidth,
   snapToCollapsed,
-  snapToExpanded,
+  // snapToExpanded,
   COLLAPSED_THRESHOLD,
 } = useSidebarResize();
 
@@ -110,17 +110,17 @@ provideSidebarContext({
 const getClientX = event =>
   event.touches ? event.touches[0].clientX : event.clientX;
 
-const onResizeStart = event => {
-  isResizing.value = true;
-  startX.value = getClientX(event);
-  startWidth.value = sidebarWidth.value;
-  Object.assign(document.body.style, {
-    cursor: 'col-resize',
-    userSelect: 'none',
-  });
-  // Prevent default to avoid scrolling on touch
-  event.preventDefault();
-};
+// const onResizeStart = event => {
+//   isResizing.value = true;
+//   startX.value = getClientX(event);
+//   startWidth.value = sidebarWidth.value;
+//   Object.assign(document.body.style, {
+//     cursor: 'col-resize',
+//     userSelect: 'none',
+//   });
+//   // Prevent default to avoid scrolling on touch
+//   event.preventDefault();
+// };
 
 const onResizeMove = event => {
   if (!isResizing.value) return;
@@ -145,10 +145,10 @@ const onResizeEnd = () => {
   }
 };
 
-const onResizeHandleDoubleClick = () => {
-  if (isCollapsed.value) snapToExpanded();
-  else snapToCollapsed();
-};
+// const onResizeHandleDoubleClick = () => {
+//   if (isCollapsed.value) snapToExpanded();
+//   else snapToCollapsed();
+// };
 
 // Support both mouse and touch events
 useEventListener(document, 'mousemove', onResizeMove);
@@ -421,11 +421,11 @@ const menuItems = computed(() => {
           to: accountScopedRoute('conversation_reports'),
         },
         ...reportRoutes.value,
-        {
-          name: 'Bot Statistics',
-          label: t('SIDEBAR.REPORTS_BOT'),
-          to: accountScopedRoute('bot_reports'),
-        },
+        // {
+        //   name: 'Bot Statistics',
+        //   label: t('SIDEBAR.REPORTS_BOT'),
+        //   to: accountScopedRoute('bot_reports'),
+        // },
         {
           name: 'CSAT Statistics',
           label: t('SIDEBAR.CSAT'),
@@ -583,12 +583,12 @@ const menuItems = computed(() => {
         //   icon: 'i-lucide-workflow',
         //   to: accountScopedRoute('conversation_workflow_index'),
         // },
-        {
-          name: 'Settings Security',
-          label: t('SIDEBAR.SECURITY'),
-          icon: 'i-lucide-shield',
-          to: accountScopedRoute('security_settings_index'),
-        },
+        // {
+        //   name: 'Settings Security',
+        //   label: t('SIDEBAR.SECURITY'),
+        //   icon: 'i-lucide-shield',
+        //   to: accountScopedRoute('security_settings_index'),
+        // },
         {
           name: 'Settings Billing',
           label: t('SIDEBAR.BILLING'),

@@ -70,22 +70,36 @@ export default {
 <template>
   <div class="flex flex-col gap-0">
     <div class="px-8 pt-8 pb-6 border-b border-white/10">
-      <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">Labels</p>
-      <h2 class="text-3xl font-black tracking-wide text-white uppercase">{{ $t('LABEL_MGMT.ADD.TITLE') }}</h2>
+      <p
+        class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
+      >
+        Labels
+      </p>
+      <h2 class="text-3xl font-black tracking-wide text-white uppercase">
+        {{ $t('LABEL_MGMT.ADD.TITLE') }}
+      </h2>
     </div>
 
     <form class="flex flex-col gap-6 px-8 py-6" @submit.prevent="addLabel">
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-[#4ade80] tracking-widest">01</span>
-          <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">Label Info</span>
+          <span class="text-xs font-bold text-[#4ade80] tracking-widest"
+            >01</span
+          >
+          <span
+            class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+            >Label Info</span
+          >
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div
             class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
             :class="{ 'border-red-500/50': v$.title.$error }"
           >
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">{{ $t('LABEL_MGMT.FORM.NAME.LABEL') }}</span>
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase"
+              >{{ $t('LABEL_MGMT.FORM.NAME.LABEL') }}</span
+            >
             <input
               v-model="title"
               type="text"
@@ -101,7 +115,10 @@ export default {
             class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
             :class="{ 'border-red-500/50': v$.description.$error }"
           >
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">{{ $t('LABEL_MGMT.FORM.DESCRIPTION.LABEL') }}</span>
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+              >{{ $t('LABEL_MGMT.FORM.DESCRIPTION.LABEL') }}</span
+            >
             <input
               v-model="description"
               type="text"
@@ -119,17 +136,29 @@ export default {
 
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-[#4ade80] tracking-widest">02</span>
-          <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">Appearance</span>
+          <span class="text-xs font-bold text-[#4ade80] tracking-widest"
+            >02</span
+          >
+          <span
+            class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+            >Appearance</span
+          >
         </div>
         <div class="flex items-center gap-6">
-          <div class="flex flex-col gap-1">
+          <!-- <div class="flex flex-col gap-1">
             <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">{{ $t('LABEL_MGMT.FORM.COLOR.LABEL') }}</span>
             <woot-color-picker v-model="color" />
-          </div>
+          </div> -->
           <label class="flex items-center gap-2 cursor-pointer select-none">
-            <input v-model="showOnSidebar" type="checkbox" :value="true" class="accent-[#4ade80]" />
-            <span class="text-sm text-n-slate-10">{{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}</span>
+            <input
+              v-model="showOnSidebar"
+              type="checkbox"
+              :value="true"
+              class="accent-[#4ade80]"
+            />
+            <span class="text-sm text-n-slate-10">{{
+              $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL')
+            }}</span>
           </label>
         </div>
       </div>

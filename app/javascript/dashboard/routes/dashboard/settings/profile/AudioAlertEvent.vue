@@ -1,17 +1,10 @@
 <script setup>
 import { computed } from 'vue';
-import CheckBox from 'v3/components/Form/CheckBox.vue';
 import { ALERT_EVENTS, EVENT_TYPES } from './constants';
 
 const props = defineProps({
-  label: {
-    type: String,
-    default: '',
-  },
-  value: {
-    type: String,
-    default: '',
-  },
+  label: { type: String, default: '' },
+  value: { type: String, default: '' },
 });
 
 const emit = defineEmits(['update']);
@@ -21,83 +14,73 @@ const alertEventValues = Object.values(EVENT_TYPES);
 
 const selectedValue = computed({
   get: () => {
-    // maintain backward compatibility
     if (props.value === 'none') return [];
     if (props.value === 'mine') return [EVENT_TYPES.ASSIGNED];
     if (props.value === 'all') return [...alertEventValues];
-
-    const validValues = props.value
+    const valid = props.value
       .split('+')
-      .filter(value => alertEventValues.includes(value));
-
-    return [...new Set(validValues)];
+      .filter(v => alertEventValues.includes(v));
+    return [...new Set(valid)];
   },
   set: value => {
-    const sortedValues = value.filter(Boolean).sort();
-    const uniqueValues = [...new Set(sortedValues)];
-
-    if (uniqueValues.length === 0) {
-      emit('update', 'none');
-      return;
-    }
-
-    emit('update', uniqueValues.join('+'));
+    const unique = [...new Set(value.filter(Boolean).sort())];
+    emit('update', unique.length === 0 ? 'none' : unique.join('+'));
   },
 });
 
 const setValue = (isChecked, value) => {
-  let updatedValue = selectedValue.value;
-  if (isChecked) {
-    updatedValue.push(value);
-  } else {
-    updatedValue = updatedValue.filter(item => item !== value);
-  }
-
-  selectedValue.value = updatedValue;
+  let updated = [...selectedValue.value];
+  if (isChecked) updated.push(value);
+  else updated = updated.filter(i => i !== value);
+  selectedValue.value = updated;
 };
 
 const alertDescription = computed(() => {
   const base =
     'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_COMBINATIONS.';
-
-  if (props.value === '' || props.value === 'none') {
-    return base + 'NONE';
-  }
-
+  if (!props.value || props.value === 'none') return base + 'NONE';
   return base + selectedValue.value.join('+').toUpperCase();
 });
 </script>
 
 <template>
-  <div>
-    <label class="pb-1 text-sm font-medium leading-6 text-n-slate-12">
-      {{ label }}
-    </label>
-    <div class="grid gap-3 mt-2">
+  <div class="flex flex-col gap-2">
+    <span
+      class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+      >{{ label }}</span
+    >
+    <div class="flex flex-col gap-2">
       <div
         v-for="option in alertEvents"
         :key="option.value"
-        class="flex items-center gap-2"
+        class="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:border-[rgba(74,222,128,0.2)] cursor-pointer"
+        @click="setValue(!selectedValue.includes(option.value), option.value)"
       >
-        <CheckBox
-          :id="`checkbox-${option.value}`"
-          :is-checked="selectedValue.includes(option.value)"
-          @update="(_val, isChecked) => setValue(isChecked, option.value)"
-        />
-        <label
-          :for="`checkbox-${option.value}`"
-          class="text-sm text-n-slate-12 font-normal"
+        <button
+          type="button"
+          class="w-5 h-5 rounded-md border transition-all duration-200 flex items-center justify-center shrink-0"
+          :class="
+            selectedValue.includes(option.value)
+              ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)] shadow-[0_0_8px_rgba(74,222,128,0.2)]'
+              : 'border-white/20 bg-white/5'
+          "
         >
+          <fluent-icon
+            v-if="selectedValue.includes(option.value)"
+            icon="checkmark"
+            size="10"
+            class="text-[#4ade80]"
+          />
+        </button>
+        <span class="text-sm text-n-slate-9">
           {{
             $t(
               `PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.${option.label.toUpperCase()}`
             )
           }}
-        </label>
+        </span>
       </div>
-      <div class="text-n-slate-11 text-sm font-medium mt-2">
-        {{ $t(alertDescription) }}
-      </div>
+      <p class="text-xs text-n-slate-9 px-1 mt-1">{{ $t(alertDescription) }}</p>
     </div>
   </div>
 </template>

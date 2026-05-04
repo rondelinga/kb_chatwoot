@@ -3,27 +3,14 @@ import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from '@vuelidate/validators';
+
 export default {
-  components: {
-    NextButton,
-  },
+  components: { NextButton },
   props: {
-    name: {
-      type: String,
-      default: '',
-    },
-    email: {
-      type: String,
-      default: '',
-    },
-    displayName: {
-      type: String,
-      default: '',
-    },
-    emailEnabled: {
-      type: Boolean,
-      default: false,
-    },
+    name: { type: String, default: '' },
+    email: { type: String, default: '' },
+    displayName: { type: String, default: '' },
+    emailEnabled: { type: Boolean, default: false },
   },
   emits: ['updateUser'],
   setup() {
@@ -34,44 +21,17 @@ export default {
       userName: this.name,
       userDisplayName: this.displayName,
       userEmail: this.email,
-      inputStyles: {
-        borderRadius: '0.75rem',
-        padding: '0.375rem 0.75rem',
-        fontSize: '0.875rem',
-        marginBottom: '0.125rem',
-      },
     };
   },
   validations: {
-    userName: {
-      required,
-      minLength: minLength(1),
-    },
+    userName: { required, minLength: minLength(1) },
     userDisplayName: {},
-    userEmail: {
-      required,
-      email,
-    },
+    userEmail: { required, email },
   },
   watch: {
-    name: {
-      handler(value) {
-        this.userName = value;
-      },
-      immediate: true,
-    },
-    displayName: {
-      handler(value) {
-        this.userDisplayName = value;
-      },
-      immediate: true,
-    },
-    email: {
-      handler(value) {
-        this.userEmail = value;
-      },
-      immediate: true,
-    },
+    name: { handler(v) { this.userName = v; }, immediate: true },
+    displayName: { handler(v) { this.userDisplayName = v; }, immediate: true },
+    email: { handler(v) { this.userEmail = v; }, immediate: true },
   },
   methods: {
     async updateUser() {
@@ -91,48 +51,60 @@ export default {
 </script>
 
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="updateUser('profile')">
-    <woot-input
-      v-model="userName"
-      :styles="inputStyles"
-      :class="{ error: v$.userName.$error }"
-      :label="$t('PROFILE_SETTINGS.FORM.NAME.LABEL')"
-      :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
-      :error="`${
-        v$.userName.$error ? $t('PROFILE_SETTINGS.FORM.NAME.ERROR') : ''
-      }`"
-      @input="v$.userName.$touch"
-      @blur="v$.userName.$touch"
-    />
-    <woot-input
-      v-model="userDisplayName"
-      :styles="inputStyles"
-      :class="{ error: v$.userDisplayName.$error }"
-      :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
-      :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
-      :error="`${
-        v$.userDisplayName.$error
-          ? $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')
-          : ''
-      }`"
-      @input="v$.userDisplayName.$touch"
-      @blur="v$.userDisplayName.$touch"
-    />
-    <woot-input
-      v-if="emailEnabled"
-      v-model="userEmail"
-      :styles="inputStyles"
-      :class="{ error: v$.userEmail.$error }"
-      :label="$t('PROFILE_SETTINGS.FORM.EMAIL.LABEL')"
-      :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
-      :error="`${
-        v$.userEmail.$error ? $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') : ''
-      }`"
-      @input="v$.userEmail.$touch"
-      @blur="v$.userEmail.$touch"
-    />
-    <div>
-      <NextButton type="submit" :label="$t('PROFILE_SETTINGS.BTN_TEXT')" />
+  <form class="flex flex-col gap-3" @submit.prevent="updateUser">
+    <div class="grid grid-cols-2 gap-3">
+      <div
+        class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+        :class="{ 'border-red-500/50': v$.userName.$error }"
+      >
+        <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">
+          {{ $t('PROFILE_SETTINGS.FORM.NAME.LABEL') }}
+        </span>
+        <input
+          v-model="userName"
+          type="text"
+          :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
+          class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
+          @blur="v$.userName.$touch"
+        />
+      </div>
+
+      <div
+        class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+        :class="{ 'border-red-500/50': v$.userDisplayName.$error }"
+      >
+        <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+          {{ $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL') }}
+        </span>
+        <input
+          v-model="userDisplayName"
+          type="text"
+          :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
+          class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
+          @blur="v$.userDisplayName.$touch"
+        />
+      </div>
+
+      <div
+        v-if="emailEnabled"
+        class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 col-span-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+        :class="{ 'border-red-500/50': v$.userEmail.$error }"
+      >
+        <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+          {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
+        </span>
+        <input
+          v-model="userEmail"
+          type="email"
+          :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
+          class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
+          @blur="v$.userEmail.$touch"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-end pt-2 border-t border-white/10">
+      <NextButton blue type="submit" :label="$t('PROFILE_SETTINGS.BTN_TEXT')" />
     </div>
   </form>
 </template>

@@ -1,198 +1,228 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
-    "FORM": {
-      "PICTURE": "Profile Picture",
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
-      "PROFILE_SECTION": {
+    "ACCOUNT_LABEL": "Account",
+    "SECTIONS": {
+      "PROFILE": {
         "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "DESCRIPTION": "Your name, photo and contact details"
+      },
+      "PASSWORD": {
+        "TITLE": "Change password",
+        "DESCRIPTION": "Keep your account secure with a strong password"
+      },
+      "MFA": {
+        "TITLE": "Two-factor authentication"
+      },
+      "DISPLAY": {
+        "TITLE": "Display"
+      },
+      "SHORTCUT": {
+        "TITLE": "Send shortcut"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "DESCRIPTION": "Choose how and when you get notified"
+      },
+      "AUDIO": {
+        "TITLE": "Sound alerts"
+      },
+      "TOKEN": {
+        "TITLE": "Developer access"
+      }
+    },
+    "LINK": "Personal Settings",
+    "TITLE": "Personal Settings",
+    "BTN_TEXT": "Save changes",
+    "DELETE_AVATAR": "Remove photo",
+    "AVATAR_DELETE_SUCCESS": "Profile photo removed successfully",
+    "AVATAR_DELETE_FAILED": "Failed to remove profile photo, please try again",
+    "UPDATE_SUCCESS": "Your profile has been updated",
+    "PASSWORD_UPDATE_SUCCESS": "Password changed successfully",
+    "AFTER_EMAIL_CHANGED": "Profile updated — please sign in again since your login credentials have changed",
+    "FORM": {
+      "PICTURE": "Profile photo",
+      "AVATAR": "Upload or remove your profile photo",
+      "ERROR": "Please fix the errors before continuing",
+      "REMOVE_IMAGE": "Remove",
+      "UPLOAD_IMAGE": "Upload photo",
+      "UPDATE_IMAGE": "Change photo",
+      "PROFILE_SECTION": {
+        "TITLE": "Identity",
+        "NOTE": "Your email is used to sign in and identify you across the platform."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Message send shortcut",
+        "NOTE": "Pick a keyboard shortcut to send messages — choose whichever fits your workflow.",
+        "UPDATE_SUCCESS": "Shortcut preference saved",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Press Enter to send messages instead of clicking the send button."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "Cmd / Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Press Cmd/Ctrl + Enter to send messages instead of clicking the send button."
           }
         }
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your QODEQ CHAT dashboard.",
+        "NOTE": "Adjust how your dashboard looks and feels.",
         "FONT_SIZE": {
           "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "NOTE": "Choose the text size that's most comfortable for you.",
+          "UPDATE_SUCCESS": "Font size updated",
+          "UPDATE_ERROR": "Failed to update font size, please try again",
           "OPTIONS": {
             "SMALLER": "Smaller",
             "SMALL": "Small",
             "DEFAULT": "Default",
             "LARGE": "Large",
             "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "EXTRA_LARGE": "Extra large"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "Display language",
+          "NOTE": "Select the language for your dashboard interface.",
+          "UPDATE_SUCCESS": "Language preference saved",
+          "UPDATE_ERROR": "Failed to update language, please try again",
+          "USE_ACCOUNT_DEFAULT": "Use workspace default"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "Message signature",
+        "NOTE": "Add a personal signature that appears at the bottom of every message you send. Inline images are supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Save signature",
+        "API_ERROR": "Failed to save signature — please try again",
+        "API_SUCCESS": "Signature saved",
+        "IMAGE_UPLOAD_ERROR": "Failed to upload image — please try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added. Click save to apply your signature.",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image must be under {size}MB"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Signature",
+        "ERROR": "Signature cannot be empty",
+        "PLACEHOLDER": "Write your personal message signature here..."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
+        "NOTE": "Changing your password will sign you out of all other devices.",
         "BTN_TEXT": "Change password"
       },
       "SECURITY_SECTION": {
         "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "NOTE": "Manage additional security settings for your account.",
+        "MFA_BUTTON": "Manage two-factor authentication"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration",
-        "COPY": "Copy",
-        "RESET": "Reset",
+        "TITLE": "API access token",
+        "NOTE": "Use this token to authenticate API-based integrations.",
+        "COPY": "Copy token",
+        "RESET": "Regenerate",
         "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "CONFIRM_HINT": "Tap again to confirm",
+        "RESET_SUCCESS": "Access token regenerated",
+        "RESET_ERROR": "Failed to regenerate token — please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "Audio alerts",
+        "NOTE": "Get sound notifications for new messages and conversations.",
+        "PLAY": "Preview sound",
         "ALERT_TYPES": {
           "NONE": "None",
-          "MINE": "Assigned",
-          "ALL": "All",
+          "MINE": "Assigned to me",
+          "ALL": "All conversations",
           "ASSIGNED": "My assigned conversations",
           "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "NOTME": "Conversations assigned to others"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "No options selected — you won't receive any audio alerts.",
+          "ASSIGNED": "You'll be alerted for conversations assigned to you.",
+          "UNASSIGNED": "You'll be alerted for unassigned conversations.",
+          "NOTME": "You'll be alerted for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll be alerted for your conversations and unassigned ones.",
+          "ASSIGNED+NOTME": "You'll be alerted for your conversations and those assigned to others.",
+          "NOTME+UNASSIGNED": "You'll be alerted for unassigned conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll be alerted for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
+          "TITLE": "Alert for",
           "NONE": "None",
-          "ASSIGNED": "Assigned Chats",
-          "ALL_CONVERSATIONS": "All Chats"
+          "ASSIGNED": "My chats",
+          "ALL_CONVERSATIONS": "All chats"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Alert tone"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Alert conditions",
+          "CONDITION_ONE": "Only alert when the browser window is not active",
+          "CONDITION_TWO": "Repeat alert every 30s until all assigned conversations are read"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "SOUND_PERMISSION_ERROR": "Autoplay is blocked by your browser. Enable sound permission in browser settings to hear alerts automatically.",
+        "READ_MORE": "Learn more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "TITLE": "Email notifications",
+        "NOTE": "Manage when you receive email notifications",
+        "CONVERSATION_ASSIGNMENT": "When a conversation is assigned to me",
+        "CONVERSATION_CREATION": "When a new conversation is created",
+        "CONVERSATION_MENTION": "When I'm mentioned in a conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "When a new message arrives in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "When a new message arrives in a conversation I'm participating in",
+        "SLA_MISSED_FIRST_RESPONSE": "When a conversation misses the first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "When a conversation misses the next response SLA",
+        "SLA_MISSED_RESOLUTION": "When a conversation misses the resolution SLA"
       },
       "NOTIFICATIONS": {
         "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TYPE_TITLE": "Event",
         "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "PUSH": "Push",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "New conversation created",
+          "CONVERSATION_ASSIGNED": "Conversation assigned to you",
+          "CONVERSATION_MENTION": "You were mentioned",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "First response SLA missed",
+          "SLA_MISSED_NEXT_RESPONSE": "Next response SLA missed",
+          "SLA_MISSED_RESOLUTION": "Resolution SLA missed"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Enable browser push notifications to receive alerts"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Notification preferences saved",
+        "UPDATE_ERROR": "Failed to save preferences — please try again"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "TITLE": "Push notifications",
+        "NOTE": "Manage when you receive push notifications",
+        "CONVERSATION_ASSIGNMENT": "When a conversation is assigned to me",
+        "CONVERSATION_CREATION": "When a new conversation is created",
+        "CONVERSATION_MENTION": "When I'm mentioned in a conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "When a new message arrives in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "When a new message arrives in a conversation I'm participating in",
+        "HAS_ENABLED_PUSH": "Push notifications are enabled for this browser.",
         "REQUEST_PUSH": "Enable push notifications",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "When a conversation misses the first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "When a conversation misses the next response SLA",
+        "SLA_MISSED_RESOLUTION": "When a conversation misses the resolution SLA"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Profile photo"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Full name",
+        "ERROR": "Please enter your full name",
+        "PLACEHOLDER": "Your full name"
       },
       "DISPLAY_NAME": {
         "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "ERROR": "Please enter a display name",
+        "PLACEHOLDER": "Shown to contacts in conversations"
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
@@ -201,29 +231,29 @@
           "BUSY": "Busy",
           "OFFLINE": "Offline"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "SET_AVAILABILITY_SUCCESS": "Availability updated",
+        "SET_AVAILABILITY_ERROR": "Failed to update availability — please try again",
         "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
+        "LABEL": "Email address",
         "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "PLACEHOLDER": "your@email.com"
       },
       "CURRENT_PASSWORD": {
         "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "ERROR": "Please enter your current password",
+        "PLACEHOLDER": "Your current password"
       },
       "PASSWORD": {
         "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "ERROR": "Password must be at least 6 characters",
+        "PLACEHOLDER": "Choose a new password"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "ERROR": "Passwords do not match",
+        "PLACEHOLDER": "Re-enter your new password"
       }
     }
   },
