@@ -38,6 +38,33 @@ const comparisonPeriodsPayload = () =>
     to: getUnixEndOfDay(cr.dates[1]),
   }));
 
+function updateURLParams() {
+  const comparisonPayload = comparisonPeriodsPayload();
+  const params = generateReportURLParams({
+    from: getUnixStartOfDay(customDateRange.value[0]),
+    to: getUnixEndOfDay(customDateRange.value[1]),
+    businessHours: businessHoursSelected.value,
+    range: selectedDateRange.value,
+    comparisonPeriods: comparisonPayload,
+  });
+
+  const nextQuery = { ...route.query, ...params };
+  if (!comparisonPayload.length) {
+    delete nextQuery.comparison_periods;
+  }
+  router.replace({ query: nextQuery });
+}
+
+function emitChange() {
+  updateURLParams();
+  emit('filterChange', {
+    from: getUnixStartOfDay(customDateRange.value[0]),
+    to: getUnixEndOfDay(customDateRange.value[1]),
+    businessHours: businessHoursSelected.value,
+    comparisonPeriods: comparisonPeriodsPayload(),
+  });
+}
+
 const addComparisonPeriod = () => {
   if (comparisonRanges.value.length >= MAX_COMPARISON_PERIODS) return;
   const [pStart, pEnd] = customDateRange.value;
@@ -66,33 +93,6 @@ const onComparisonDatesChanged = (index, value) => {
   row.dates = [startDate, endDate];
   row.rangeType = rangeType || DATE_RANGE_TYPES.CUSTOM_RANGE;
   emitChange();
-};
-
-const updateURLParams = () => {
-  const comparisonPayload = comparisonPeriodsPayload();
-  const params = generateReportURLParams({
-    from: getUnixStartOfDay(customDateRange.value[0]),
-    to: getUnixEndOfDay(customDateRange.value[1]),
-    businessHours: businessHoursSelected.value,
-    range: selectedDateRange.value,
-    comparisonPeriods: comparisonPayload,
-  });
-
-  const nextQuery = { ...route.query, ...params };
-  if (!comparisonPayload.length) {
-    delete nextQuery.comparison_periods;
-  }
-  router.replace({ query: nextQuery });
-};
-
-const emitChange = () => {
-  updateURLParams();
-  emit('filterChange', {
-    from: getUnixStartOfDay(customDateRange.value[0]),
-    to: getUnixEndOfDay(customDateRange.value[1]),
-    businessHours: businessHoursSelected.value,
-    comparisonPeriods: comparisonPeriodsPayload(),
-  });
 };
 
 const onDateRangeChange = value => {

@@ -3,27 +3,13 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { computed } from 'vue';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { useMapGetter } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 const { updateUISettings } = useUISettings();
 
-const currentAccountId = useMapGetter('getCurrentAccountId');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-
-const showCopilotTab = computed(() =>
-  isFeatureEnabledonAccount.value(currentAccountId.value, FEATURE_FLAGS.CAPTAIN)
-);
-
 const { uiSettings } = useUISettings();
 const isContactSidebarOpen = computed(
   () => uiSettings.value.is_contact_sidebar_open
-);
-const isCopilotPanelOpen = computed(
-  () => uiSettings.value.is_copilot_panel_open
 );
 
 const toggleConversationSidebarToggle = () => {
@@ -37,13 +23,6 @@ const handleConversationSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: true,
     is_copilot_panel_open: false,
-  });
-};
-
-const handleCopilotSidebarToggle = () => {
-  updateUISettings({
-    is_contact_sidebar_open: false,
-    is_copilot_panel_open: true,
   });
 };
 

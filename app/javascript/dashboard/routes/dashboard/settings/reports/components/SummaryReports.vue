@@ -120,11 +120,7 @@ const renderTimePill = value =>
         },
         value
       )
-    : h(
-        'span',
-        { class: 'text-n-slate-11 whitespace-nowrap' },
-        value || '--'
-      );
+    : h('span', { class: 'text-n-slate-11 whitespace-nowrap' }, value || '--');
 
 const renderTimeCell = cellProps => renderTimePill(cellProps.getValue());
 
@@ -143,32 +139,32 @@ const columns = computed(() => {
   const base = [
     columnHelper.accessor('name', {
       header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
-      //width: 300,
+      // width: 300,
       cell: cellProps => h(SummaryReportLink, cellProps),
     }),
     columnHelper.accessor('conversationsCount', {
       header: t('SUMMARY_REPORTS.CONVERSATIONS'),
-      //width: 200,
+      // width: 200,
       cell: defaulSpanRender,
     }),
     columnHelper.accessor('avgFirstResponseTime', {
       header: t('SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME'),
-      //width: 200,
+      // width: 200,
       cell: renderTimeCell,
     }),
     columnHelper.accessor('avgResolutionTime', {
       header: t('SUMMARY_REPORTS.AVG_RESOLUTION_TIME'),
-      //width: 200,
+      // width: 200,
       cell: renderTimeCell,
     }),
     columnHelper.accessor('avgReplyTime', {
       header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
-      //width: 200,
+      // width: 200,
       cell: renderTimeCell,
     }),
     columnHelper.accessor('resolutionsCount', {
       header: t('SUMMARY_REPORTS.RESOLUTION_COUNT'),
-      //width: 200,
+      // width: 200,
       cell: defaulSpanRender,
     }),
   ];
@@ -246,9 +242,7 @@ const tableData = computed(() =>
       rowOut[`cmp${si}_avgFirstResponseTime`] = renderAvgTime(
         m.avgFirstResponseTime
       );
-      rowOut[`cmp${si}_avgResolutionTime`] = renderAvgTime(
-        m.avgResolutionTime
-      );
+      rowOut[`cmp${si}_avgResolutionTime`] = renderAvgTime(m.avgResolutionTime);
       rowOut[`cmp${si}_avgReplyTime`] = renderAvgTime(m.avgReplyTime);
       rowOut[`cmp${si}_resolutionsCount`] = renderCount(
         m.resolvedConversationsCount
@@ -352,10 +346,7 @@ defineExpose({ downloadReports });
     :disabled="isLoading"
     @filter-change="onFilterChange"
   />
-  <div
-    v-if="type === 'label'"
-    class="flex flex-col gap-1 mt-4 w-full max-w-xl"
-  >
+  <div v-if="type === 'label'" class="flex flex-col gap-1 mt-4 w-full max-w-xl">
     <TagMultiSelectComboBox
       v-model="selectedLabelIds"
       :options="labelFilterOptions"

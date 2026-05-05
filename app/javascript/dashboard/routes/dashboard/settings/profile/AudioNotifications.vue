@@ -28,15 +28,28 @@ const initializeNotificationUISettings = newUISettings => {
   const s = camelcaseKeys(newUISettings);
   audioAlert.value = s.enableAudioAlerts;
   playAudioWhenTabIsInactive.value = !s.alwaysPlayAudioAlert;
-  alertIfUnreadConversationExist.value = s.alertIfUnreadAssignedConversationExist;
+  alertIfUnreadConversationExist.value =
+    s.alertIfUnreadAssignedConversationExist;
   audioAlertConditions.value = [
-    { id: 'audio1', label: t(`${i18nKeyPrefix}.CONDITIONS.CONDITION_ONE`), model: playAudioWhenTabIsInactive.value, value: 'tab_is_inactive' },
-    { id: 'audio2', label: t(`${i18nKeyPrefix}.CONDITIONS.CONDITION_TWO`), model: alertIfUnreadConversationExist.value, value: 'conversations_are_read' },
+    {
+      id: 'audio1',
+      label: t(`${i18nKeyPrefix}.CONDITIONS.CONDITION_ONE`),
+      model: playAudioWhenTabIsInactive.value,
+      value: 'tab_is_inactive',
+    },
+    {
+      id: 'audio2',
+      label: t(`${i18nKeyPrefix}.CONDITIONS.CONDITION_TWO`),
+      model: alertIfUnreadConversationExist.value,
+      value: 'conversations_are_read',
+    },
   ];
   alertTone.value = s.notificationTone || 'ding';
 };
 
-watch(uiSettings, value => initializeNotificationUISettings(value), { immediate: true });
+watch(uiSettings, value => initializeNotificationUISettings(value), {
+  immediate: true,
+});
 
 const handleAudioConfigChange = value => {
   updateUISettings(value);
@@ -51,10 +64,15 @@ const handAudioAlertChange = value => {
   handleAudioConfigChange({ enable_audio_alerts: value });
 };
 const handleAudioAlertConditions = (id, value) => {
-  if (id === 'tab_is_inactive') handleAudioConfigChange({ always_play_audio_alert: !value });
-  else if (id === 'conversations_are_read') handleAudioConfigChange({ alert_if_unread_assigned_conversation_exist: value });
+  if (id === 'tab_is_inactive')
+    handleAudioConfigChange({ always_play_audio_alert: !value });
+  else if (id === 'conversations_are_read')
+    handleAudioConfigChange({
+      alert_if_unread_assigned_conversation_exist: value,
+    });
 };
-const handleAudioToneChange = value => handleAudioConfigChange({ notification_tone: value });
+const handleAudioToneChange = value =>
+  handleAudioConfigChange({ notification_tone: value });
 </script>
 
 <template>

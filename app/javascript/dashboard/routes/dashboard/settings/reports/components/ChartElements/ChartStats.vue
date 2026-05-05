@@ -27,8 +27,7 @@ const {
   displayMetric,
   isAverageMetricType,
   fetchingStatus,
-} =
-  useReportMetrics(props.accountSummaryKey, props.summaryFetchingKey);
+} = useReportMetrics(props.accountSummaryKey, props.summaryFetchingKey);
 
 const trendColor = (value, key) => {
   if (isAverageMetricType(key)) {
@@ -70,7 +69,9 @@ const comparisonDotClass = index => {
           {{ displayMetric(metric.KEY) }}
         </div>
         <div
-          v-if="fetchingStatus === STATUS.FINISHED && hasPreviousValue(metric.KEY)"
+          v-if="
+            fetchingStatus === STATUS.FINISHED && hasPreviousValue(metric.KEY)
+          "
           class="text-xs ml-4 flex items-center mb-0.5"
         >
           <div
@@ -87,7 +88,11 @@ const comparisonDotClass = index => {
             class="font-medium"
             :class="trendColor(calculateTrend(metric.KEY), metric.KEY)"
           >
-            {{ t('REPORT.COMPARISON.VS_PREVIOUS', { pct: calculateTrend(metric.KEY) }) }}
+            {{
+              t('REPORT.COMPARISON.VS_PREVIOUS', {
+                pct: calculateTrend(metric.KEY),
+              })
+            }}
           </span>
         </div>
       </div>
@@ -97,7 +102,10 @@ const comparisonDotClass = index => {
           :key="ct.index"
           class="text-xs flex items-center gap-2 text-n-slate-10 rounded-md bg-n-alpha-2 px-2 py-1"
         >
-          <span class="h-2 w-2 rounded-sm shrink-0" :class="comparisonDotClass(ct.index)" />
+          <span
+            class="h-2 w-2 rounded-sm shrink-0"
+            :class="comparisonDotClass(ct.index)"
+          />
           <span class="truncate max-w-[10rem]" :title="ct.label">
             {{ ct.label }}
           </span>

@@ -222,7 +222,8 @@ watch(
     class="grid gap-1 text-sm cursor-pointer select-none min-w-0"
     :class="{
       'mt-2 pt-2 border-t border-n-weak/70':
-        !isCollapsed && ['Settings', 'Campaigns', 'Portals', 'Captain'].includes(name),
+        !isCollapsed &&
+        ['Settings', 'Campaigns', 'Portals', 'Captain'].includes(name),
     }"
   >
     <!-- Collapsed State -->

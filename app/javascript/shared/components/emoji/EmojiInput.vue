@@ -197,7 +197,7 @@ export default {
 @layer components {
   .box-shadow-teal {
     box-shadow:
-      0 0 0 1px #10A37F,
+      0 0 0 1px #10a37f,
       0 0 1px 2px #c7e3ff;
   }
 

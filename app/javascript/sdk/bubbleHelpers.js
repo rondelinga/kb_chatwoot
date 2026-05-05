@@ -39,7 +39,11 @@ export const createBubbleIcon = ({ className, target }) => {
 
   // Облачко чата
   const chatPath = document.createElementNS(ns, 'path');
-  chatPath.setAttributeNS(null, 'd', 'M57 9H9C6.24 9 4 11.24 4 14V42C4 44.76 6.24 47 9 47H14V57L26 47H57C59.76 47 62 44.76 62 42V14C62 11.24 59.76 9 57 9Z');
+  chatPath.setAttributeNS(
+    null,
+    'd',
+    'M57 9H9C6.24 9 4 11.24 4 14V42C4 44.76 6.24 47 9 47H14V57L26 47H57C59.76 47 62 44.76 62 42V14C62 11.24 59.76 9 57 9Z'
+  );
   chatPath.setAttributeNS(null, 'fill', '#FFFFFF');
   bubbleIcon.appendChild(chatPath);
 

@@ -15,7 +15,7 @@ const activePopover = ref(null);
 let globalCloseTimeout = null;
 
 export function useSidebarResize() {
-  const { uiSettings, updateUISettings } = useUISettings();
+  const { updateUISettings } = useUISettings();
 
   const sidebarWidth = ref(MIN_WIDTH);
   const isCollapsed = computed(() => sidebarWidth.value < COLLAPSED_THRESHOLD);

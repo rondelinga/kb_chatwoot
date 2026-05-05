@@ -2,7 +2,10 @@
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDetectKeyboardLayout } from 'dashboard/composables/useDetectKeyboardLayout';
-import { SHORTCUT_KEYS, KEYS } from '../../../../components/widgets/modal/constants';
+import {
+  SHORTCUT_KEYS,
+  KEYS,
+} from '../../../../components/widgets/modal/constants';
 import {
   LAYOUT_QWERTZ,
   keysToModifyInQWERTZ,

@@ -6,9 +6,7 @@ import CannedResponseAPI from '../../api/cannedResponse';
 function normalizeCannedLabelIds(raw) {
   if (raw == null) return [];
   const arr = Array.isArray(raw) ? raw : Object.values(raw);
-  return arr
-    .map(id => Number(id))
-    .filter(id => Number.isInteger(id) && id > 0);
+  return arr.map(id => Number(id)).filter(id => Number.isInteger(id) && id > 0);
 }
 
 const state = {

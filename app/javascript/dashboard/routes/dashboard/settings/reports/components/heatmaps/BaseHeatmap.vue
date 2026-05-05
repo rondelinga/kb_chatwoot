@@ -4,7 +4,6 @@ import { useMemoize } from '@vueuse/core';
 import format from 'date-fns/format';
 import { getQuantileIntervals } from '@chatwoot/utils';
 import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
-import { useI18n } from 'vue-i18n';
 import { useHeatmapTooltip } from './composables/useHeatmapTooltip';
 import HeatmapTooltip from './HeatmapTooltip.vue';
 
@@ -28,15 +27,33 @@ const props = defineProps({
   },
 });
 
-const { t } = useI18n();
-
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 
 const HOUR_LABELS = [
-  '12:00 am', '1:00 am', '2:00 am', '3:00 am', '4:00 am', '5:00 am',
-  '6:00 am', '7:00 am', '8:00 am', '9:00 am', '10:00 am', '11:00 am',
-  '12:00 pm', '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm',
-  '6:00 pm', '7:00 pm', '8:00 pm', '9:00 pm', '10:00 pm', '11:00 pm',
+  '12:00 am',
+  '1:00 am',
+  '2:00 am',
+  '3:00 am',
+  '4:00 am',
+  '5:00 am',
+  '6:00 am',
+  '7:00 am',
+  '8:00 am',
+  '9:00 am',
+  '10:00 am',
+  '11:00 am',
+  '12:00 pm',
+  '1:00 pm',
+  '2:00 pm',
+  '3:00 pm',
+  '4:00 pm',
+  '5:00 pm',
+  '6:00 pm',
+  '7:00 pm',
+  '8:00 pm',
+  '9:00 pm',
+  '10:00 pm',
+  '11:00 pm',
 ];
 
 const SHOW_HOUR_LABEL_INDICES = new Set([0, 3, 6, 9, 12, 15, 18, 21]);
@@ -53,7 +70,9 @@ const matrix = computed(() => {
   return HOURS.map(hour => {
     return dateKeys.value.map(dateKey => {
       const dayData = dataByDay.value.get(dateKey) ?? [];
-      const cell = dayData.find(d => new Date(d.timestamp * 1000).getHours() === hour);
+      const cell = dayData.find(
+        d => new Date(d.timestamp * 1000).getHours() === hour
+      );
       return cell ? cell.value : 0;
     });
   });
@@ -83,13 +102,19 @@ const COLOR_SCHEMES = {
   ],
 };
 
-const getHeatmapLevelClass = useMemoize((value, quantileRangeArray, colorScheme) => {
-  if (!value) return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
-  let level = [...quantileRangeArray, Infinity].findIndex(range => value <= range && value > 0);
-  if (level > 6) level = 5;
-  if (level === 0) return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
-  return COLOR_SCHEMES[colorScheme][level - 1];
-});
+const getHeatmapLevelClass = useMemoize(
+  (value, quantileRangeArray, colorScheme) => {
+    if (!value)
+      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
+    let level = [...quantileRangeArray, Infinity].findIndex(
+      range => value <= range && value > 0
+    );
+    if (level > 6) level = 5;
+    if (level === 0)
+      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
+    return COLOR_SCHEMES[colorScheme][level - 1];
+  }
+);
 
 function getHeatmapClass(value) {
   return getHeatmapLevelClass(value, quantileRange.value, props.colorScheme);
@@ -119,7 +144,9 @@ const tooltip = useHeatmapTooltip();
             :key="hour"
             class="h-5 mb-[3px] flex items-center justify-end pr-2 text-[9px] font-semibold text-n-slate-11"
           >
-            <span v-if="SHOW_HOUR_LABEL_INDICES.has(i)">{{ HOUR_LABELS[i] }}</span>
+            <span v-if="SHOW_HOUR_LABEL_INDICES.has(i)">{{
+              HOUR_LABELS[i]
+            }}</span>
           </div>
         </template>
       </div>
@@ -131,7 +158,9 @@ const tooltip = useHeatmapTooltip();
             :key="col"
             class="flex flex-col gap-[3px] flex-1"
           >
-            <div class="h-6 rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse mb-0.5" />
+            <div
+              class="h-6 rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse mb-0.5"
+            />
             <div
               v-for="row in 24"
               :key="row"
@@ -145,7 +174,9 @@ const tooltip = useHeatmapTooltip();
             :key="dateKey"
             class="flex flex-col gap-[3px] flex-1 min-w-[36px]"
           >
-            <div class="h-6 flex items-center justify-center text-[9px] font-semibold text-n-slate-11 whitespace-nowrap">
+            <div
+              class="h-6 flex items-center justify-center text-[9px] font-semibold text-n-slate-11 whitespace-nowrap"
+            >
               {{ formatDateKey(dateKey) }}
             </div>
             <div

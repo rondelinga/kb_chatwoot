@@ -19,10 +19,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex justify-center w-full px-4 py-2"
-    :id="`cwmsg-${message.id}`"
-  >
+  <div :id="`cwmsg-${message.id}`" class="flex justify-center w-full px-4 py-2">
     <div
       class="inline-block max-w-[92%] rounded-lg bg-n-alpha-1 px-3 py-2 text-center text-xs leading-snug text-n-slate-11"
     >

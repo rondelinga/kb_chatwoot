@@ -29,9 +29,24 @@ export default {
     userEmail: { required, email },
   },
   watch: {
-    name: { handler(v) { this.userName = v; }, immediate: true },
-    displayName: { handler(v) { this.userDisplayName = v; }, immediate: true },
-    email: { handler(v) { this.userEmail = v; }, immediate: true },
+    name: {
+      handler(v) {
+        this.userName = v;
+      },
+      immediate: true,
+    },
+    displayName: {
+      handler(v) {
+        this.userDisplayName = v;
+      },
+      immediate: true,
+    },
+    email: {
+      handler(v) {
+        this.userEmail = v;
+      },
+      immediate: true,
+    },
   },
   methods: {
     async updateUser() {
@@ -57,7 +72,9 @@ export default {
         class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
         :class="{ 'border-red-500/50': v$.userName.$error }"
       >
-        <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">
+        <span
+          class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase"
+        >
           {{ $t('PROFILE_SETTINGS.FORM.NAME.LABEL') }}
         </span>
         <input
@@ -73,7 +90,9 @@ export default {
         class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
         :class="{ 'border-red-500/50': v$.userDisplayName.$error }"
       >
-        <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+        <span
+          class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+        >
           {{ $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL') }}
         </span>
         <input
@@ -90,7 +109,9 @@ export default {
         class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 col-span-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
         :class="{ 'border-red-500/50': v$.userEmail.$error }"
       >
-        <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+        <span
+          class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+        >
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
         </span>
         <input

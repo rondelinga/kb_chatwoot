@@ -20,6 +20,10 @@
       "LIST": "List",
       "CHECKBOX": "Checkbox"
     },
+    "SECTIONS": {
+      "ATTRIBUTE_INFO": "Attribute Info",
+      "VALIDATION": "Validation"
+    },
     "ADD": {
       "TITLE": "Add Custom Attribute",
       "SUBMIT": "Create",

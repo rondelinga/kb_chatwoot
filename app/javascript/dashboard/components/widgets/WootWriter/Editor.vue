@@ -701,9 +701,7 @@ async function mergeCannedLabelsIntoConversation(item) {
 
   const labelTitlesFromItem =
     typeof item === 'object' && Array.isArray(item.labelTitles)
-      ? item.labelTitles
-          .map(t => String(t).trim())
-          .filter(Boolean)
+      ? item.labelTitles.map(title => String(title).trim()).filter(Boolean)
       : [];
 
   let newTitles = [];
@@ -724,9 +722,7 @@ async function mergeCannedLabelsIntoConversation(item) {
     const idToTitle = Object.fromEntries(
       labels.map(l => [Number(l.id), l.title])
     );
-    newTitles = labelIds
-      .map(id => idToTitle[Number(id)])
-      .filter(Boolean);
+    newTitles = labelIds.map(id => idToTitle[Number(id)]).filter(Boolean);
   }
 
   if (!newTitles.length) return;

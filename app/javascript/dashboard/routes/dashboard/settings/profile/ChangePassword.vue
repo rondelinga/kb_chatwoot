@@ -29,7 +29,11 @@ export default {
   },
   computed: {
     isButtonDisabled() {
-      return !this.currentPassword || !this.passwordConfirmation || !this.v$.passwordConfirmation.isEqPassword;
+      return (
+        !this.currentPassword ||
+        !this.passwordConfirmation ||
+        !this.v$.passwordConfirmation.isEqPassword
+      );
     },
   },
   methods: {
@@ -47,7 +51,9 @@ export default {
           currentPassword: this.currentPassword,
         });
       } catch (error) {
-        alertMessage = parseAPIErrorResponse(error) || this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        alertMessage =
+          parseAPIErrorResponse(error) ||
+          this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
       } finally {
         useAlert(alertMessage);
       }
@@ -62,7 +68,9 @@ export default {
       class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
       :class="{ 'border-red-500/50': v$.currentPassword.$error }"
     >
-      <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+      <span
+        class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+      >
         {{ $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL') }}
       </span>
       <input
@@ -79,7 +87,9 @@ export default {
         class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
         :class="{ 'border-red-500/50': v$.password.$error }"
       >
-        <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+        <span
+          class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+        >
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL') }}
         </span>
         <input
@@ -95,13 +105,17 @@ export default {
         class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
         :class="{ 'border-red-500/50': v$.passwordConfirmation.$error }"
       >
-        <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+        <span
+          class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+        >
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL') }}
         </span>
         <input
           v-model="passwordConfirmation"
           type="password"
-          :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')"
+          :placeholder="
+            $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
+          "
           class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
           @blur="v$.passwordConfirmation.$touch"
         />

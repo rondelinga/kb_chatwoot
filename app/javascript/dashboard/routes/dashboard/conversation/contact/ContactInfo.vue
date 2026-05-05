@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 
 export default {
@@ -7,10 +6,6 @@ export default {
     contact: {
       type: Object,
       default: () => ({}),
-    },
-    channelType: {
-      type: String,
-      default: '',
     },
   },
   computed: {
@@ -53,8 +48,7 @@ export default {
         <!-- Name row -->
         <tr class="group">
           <td
-            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-            style="width: 38%"
+            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[38%]"
           >
             {{ $t('CONTACT_PANEL.NAME') }}
           </td>
@@ -85,8 +79,7 @@ export default {
         <!-- Email row -->
         <tr class="group">
           <td
-            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-            style="width: 38%"
+            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[38%]"
           >
             {{ $t('CONTACT_PANEL.EMAIL_ADDRESS') }}
           </td>
@@ -106,8 +99,7 @@ export default {
         <!-- Phone row -->
         <tr class="group">
           <td
-            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-            style="width: 38%"
+            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[38%]"
           >
             {{ $t('CONTACT_PANEL.PHONE_NUMBER') }}
           </td>
@@ -127,16 +119,12 @@ export default {
         <!-- Identifier row -->
         <tr v-if="contact.identifier" class="group">
           <td
-            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-            style="width: 38%"
+            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[38%]"
           >
             {{ $t('CONTACT_PANEL.IDENTIFIER') }}
           </td>
           <td class="py-1.5 text-xs text-n-slate-12 align-top min-w-0">
-            <span
-              class="truncate block max-w-full"
-              :title="contact.identifier"
-            >
+            <span class="truncate block max-w-full" :title="contact.identifier">
               {{ contact.identifier }}
             </span>
           </td>
@@ -145,8 +133,7 @@ export default {
         <!-- Company row -->
         <tr class="group">
           <td
-            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-            style="width: 38%"
+            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[38%]"
           >
             {{ $t('CONTACT_PANEL.COMPANY') }}
           </td>
@@ -165,8 +152,7 @@ export default {
         <!-- Location row -->
         <tr class="group">
           <td
-            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-            style="width: 38%"
+            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[38%]"
           >
             {{ $t('CONTACT_PANEL.LOCATION') }}
           </td>
@@ -183,8 +169,7 @@ export default {
         <!-- Description row -->
         <tr v-if="additionalAttributes.description" class="group">
           <td
-            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-            style="width: 38%"
+            class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[38%]"
           >
             {{ $t('CONTACT_PANEL.DESCRIPTION') }}
           </td>

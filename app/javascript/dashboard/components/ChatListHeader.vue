@@ -3,8 +3,6 @@ import { computed } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { formatNumber } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
-import { useRouter } from 'vue-router';
-import { useAccount } from 'dashboard/composables/useAccount';
 
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchLayout.vue';
@@ -42,12 +40,12 @@ const TAB_ICONS = {
   all: 'i-lucide-users',
 };
 
-const activeTabIcon = computed(() => TAB_ICONS[props.activeAssigneeTab] || 'i-lucide-users');
+const activeTabIcon = computed(
+  () => TAB_ICONS[props.activeAssigneeTab] || 'i-lucide-users'
+);
 const tabIcon = key => TAB_ICONS[key] || 'i-lucide-users';
 
 const { uiSettings, updateUISettings } = useUISettings();
-const router = useRouter();
-const { accountScopedRoute } = useAccount();
 
 const onBasicFilterChange = (value, type) => {
   emit('basicFilterChange', value, type);
@@ -105,7 +103,11 @@ const toggleConversationLayout = () => {
         <span
           class="px-2 py-1 my-0.5 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
         >
-          <template v-if="hasAppliedFiltersOrActiveFolders && !isListLoading && allCount > 0">
+          <template
+            v-if="
+              hasAppliedFiltersOrActiveFolders && !isListLoading && allCount > 0
+            "
+          >
             {{ formattedAllCount }}
           </template>
           <template v-else-if="!hasAppliedFiltersOrActiveFolders">
@@ -183,7 +185,9 @@ const toggleConversationLayout = () => {
             :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
           />
         </div>
-        <DropdownContainer v-if="!hasAppliedFiltersOrActiveFolders && assigneeTabItems.length">
+        <DropdownContainer
+          v-if="!hasAppliedFiltersOrActiveFolders && assigneeTabItems.length"
+        >
           <template #trigger="{ toggle, isOpen }">
             <NextButton
               v-tooltip.top-end="activeTabItem?.name"
@@ -205,15 +209,23 @@ const toggleConversationLayout = () => {
               <div class="flex items-center justify-between w-full gap-3">
                 <div class="flex items-center gap-2">
                   <span class="size-4" :class="tabIcon(item.key)" />
-                  <span :class="item.key === activeAssigneeTab ? 'text-n-brand font-medium' : ''">
+                  <span
+                    :class="
+                      item.key === activeAssigneeTab
+                        ? 'text-n-brand font-medium'
+                        : ''
+                    "
+                  >
                     {{ item.name }}
                   </span>
                 </div>
                 <span
                   class="rounded-full px-1.5 py-0 min-w-[18px] text-center text-xs"
-                  :class="item.key === activeAssigneeTab
-                    ? 'bg-n-green-5 text-n-green-9'
-                    : 'bg-n-alpha-1 text-n-slate-10'"
+                  :class="
+                    item.key === activeAssigneeTab
+                      ? 'bg-n-green-5 text-n-green-9'
+                      : 'bg-n-alpha-1 text-n-slate-10'
+                  "
                 >
                   {{ item.count }}
                 </span>

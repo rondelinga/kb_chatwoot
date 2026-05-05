@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -19,21 +19,20 @@ const props = defineProps({
   thumbnail: { type: String, default: '' },
   availabilityStatus: { type: String, default: null },
   isExpanded: { type: Boolean, default: false },
-  isUpdating: { type: Boolean, default: false },
+  // isUpdating: { type: Boolean, default: false },
   selectable: { type: Boolean, default: false },
   isSelected: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
   'toggle',
-  'updateContact',
-  'showContact',
+  // 'updateContact',
   'select',
   'avatarHover',
 ]);
 
 const { t } = useI18n();
-const router = useRouter();
+// const router = useRouter();
 const route = useRoute();
 
 const countriesMap = computed(() => {
@@ -77,7 +76,7 @@ const onClickExpand = () => {
   emit('toggle');
 };
 
-const onClickViewDetails = () => emit('showContact', props.id);
+// const onClickViewDetails = () => emit('showContact', props.id);
 
 const toggleSelect = checked => {
   emit('select', checked);
@@ -111,10 +110,9 @@ const handleAvatarHover = isHovered => {
             hide-offline-status
             rounded-full
           >
-            <template v-if="selectable" #overlay="{ size }">
+            <template v-if="selectable" #overlay>
               <label
-                class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px] border border-n-weak"
-                :style="{ width: `${size}px`, height: `${size}px` }"
+                class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px] border border-n-weak w-12 h-12"
                 @click.stop
               >
                 <Checkbox
@@ -129,13 +127,6 @@ const handleAvatarHover = isHovered => {
         <div class="flex flex-col gap-0.5 flex-1 min-w-0">
           <span class="text-base font-medium truncate text-n-slate-12">
             {{ name }}
-            <a
-              :href="contactProfileLink"
-              target="_blank"
-              rel="noopener nofollow noreferrer"
-              class="leading-none flex-shrink-0"
-            >
-            </a>
             <a
               :href="contactProfileLink"
               target="_blank"
@@ -188,12 +179,13 @@ const handleAvatarHover = isHovered => {
                 <tbody>
                   <tr>
                     <td
-                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-                      style="width: 40%"
+                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[40%]"
                     >
                       {{ t('CONTACT_PANEL.NAME') }}
                     </td>
-                    <td class="py-1.5 text-xs text-n-slate-12 align-top min-w-0">
+                    <td
+                      class="py-1.5 text-xs text-n-slate-12 align-top min-w-0"
+                    >
                       <div class="flex items-center gap-1.5 min-w-0">
                         <span class="truncate font-medium">{{ name }}</span>
                       </div>
@@ -202,12 +194,13 @@ const handleAvatarHover = isHovered => {
 
                   <tr>
                     <td
-                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-                      style="width: 40%"
+                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[40%]"
                     >
                       {{ t('CONTACT_PANEL.EMAIL_ADDRESS') }}
                     </td>
-                    <td class="py-1.5 text-xs text-n-slate-12 align-top min-w-0">
+                    <td
+                      class="py-1.5 text-xs text-n-slate-12 align-top min-w-0"
+                    >
                       <a
                         v-if="email"
                         :href="`mailto:${email}`"
@@ -222,12 +215,13 @@ const handleAvatarHover = isHovered => {
 
                   <tr>
                     <td
-                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-                      style="width: 40%"
+                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[40%]"
                     >
                       {{ t('CONTACT_PANEL.PHONE_NUMBER') }}
                     </td>
-                    <td class="py-1.5 text-xs text-n-slate-12 align-top min-w-0">
+                    <td
+                      class="py-1.5 text-xs text-n-slate-12 align-top min-w-0"
+                    >
                       <a
                         v-if="phoneNumber"
                         :href="`tel:${phoneNumber}`"
@@ -242,12 +236,13 @@ const handleAvatarHover = isHovered => {
 
                   <tr>
                     <td
-                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-                      style="width: 40%"
+                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[40%]"
                     >
                       {{ t('CONTACT_PANEL.COMPANY') }}
                     </td>
-                    <td class="py-1.5 text-xs text-n-slate-12 align-top min-w-0">
+                    <td
+                      class="py-1.5 text-xs text-n-slate-12 align-top min-w-0"
+                    >
                       <span
                         v-if="additionalAttributes?.companyName"
                         class="truncate block max-w-full"
@@ -261,17 +256,21 @@ const handleAvatarHover = isHovered => {
 
                   <tr>
                     <td
-                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top"
-                      style="width: 40%"
+                      class="py-1.5 pr-4 text-xs text-n-slate-10 whitespace-nowrap align-top w-[40%]"
                     >
                       {{ t('CONTACT_PANEL.LOCATION') }}
                     </td>
-                    <td class="py-1.5 text-xs text-n-slate-12 align-top min-w-0">
+                    <td
+                      class="py-1.5 text-xs text-n-slate-12 align-top min-w-0"
+                    >
                       <span
                         v-if="countryDetails"
                         class="inline-flex items-center gap-1.5"
                       >
-                        <Flag :country="countryDetails.countryCode" class="size-3.5 flex-shrink-0" />
+                        <Flag
+                          :country="countryDetails.countryCode"
+                          class="size-3.5 flex-shrink-0"
+                        />
                         <span class="truncate">{{ formattedLocation }}</span>
                       </span>
                       <span v-else class="text-n-slate-10">—</span>

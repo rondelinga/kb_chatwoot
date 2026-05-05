@@ -40,6 +40,9 @@
       "REPORT_MANAGE": "Manage reports",
       "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
     },
+    "SECTIONS": {
+      "ROLE_INFO": "Role Info"
+    },
     "FORM": {
       "NAME": {
         "LABEL": "Name",

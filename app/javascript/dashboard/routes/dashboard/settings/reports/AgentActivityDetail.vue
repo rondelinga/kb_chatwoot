@@ -21,7 +21,9 @@ const from = computed(() => Number(route.query.from || 0));
 const to = computed(() => Number(route.query.to || 0));
 
 const agents = computed(() => store.getters['agents/getAgents'] || []);
-const agent = computed(() => agents.value.find(a => String(a.id) === String(userId.value)));
+const agent = computed(() =>
+  agents.value.find(a => String(a.id) === String(userId.value))
+);
 
 const availabilityMap = {
   online: 'ACCEPTING',
@@ -103,13 +105,18 @@ onMounted(async () => {
         class="flex items-center gap-1.5 text-sm text-n-slate-11 transition hover:text-n-slate-12"
         @click="goBack"
       >
-        <span>←</span>
+        <span class="i-lucide-arrow-left size-4" />
         {{ $t('AGENT_ACTIVITY_REPORT.BACK') }}
       </button>
     </div>
     <ReportHeader :header-title="$t('AGENT_ACTIVITY_REPORT.DETAIL_HEADER')" />
-    <div v-if="agent" class="flex items-center gap-3 rounded-xl border border-n-weak bg-n-alpha-2 px-4 py-3">
-      <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-woot-75 text-sm font-medium text-woot-600">
+    <div
+      v-if="agent"
+      class="flex items-center gap-3 rounded-xl border border-n-weak bg-n-alpha-2 px-4 py-3"
+    >
+      <div
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-woot-75 text-sm font-medium text-woot-600"
+      >
         {{ agent.name?.slice(0, 2).toUpperCase() }}
       </div>
       <div>
@@ -117,35 +124,62 @@ onMounted(async () => {
         <p class="mb-0 text-xs text-n-slate-11">{{ agent.email }}</p>
       </div>
     </div>
-    <div v-if="loading" class="flex justify-center py-12 text-n-slate-11 text-sm">
+    <div
+      v-if="loading"
+      class="flex justify-center py-12 text-n-slate-11 text-sm"
+    >
       {{ $t('REPORT.LOADING_CHART') }}
     </div>
     <template v-else-if="agentData">
-      <div class="flex flex-wrap gap-x-6 gap-y-2 rounded-xl border border-n-weak bg-n-alpha-2 px-4 py-3 text-sm">
+      <div
+        class="flex flex-wrap gap-x-6 gap-y-2 rounded-xl border border-n-weak bg-n-alpha-2 px-4 py-3 text-sm"
+      >
         <span class="flex items-center gap-2">
-          <span class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: #22c55e" />
-          <span class="text-n-slate-11">{{ $t('AGENT_ACTIVITY_REPORT.TOTALS.ACCEPTING') }}</span>
-          <span class="font-semibold text-emerald-600 dark:text-emerald-400">{{ formatDuration(totals.accepting) }}</span>
+          <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500" />
+          <span class="text-n-slate-11">{{
+            $t('AGENT_ACTIVITY_REPORT.TOTALS.ACCEPTING')
+          }}</span>
+          <span class="font-semibold text-emerald-600 dark:text-emerald-400">{{
+            formatDuration(totals.accepting)
+          }}</span>
         </span>
         <span class="flex items-center gap-2">
-          <span class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: #eab308" />
-          <span class="text-n-slate-11">{{ $t('AGENT_ACTIVITY_REPORT.TOTALS.NOT_ACCEPTING') }}</span>
-          <span class="font-semibold text-amber-600 dark:text-amber-400">{{ formatDuration(totals.not_accepting) }}</span>
+          <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-amber-500" />
+          <span class="text-n-slate-11">{{
+            $t('AGENT_ACTIVITY_REPORT.TOTALS.NOT_ACCEPTING')
+          }}</span>
+          <span class="font-semibold text-amber-600 dark:text-amber-400">{{
+            formatDuration(totals.not_accepting)
+          }}</span>
         </span>
         <span class="flex items-center gap-2">
-          <span class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: #64748b" />
-          <span class="text-n-slate-11">{{ $t('AGENT_ACTIVITY_REPORT.TOTALS.LOGGED_OUT') }}</span>
-          <span class="font-semibold text-slate-500 dark:text-slate-400">{{ formatDuration(totals.logged_out) }}</span>
+          <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-slate-500" />
+          <span class="text-n-slate-11">{{
+            $t('AGENT_ACTIVITY_REPORT.TOTALS.LOGGED_OUT')
+          }}</span>
+          <span class="font-semibold text-slate-500 dark:text-slate-400">{{
+            formatDuration(totals.logged_out)
+          }}</span>
         </span>
       </div>
-      <div class="overflow-x-auto rounded-xl border border-n-weak bg-white dark:bg-n-solid-1">
+      <div
+        class="overflow-x-auto rounded-xl border border-n-weak bg-white dark:bg-n-solid-1"
+      >
         <table class="w-full min-w-[600px] text-left text-sm">
           <thead class="border-b border-n-weak bg-n-alpha-2 text-n-slate-11">
             <tr>
-              <th class="px-4 py-3 font-medium">{{ $t('AGENT_ACTIVITY_REPORT.COLUMNS.FROM') }}</th>
-              <th class="px-4 py-3 font-medium">{{ $t('AGENT_ACTIVITY_REPORT.COLUMNS.TO') }}</th>
-              <th class="px-4 py-3 font-medium">{{ $t('AGENT_ACTIVITY_REPORT.COLUMNS.STATUS') }}</th>
-              <th class="px-4 py-3 font-medium">{{ $t('AGENT_ACTIVITY_REPORT.COLUMNS.DURATION') }}</th>
+              <th class="px-4 py-3 font-medium">
+                {{ $t('AGENT_ACTIVITY_REPORT.COLUMNS.FROM') }}
+              </th>
+              <th class="px-4 py-3 font-medium">
+                {{ $t('AGENT_ACTIVITY_REPORT.COLUMNS.TO') }}
+              </th>
+              <th class="px-4 py-3 font-medium">
+                {{ $t('AGENT_ACTIVITY_REPORT.COLUMNS.STATUS') }}
+              </th>
+              <th class="px-4 py-3 font-medium">
+                {{ $t('AGENT_ACTIVITY_REPORT.COLUMNS.DURATION') }}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -170,7 +204,9 @@ onMounted(async () => {
                 >
                   <span
                     class="h-1.5 w-1.5 rounded-full"
-                    :style="{ backgroundColor: availabilityColor(segment.availability) }"
+                    :style="{
+                      backgroundColor: availabilityColor(segment.availability),
+                    }"
                   />
                   {{ availabilityLabel(segment.availability) }}
                 </span>

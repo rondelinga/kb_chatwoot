@@ -47,6 +47,9 @@ export default {
     this.setFormValues();
   },
   methods: {
+    formatStepNumber(step) {
+      return String(step).padStart(2, '0');
+    },
     onClose() {
       this.$emit('close');
     },
@@ -83,7 +86,7 @@ export default {
       <p
         class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
       >
-        Labels
+        {{ $t('LABEL_MGMT.HEADER') }}
       </p>
       <h2 class="text-3xl font-black tracking-wide text-white uppercase">
         {{ $t('LABEL_MGMT.EDIT.TITLE') }}
@@ -93,12 +96,12 @@ export default {
     <form class="flex flex-col gap-6 px-8 py-6" @submit.prevent="editLabel">
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-[#4ade80] tracking-widest"
-            >01</span
-          >
+          <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+            formatStepNumber(1)
+          }}</span>
           <span
             class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
-            >Label Info</span
+            >{{ $t('LABEL_MGMT.SECTIONS.LABEL_INFO') }}</span
           >
         </div>
         <div class="grid grid-cols-2 gap-3">
@@ -144,12 +147,12 @@ export default {
 
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-[#4ade80] tracking-widest"
-            >02</span
-          >
+          <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+            formatStepNumber(2)
+          }}</span>
           <span
             class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
-            >Appearance</span
+            >{{ $t('COMMAND_BAR.SECTIONS.APPEARANCE') }}</span
           >
         </div>
         <div class="flex items-center gap-6">

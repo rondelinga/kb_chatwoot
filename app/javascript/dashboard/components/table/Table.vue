@@ -8,10 +8,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  fixed: {
-    type: Boolean,
-    default: false,
-  },
   type: {
     type: String,
     default: 'relaxed',

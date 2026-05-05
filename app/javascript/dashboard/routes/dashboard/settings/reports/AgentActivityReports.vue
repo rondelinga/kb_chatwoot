@@ -51,11 +51,34 @@ const toDate = value => new Date(Number(value || 0) * 1000);
 const toTimestamp = date => Math.floor(date.getTime() / 1000);
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-const startOfHour = value => { const d = toDate(value); d.setMinutes(0, 0, 0); return toTimestamp(d); };
-const startOfDay = value => { const d = toDate(value); d.setHours(0, 0, 0, 0); return toTimestamp(d); };
-const startOfWeek = value => { const d = toDate(value); const day = (d.getDay() + 6) % 7; d.setDate(d.getDate() - day); d.setHours(0, 0, 0, 0); return toTimestamp(d); };
-const startOfMonth = value => { const d = toDate(value); d.setDate(1); d.setHours(0, 0, 0, 0); return toTimestamp(d); };
-const addMonths = (timestamp, count) => { const d = toDate(timestamp); d.setMonth(d.getMonth() + count); return toTimestamp(d); };
+const startOfHour = value => {
+  const d = toDate(value);
+  d.setMinutes(0, 0, 0);
+  return toTimestamp(d);
+};
+const startOfDay = value => {
+  const d = toDate(value);
+  d.setHours(0, 0, 0, 0);
+  return toTimestamp(d);
+};
+const startOfWeek = value => {
+  const d = toDate(value);
+  const day = (d.getDay() + 6) % 7;
+  d.setDate(d.getDate() - day);
+  d.setHours(0, 0, 0, 0);
+  return toTimestamp(d);
+};
+const startOfMonth = value => {
+  const d = toDate(value);
+  d.setDate(1);
+  d.setHours(0, 0, 0, 0);
+  return toTimestamp(d);
+};
+const addMonths = (timestamp, count) => {
+  const d = toDate(timestamp);
+  d.setMonth(d.getMonth() + count);
+  return toTimestamp(d);
+};
 
 const visibleWindowSeconds = computed(() => {
   const full = Math.max(1, Number(to.value || 0) - Number(from.value || 0));
@@ -71,7 +94,9 @@ const syncViewport = ({ anchorToEnd = true } = {}) => {
   if (!f || !end || end <= f) return;
   const range = end - f;
   const window = Math.min(visibleWindowSeconds.value, range);
-  const baseEnd = anchorToEnd ? end : clamp(viewTo.value || end, f + window, end);
+  const baseEnd = anchorToEnd
+    ? end
+    : clamp(viewTo.value || end, f + window, end);
   viewTo.value = baseEnd;
   viewFrom.value = baseEnd - window;
 };
@@ -97,7 +122,10 @@ const pickStep = (target, candidates) =>
   candidates.find(c => c >= target) || candidates[candidates.length - 1];
 
 const timelineResolution = computed(() => {
-  const duration = Math.max(1, Number(viewTo.value || 0) - Number(viewFrom.value || 0));
+  const duration = Math.max(
+    1,
+    Number(viewTo.value || 0) - Number(viewFrom.value || 0)
+  );
   if (duration <= 2 * DAY_SECONDS) return 'hourly';
   if (duration <= 62 * DAY_SECONDS) return 'daily';
   if (duration <= 370 * DAY_SECONDS) return 'weekly';
@@ -113,10 +141,16 @@ const timelineStart = computed(() => {
 });
 
 const timelineEnd = computed(() => {
-  const rawEnd = Math.max(timelineStart.value + 1, Number(viewTo.value || to.value || 0));
-  if (timelineResolution.value === 'hourly') return Math.max(rawEnd, startOfHour(rawEnd) + HOUR_SECONDS);
-  if (timelineResolution.value === 'daily') return Math.max(rawEnd, startOfDay(rawEnd) + DAY_SECONDS);
-  if (timelineResolution.value === 'weekly') return Math.max(rawEnd, startOfWeek(rawEnd) + WEEK_SECONDS);
+  const rawEnd = Math.max(
+    timelineStart.value + 1,
+    Number(viewTo.value || to.value || 0)
+  );
+  if (timelineResolution.value === 'hourly')
+    return Math.max(rawEnd, startOfHour(rawEnd) + HOUR_SECONDS);
+  if (timelineResolution.value === 'daily')
+    return Math.max(rawEnd, startOfDay(rawEnd) + DAY_SECONDS);
+  if (timelineResolution.value === 'weekly')
+    return Math.max(rawEnd, startOfWeek(rawEnd) + WEEK_SECONDS);
   return Math.max(rawEnd, addMonths(startOfMonth(rawEnd), 1));
 });
 
@@ -130,7 +164,10 @@ const timelineTicks = computed(() => {
     const stepMonths = pickStep(monthSpan / TARGET_TICKS, [1, 2, 3, 6, 12]);
     const values = [];
     let cursor = startOfMonth(start);
-    while (cursor <= end) { values.push(cursor); cursor = addMonths(cursor, stepMonths); }
+    while (cursor <= end) {
+      values.push(cursor);
+      cursor = addMonths(cursor, stepMonths);
+    }
     if (values[values.length - 1] !== end) values.push(end);
     return values.map((value, index) => ({
       value,
@@ -139,16 +176,39 @@ const timelineTicks = computed(() => {
     }));
   }
 
-  const baseStep =
-    timelineResolution.value === 'hourly'
-      ? pickStep((end - start) / TARGET_TICKS, [HOUR_SECONDS, 2 * HOUR_SECONDS, 4 * HOUR_SECONDS, 6 * HOUR_SECONDS, 12 * HOUR_SECONDS, DAY_SECONDS])
-      : timelineResolution.value === 'daily'
-        ? pickStep((end - start) / TARGET_TICKS, [DAY_SECONDS, 2 * DAY_SECONDS, 3 * DAY_SECONDS, 7 * DAY_SECONDS, 14 * DAY_SECONDS])
-        : pickStep((end - start) / TARGET_TICKS, [WEEK_SECONDS, 2 * WEEK_SECONDS, 4 * WEEK_SECONDS, 8 * WEEK_SECONDS]);
+  let baseStep;
+  if (timelineResolution.value === 'hourly') {
+    baseStep = pickStep((end - start) / TARGET_TICKS, [
+      HOUR_SECONDS,
+      2 * HOUR_SECONDS,
+      4 * HOUR_SECONDS,
+      6 * HOUR_SECONDS,
+      12 * HOUR_SECONDS,
+      DAY_SECONDS,
+    ]);
+  } else if (timelineResolution.value === 'daily') {
+    baseStep = pickStep((end - start) / TARGET_TICKS, [
+      DAY_SECONDS,
+      2 * DAY_SECONDS,
+      3 * DAY_SECONDS,
+      7 * DAY_SECONDS,
+      14 * DAY_SECONDS,
+    ]);
+  } else {
+    baseStep = pickStep((end - start) / TARGET_TICKS, [
+      WEEK_SECONDS,
+      2 * WEEK_SECONDS,
+      4 * WEEK_SECONDS,
+      8 * WEEK_SECONDS,
+    ]);
+  }
 
   const values = [];
   let cursor = start;
-  while (cursor <= end) { values.push(cursor); cursor += baseStep; }
+  while (cursor <= end) {
+    values.push(cursor);
+    cursor += baseStep;
+  }
   if (values[values.length - 1] !== end) values.push(end);
 
   const format = timelineResolution.value === 'hourly' ? 'h a' : 'MMM d';
@@ -166,7 +226,12 @@ const buildClippedSegments = rawSegments => {
     .map(segment => {
       const clippedFrom = Math.max(Number(segment.from || 0), start);
       const clippedTo = Math.min(Number(segment.to || 0), end);
-      return { ...segment, from: clippedFrom, to: clippedTo, duration: Math.max(0, clippedTo - clippedFrom) };
+      return {
+        ...segment,
+        from: clippedFrom,
+        to: clippedTo,
+        duration: Math.max(0, clippedTo - clippedFrom),
+      };
     })
     .filter(s => s.duration > 0);
 };
@@ -184,7 +249,11 @@ const buildTotals = segments => {
 const reportRows = computed(() =>
   agentActivity.value.map(row => {
     const segments = buildClippedSegments(row.segments);
-    return { ...row, displaySegments: segments, displayTotals: buildTotals(segments) };
+    return {
+      ...row,
+      displaySegments: segments,
+      displayTotals: buildTotals(segments),
+    };
   })
 );
 
@@ -262,8 +331,13 @@ onMounted(() => store.dispatch('agents/get'));
         </option>
       </select>
     </div>
-    <p class="text-xs text-n-slate-10">{{ $t('AGENT_ACTIVITY_REPORT.LIMIT_NOTE') }}</p>
-    <div v-if="loading" class="flex justify-center py-12 text-sm text-n-slate-11">
+    <p class="text-xs text-n-slate-10">
+      {{ $t('AGENT_ACTIVITY_REPORT.LIMIT_NOTE') }}
+    </p>
+    <div
+      v-if="loading"
+      class="flex justify-center py-12 text-sm text-n-slate-11"
+    >
       {{ $t('REPORT.LOADING_CHART') }}
     </div>
     <div
@@ -280,7 +354,9 @@ onMounted(() => store.dispatch('agents/get'));
       >
         <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <p class="mb-0 text-sm font-medium text-n-slate-12">{{ row.agent_name }}</p>
+            <p class="mb-0 text-sm font-medium text-n-slate-12">
+              {{ row.agent_name }}
+            </p>
             <p class="mb-0 text-xs text-n-slate-11">{{ row.email }}</p>
           </div>
           <button
@@ -288,7 +364,7 @@ onMounted(() => store.dispatch('agents/get'));
             @click="openDetail(row.user_id)"
           >
             {{ $t('AGENT_ACTIVITY_REPORT.DETAILS_BUTTON') }}
-            <span class="text-[10px] opacity-60">↗</span>
+            <span class="i-lucide-arrow-up-right size-3 opacity-60" />
           </button>
         </div>
         <AgentActivityTimeline

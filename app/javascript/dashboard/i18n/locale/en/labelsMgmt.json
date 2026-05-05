@@ -51,6 +51,9 @@
       "DELETE": "Delete",
       "CANCEL": "Cancel"
     },
+    "SECTIONS": {
+      "LABEL_INFO": "Label Info"
+    },
     "SUGGESTIONS": {
       "TOOLTIP": {
         "SINGLE_SUGGESTION": "Add label to conversation",

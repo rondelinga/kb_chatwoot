@@ -48,6 +48,9 @@
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
+    "SECTIONS": {
+      "AGENT_INFO": "Agent Info"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "API": {

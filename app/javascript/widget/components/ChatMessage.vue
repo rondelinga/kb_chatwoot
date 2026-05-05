@@ -49,10 +49,7 @@ export default {
     :reply-to="replyTo"
   />
   <template v-else-if="isActivityMessage">
-    <SystemActivityMessage
-      v-if="!isWidgetHiddenActivity"
-      :message="message"
-    />
+    <SystemActivityMessage v-if="!isWidgetHiddenActivity" :message="message" />
   </template>
   <AgentMessage
     v-else

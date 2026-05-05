@@ -59,7 +59,10 @@ const onImportFile = async event => {
     let message = t('LABEL_MGMT.IMPORT.SUCCESS', { count: imported });
     if (rowErrors.length) {
       const details = rowErrors
-        .map(e => `${t('LABEL_MGMT.IMPORT.LINE_PREFIX', { line: e.line })} ${e.error}`)
+        .map(
+          e =>
+            `${t('LABEL_MGMT.IMPORT.LINE_PREFIX', { line: e.line })} ${e.error}`
+        )
         .join('; ');
       message = `${message} ${t('LABEL_MGMT.IMPORT.PARTIAL')} ${details}`;
     }

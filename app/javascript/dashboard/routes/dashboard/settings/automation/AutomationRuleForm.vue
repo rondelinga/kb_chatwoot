@@ -63,6 +63,8 @@ const props = defineProps({
 const emit = defineEmits(['save']);
 const automation = defineModel('automation', { type: Object, default: null });
 
+const formatStepNumber = step => String(step).padStart(2, '0');
+
 const INPUT_TYPE_MAP = {
   multi_select: 'multiSelect',
   search_select: 'searchSelect',
@@ -263,12 +265,12 @@ defineExpose({ open, close });
       <div class="flex flex-col gap-6 py-6 px-8">
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest"
-              >01</span
-            >
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+              formatStepNumber(1)
+            }}</span>
             <span
               class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
-              >Rule Info</span
+              >{{ $t('AUTOMATION.SECTIONS.RULE_INFO') }}</span
             >
           </div>
 
@@ -345,9 +347,9 @@ defineExpose({ open, close });
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest"
-              >02</span
-            >
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+              formatStepNumber(2)
+            }}</span>
             <span
               class="text-xs font-semibold tracking-[0.18em] uppercase"
               :class="hasConditionErrors ? 'text-red-400' : 'text-n-slate-10'"
@@ -410,9 +412,9 @@ defineExpose({ open, close });
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest"
-              >03</span
-            >
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+              formatStepNumber(3)
+            }}</span>
             <span
               class="text-xs font-semibold tracking-[0.18em] uppercase"
               :class="hasActionErrors ? 'text-red-400' : 'text-n-slate-10'"

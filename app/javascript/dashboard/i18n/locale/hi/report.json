@@ -523,7 +523,7 @@
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER":"Summary",
+    "HEADER": "Summary",
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Chats",

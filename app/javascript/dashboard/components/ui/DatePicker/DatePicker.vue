@@ -34,9 +34,6 @@ import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
-const emit = defineEmits(['dateRangeChanged']);
-const { t } = useI18n();
-
 const props = defineProps({
   /** When `end`, panel aligns to the trigger’s trailing edge (avoids clipping on the right in comparison rows). */
   panelAlign: {
@@ -45,6 +42,8 @@ const props = defineProps({
     validator: v => ['start', 'end'].includes(v),
   },
 });
+const emit = defineEmits(['dateRangeChanged']);
+const { t } = useI18n();
 
 const popoverAnchorClass = computed(() =>
   props.panelAlign === 'end'
@@ -385,10 +384,8 @@ const closeDatePicker = () => {
     <div
       v-if="showDatePicker"
       v-on-clickaway="closeDatePicker"
-      :class="[
-        'flex absolute top-9 z-30 shadow-md select-none w-[880px] overflow-x-hidden rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container',
-        popoverAnchorClass,
-      ]"
+      class="flex absolute top-9 z-30 shadow-md select-none w-[880px] overflow-x-hidden rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
+      :class="[popoverAnchorClass]"
     >
       <CalendarDateRange
         :selected-range="selectedRange"

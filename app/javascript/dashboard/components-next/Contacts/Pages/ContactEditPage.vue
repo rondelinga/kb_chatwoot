@@ -34,11 +34,20 @@ const avatarSrc = computed(() =>
 );
 
 const goToContactsList = () => {
-  router.push({ name: 'contacts_dashboard_index', params: { accountId: route.params.accountId } });
+  router.push({
+    name: 'contacts_dashboard_index',
+    params: { accountId: route.params.accountId },
+  });
 };
 
 const goToContactView = () => {
-  router.push({ name: 'contacts_show', params: { accountId: route.params.accountId, contactId: route.params.contactId } });
+  router.push({
+    name: 'contacts_show',
+    params: {
+      accountId: route.params.accountId,
+      contactId: route.params.contactId,
+    },
+  });
 };
 
 const breadcrumbItems = computed(() => [
@@ -69,7 +78,10 @@ const updateContact = async () => {
   try {
     const { customAttributes, ...basicContactData } = contactData.value;
     await store.dispatch('contacts/update', basicContactData);
-    await store.dispatch('contacts/fetchContactableInbox', selectedContact.value.id);
+    await store.dispatch(
+      'contacts/fetchContactableInbox',
+      selectedContact.value.id
+    );
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
     goToContactView();
   } catch {
@@ -102,17 +114,21 @@ const handleAvatarDelete = async () => {
     avatarUrl.value = '';
     contactData.value.thumbnail = null;
   } catch (error) {
-    useAlert(error.message || t('CONTACTS_LAYOUT.DETAILS.AVATAR.DELETE.ERROR_MESSAGE'));
+    useAlert(
+      error.message || t('CONTACTS_LAYOUT.DETAILS.AVATAR.DELETE.ERROR_MESSAGE')
+    );
   }
 };
 </script>
 
 <template>
   <div class="flex flex-col flex-1 h-full overflow-auto bg-n-surface-1">
-    <header class="sticky top-0 z-10 px-6 py-4 border-b border-n-weak bg-n-surface-1">
+    <header
+      class="sticky top-0 z-10 px-6 py-4 border-b border-n-weak bg-n-surface-1"
+    >
       <div class="flex items-center justify-between w-full max-w-2xl mx-auto">
         <Breadcrumb :items="breadcrumbItems" @click="onBreadcrumbClick" />
-            <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2">
           <Button
             :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
             size="sm"
@@ -134,7 +150,9 @@ const handleAvatarDelete = async () => {
         </div>
 
         <template v-else-if="selectedContact">
-          <div class="flex flex-col items-start gap-4 pb-8 mb-8 border-b border-n-weak">
+          <div
+            class="flex flex-col items-start gap-4 pb-8 mb-8 border-b border-n-weak"
+          >
             <Avatar
               :src="avatarSrc || ''"
               :name="selectedContact?.name || ''"

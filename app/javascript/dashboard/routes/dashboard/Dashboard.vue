@@ -33,7 +33,7 @@ export default {
     WootKeyShortcutModal,
     AddAccountModal,
     UpgradePage,
-    //CopilotLauncher,
+    // CopilotLauncher,
     // CopilotContainer,
     FloatingCallWidget,
     MobileSidebarLauncher,

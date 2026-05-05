@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
 // import { vOnClickOutside } from '@vueuse/components';
 // import { useVuelidate } from '@vuelidate/core';
 // import { minValue } from '@vuelidate/validators';
@@ -25,8 +24,6 @@ const props = defineProps({
 });
 
 const store = useStore();
-const route = useRoute();
-const router = useRouter();
 const { t } = useI18n();
 // const { isEnterprise } = useConfig();
 
@@ -401,10 +398,10 @@ onMounted(() => {
           v-if="enableAutoAssignment && (isEnterprise || hasAssignmentV2)"
           #editor
         > -->
-          <!-- assignment_v2 UI -->
-          <!-- <template v-if="hasAssignmentV2"> -->
-            <!-- Policy Card - When policy is attached -->
-            <!-- <div
+        <!-- assignment_v2 UI -->
+        <!-- <template v-if="hasAssignmentV2"> -->
+        <!-- Policy Card - When policy is attached -->
+        <!-- <div
               v-if="showAdvancedAssignmentUI && assignmentPolicy"
               class="ltr:pr-0 rtl:pl-0 ltr:pl-4 rtl:pr-4 py-4"
             >
@@ -465,8 +462,8 @@ onMounted(() => {
               </div>
             </div> -->
 
-            <!-- Default Policy - When no custom policy attached but feature enabled -->
-            <!-- <div
+        <!-- Default Policy - When no custom policy attached but feature enabled -->
+        <!-- <div
               v-else-if="
                 showAdvancedAssignmentUI &&
                 !assignmentPolicy &&
@@ -559,8 +556,8 @@ onMounted(() => {
               </div>
             </div> -->
 
-            <!-- Default Rules Card - Feature not enabled (no advanced_assignment) -->
-            <!-- <div
+        <!-- Default Rules Card - Feature not enabled (no advanced_assignment) -->
+        <!-- <div
               v-else-if="!showAdvancedAssignmentUI"
               class="ltr:pr-0 rtl:pl-0 ltr:pl-4 rtl:pr-4 py-4"
             >
@@ -612,10 +609,10 @@ onMounted(() => {
               </div>
             </div> -->
 
-          <!-- </template> -->
+        <!-- </template> -->
 
-          <!-- Old UI for non-assignment_v2 -->
-          <!-- <template v-else-if="isEnterprise">
+        <!-- Old UI for non-assignment_v2 -->
+        <!-- <template v-else-if="isEnterprise">
             <div class="p-4">
               <woot-input
                 v-model="maxAssignmentLimit"

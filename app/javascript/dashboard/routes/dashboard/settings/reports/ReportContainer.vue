@@ -61,11 +61,8 @@ export default {
     },
   },
   setup(props) {
-    const {
-      calculateTrend,
-      isAverageMetricType,
-      comparisonTrendDetails,
-    } = useReportMetrics(props.accountSummaryKey, props.summaryFetchingKey);
+    const { calculateTrend, isAverageMetricType, comparisonTrendDetails } =
+      useReportMetrics(props.accountSummaryKey, props.summaryFetchingKey);
     return { calculateTrend, isAverageMetricType, comparisonTrendDetails };
   },
   computed: {
@@ -298,7 +295,10 @@ export default {
           :message="$t('REPORT.LOADING_CHART')"
         />
         <div v-else class="flex items-center justify-center h-72">
-          <div v-if="accountReport.data[metric.KEY].length" class="h-full w-full">
+          <div
+            v-if="accountReport.data[metric.KEY].length"
+            class="h-full w-full"
+          >
             <div
               v-if="showComparisonLegend"
               class="mb-2 rounded-md bg-n-alpha-2 px-2 py-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-n-slate-11"
@@ -308,7 +308,10 @@ export default {
                 :key="`${metric.KEY}-${item.key}`"
                 class="inline-flex items-center gap-1.5"
               >
-                <span class="h-2.5 w-2.5 rounded-sm" :style="{ backgroundColor: item.color }" />
+                <span
+                  class="h-2.5 w-2.5 rounded-sm"
+                  :style="{ backgroundColor: item.color }"
+                />
                 <span>{{ item.label }}</span>
               </span>
             </div>

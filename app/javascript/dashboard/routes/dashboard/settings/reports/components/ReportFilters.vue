@@ -98,6 +98,11 @@ const groupByfilterItemsList = ref([{ id: 1, name: 'Day' }]);
 
 const comparisonRanges = ref([]);
 
+let emitChangeImpl = () => {};
+function emitChange(options = {}) {
+  emitChangeImpl(options);
+}
+
 const comparisonPeriodsPayload = () => {
   if (!props.showComparison) return [];
 
@@ -265,7 +270,7 @@ const labelIdsForPayload = () => {
   return [];
 };
 
-const emitChange = (options = {}) => {
+emitChangeImpl = (options = {}) => {
   const { labelIdsOverride } = options;
   const payload = {
     from: from.value,
@@ -449,10 +454,7 @@ onMounted(() => {
       v-if="showBusinessHours || isGroupByPossible"
       class="flex flex-wrap items-center gap-x-4 gap-y-2"
     >
-      <div
-        v-if="showBusinessHours"
-        class="flex shrink-0 items-center gap-1.5"
-      >
+      <div v-if="showBusinessHours" class="flex shrink-0 items-center gap-1.5">
         <span class="text-sm whitespace-nowrap text-n-slate-11">
           {{ $t('REPORT.BUSINESS_HOURS') }}
         </span>
@@ -521,7 +523,9 @@ onMounted(() => {
           </template>
         </div>
         <V4Button
-          v-if="showComparison && comparisonRanges.length < MAX_COMPARISON_PERIODS"
+          v-if="
+            showComparison && comparisonRanges.length < MAX_COMPARISON_PERIODS
+          "
           :label="$t('REPORT.COMPARISON.ADD')"
           size="xs"
           variant="faded"
@@ -535,8 +539,7 @@ onMounted(() => {
       <div class="flex min-w-0 flex-wrap items-center gap-2 lg:max-w-[50%]">
         <ActiveFilterChip
           v-if="
-            showEntityFilter &&
-            !(multiLabelFilter && filterType === 'labels')
+            showEntityFilter && !(multiLabelFilter && filterType === 'labels')
           "
           :id="appliedFilters[getFilterKey()]"
           :name="selectedFilterName"

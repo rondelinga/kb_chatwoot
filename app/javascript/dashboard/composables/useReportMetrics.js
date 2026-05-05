@@ -14,16 +14,15 @@ export function useReportMetrics(
   const accountSummary = useMapGetter(accountSummaryKey);
   const fetchingStatus = useMapGetter(summarFetchingKey);
 
-  const calculateTrend = key => {
-    if (!hasPreviousValue(key)) return 0;
-    const diff =
-      accountSummary.value[key] - accountSummary.value.previous[key];
-    return Math.round((diff / accountSummary.value.previous[key]) * 100);
-  };
-
   const hasPreviousValue = key => {
     const baseline = accountSummary.value.previous?.[key];
     return baseline !== undefined && baseline !== null && baseline !== 0;
+  };
+
+  const calculateTrend = key => {
+    if (!hasPreviousValue(key)) return 0;
+    const diff = accountSummary.value[key] - accountSummary.value.previous[key];
+    return Math.round((diff / accountSummary.value.previous[key]) * 100);
   };
 
   const percentVersusBase = (key, baselineValue) => {

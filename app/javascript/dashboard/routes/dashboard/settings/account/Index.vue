@@ -61,10 +61,14 @@ export default {
       return !!this.features?.inbound_emails;
     },
     featureCustomReplyDomainEnabled() {
-      return this.featureInboundEmailEnabled && !!this.features.custom_reply_domain;
+      return (
+        this.featureInboundEmailEnabled && !!this.features.custom_reply_domain
+      );
     },
     featureCustomReplyEmailEnabled() {
-      return this.featureInboundEmailEnabled && !!this.features.custom_reply_email;
+      return (
+        this.featureInboundEmailEnabled && !!this.features.custom_reply_email
+      );
     },
     currentAccount() {
       return this.getAccount(this.accountId) || {};
@@ -84,8 +88,16 @@ export default {
     async initializeAccount() {
       try {
         const {
-          name, locale, id, domain, support_email, features,
-          queue_enabled, queue_message, active_chat_limit_enabled, active_chat_limit_value,
+          name,
+          locale,
+          id,
+          domain,
+          support_email,
+          features,
+          queue_enabled,
+          queue_message,
+          active_chat_limit_enabled,
+          active_chat_limit_value,
         } = this.getAccount(this.accountId);
         const effectiveLocale = this.uiSettings?.locale || locale;
         if (effectiveLocale) this.$root.$i18n.locale = effectiveLocale;
@@ -145,7 +157,9 @@ export default {
 <template>
   <div class="flex flex-col w-full max-w-2xl ltr:mr-auto rtl:ml-auto">
     <div class="pb-6 border-b border-white/10 mb-2">
-      <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">
+      <p
+        class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
+      >
         {{ $t('GENERAL_SETTINGS.FORM.WORKSPACE_LABEL') }}
       </p>
       <h2 class="text-3xl font-black tracking-wide text-white uppercase">
@@ -159,17 +173,22 @@ export default {
       <SectionLayout
         :title="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE')"
         :description="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE')"
-        section-number="01">
+        section-number="01"
+      >
         <form
           v-if="!uiFlags.isFetchingItem"
           id="general-settings-form"
           class="flex flex-col gap-4"
-          @submit.prevent="updateAccount">
+          @submit.prevent="updateAccount"
+        >
           <div class="grid grid-cols-2 gap-3">
             <div
               class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
-              :class="{ 'border-red-500/50': v$.name.$error }">
-              <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">
+              :class="{ 'border-red-500/50': v$.name.$error }"
+            >
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase"
+              >
                 {{ $t('GENERAL_SETTINGS.FORM.NAME.LABEL') }}
               </span>
               <input
@@ -177,23 +196,29 @@ export default {
                 type="text"
                 :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
                 class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
-                @blur="v$.name.$touch" />
+                @blur="v$.name.$touch"
+              />
             </div>
 
             <div
               class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
-              :class="{ 'border-red-500/50': v$.locale.$error }">
-              <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+              :class="{ 'border-red-500/50': v$.locale.$error }"
+            >
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+              >
                 {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
               </span>
               <select
                 v-model="locale"
-                class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 p-0 appearance-none cursor-pointer">
+                class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 p-0 appearance-none cursor-pointer"
+              >
                 <option
                   v-for="lang in languagesSortedByCode"
                   :key="lang.iso_639_1_code"
                   :value="lang.iso_639_1_code"
-                  class="bg-n-solid-3">
+                  class="bg-n-solid-3"
+                >
                   {{ lang.name }}
                 </option>
               </select>
@@ -201,16 +226,23 @@ export default {
 
             <div
               v-if="featureCustomReplyDomainEnabled"
-              class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 col-span-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
-              <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+              class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 col-span-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+            >
+              <span
+                class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+              >
                 {{ $t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL') }}
               </span>
               <input
                 v-model="domain"
                 type="text"
                 :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
-                class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0" />
-              <span v-if="featureInboundEmailEnabled" class="text-[10px] text-n-slate-9 mt-0.5">
+                class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
+              />
+              <span
+                v-if="featureInboundEmailEnabled"
+                class="text-[10px] text-n-slate-9 mt-0.5"
+              >
                 {{ $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED') }}
               </span>
             </div>
@@ -236,19 +268,26 @@ export default {
         :title="$t('GENERAL_SETTINGS.FORM.LIMIT_ENABLED')"
         :description="$t('GENERAL_SETTINGS.FORM.AGENT_LIMIT.DESCRIPTION')"
         with-border
-        section-number="02">
+        section-number="02"
+      >
         <div class="flex flex-col gap-3">
           <div class="grid grid-cols-2 gap-3">
             <button
               type="button"
               class="flex flex-col gap-1 rounded-xl border px-4 py-3 text-left transition-all duration-200 cursor-pointer"
-              :class="!activeChatLimitEnabled
-                ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
-                : 'border-white/10 bg-white/5 hover:border-white/20'"
-              @click="activeChatLimitEnabled = false">
+              :class="
+                !activeChatLimitEnabled
+                  ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+                  : 'border-white/10 bg-white/5 hover:border-white/20'
+              "
+              @click="activeChatLimitEnabled = false"
+            >
               <span
                 class="text-[10px] font-semibold tracking-[0.15em] uppercase"
-                :class="!activeChatLimitEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'">
+                :class="
+                  !activeChatLimitEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'
+                "
+              >
                 {{ $t('GENERAL_SETTINGS.FORM.AGENT_LIMIT.UNLIMITED_LABEL') }}
               </span>
               <span class="text-xs text-n-slate-9">
@@ -258,13 +297,19 @@ export default {
             <button
               type="button"
               class="flex flex-col gap-1 rounded-xl border px-4 py-3 text-left transition-all duration-200 cursor-pointer"
-              :class="activeChatLimitEnabled
-                ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
-                : 'border-white/10 bg-white/5 hover:border-white/20'"
-              @click="activeChatLimitEnabled = true">
+              :class="
+                activeChatLimitEnabled
+                  ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+                  : 'border-white/10 bg-white/5 hover:border-white/20'
+              "
+              @click="activeChatLimitEnabled = true"
+            >
               <span
                 class="text-[10px] font-semibold tracking-[0.15em] uppercase"
-                :class="activeChatLimitEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'">
+                :class="
+                  activeChatLimitEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'
+                "
+              >
                 {{ $t('GENERAL_SETTINGS.FORM.AGENT_LIMIT.CUSTOM_LABEL') }}
               </span>
               <span class="text-xs text-n-slate-9">
@@ -275,8 +320,11 @@ export default {
 
           <div
             v-if="activeChatLimitEnabled"
-            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+          >
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+            >
               {{ $t('GENERAL_SETTINGS.FORM.LIMIT_VALUE') }}
             </span>
             <input
@@ -285,7 +333,8 @@ export default {
               :min="0"
               :placeholder="$t('GENERAL_SETTINGS.FORM.LIMIT_VALUE')"
               class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
-              @keydown="handleLimitKeydown" />
+              @keydown="handleLimitKeydown"
+            />
           </div>
         </div>
       </SectionLayout>
@@ -294,19 +343,24 @@ export default {
         :title="$t('GENERAL_SETTINGS.FORM.QUEUE_ENABLED')"
         :description="$t('GENERAL_SETTINGS.FORM.QUEUE_MODE.DESCRIPTION')"
         with-border
-        section-number="03">
+        section-number="03"
+      >
         <div class="flex flex-col gap-3">
           <div class="grid grid-cols-2 gap-3">
             <button
               type="button"
               class="flex flex-col gap-1 rounded-xl border px-4 py-3 text-left transition-all duration-200 cursor-pointer"
-              :class="!queueEnabled
-                ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
-                : 'border-white/10 bg-white/5 hover:border-white/20'"
-              @click="queueEnabled = false">
+              :class="
+                !queueEnabled
+                  ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+                  : 'border-white/10 bg-white/5 hover:border-white/20'
+              "
+              @click="queueEnabled = false"
+            >
               <span
                 class="text-[10px] font-semibold tracking-[0.15em] uppercase"
-                :class="!queueEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'">
+                :class="!queueEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'"
+              >
                 {{ $t('GENERAL_SETTINGS.FORM.QUEUE_MODE.DISABLED_LABEL') }}
               </span>
               <span class="text-xs text-n-slate-9">
@@ -316,13 +370,17 @@ export default {
             <button
               type="button"
               class="flex flex-col gap-1 rounded-xl border px-4 py-3 text-left transition-all duration-200 cursor-pointer"
-              :class="queueEnabled
-                ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
-                : 'border-white/10 bg-white/5 hover:border-white/20'"
-              @click="queueEnabled = true">
+              :class="
+                queueEnabled
+                  ? 'border-[rgba(74,222,128,0.5)] bg-[rgba(74,222,128,0.05)] shadow-[0_0_16px_rgba(74,222,128,0.15)]'
+                  : 'border-white/10 bg-white/5 hover:border-white/20'
+              "
+              @click="queueEnabled = true"
+            >
               <span
                 class="text-[10px] font-semibold tracking-[0.15em] uppercase"
-                :class="queueEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'">
+                :class="queueEnabled ? 'text-[#4ade80]' : 'text-n-slate-10'"
+              >
                 {{ $t('GENERAL_SETTINGS.FORM.QUEUE_MODE.ENABLED_LABEL') }}
               </span>
               <span class="text-xs text-n-slate-9">
@@ -333,15 +391,21 @@ export default {
 
           <div
             v-if="queueEnabled"
-            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-3 transition-all duration-200 focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-3 transition-all duration-200 focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+          >
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+            >
               {{ $t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.LABEL') }}
             </span>
             <textarea
               v-model="queueMessage"
-              :placeholder="$t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.PLACEHOLDER')"
+              :placeholder="
+                $t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.PLACEHOLDER')
+              "
               rows="3"
-              class="bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0 resize-none mt-1" />
+              class="bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0 resize-none mt-1"
+            />
           </div>
         </div>
       </SectionLayout>
@@ -356,7 +420,8 @@ export default {
           :is-loading="isUpdating"
           type="submit"
           form="general-settings-form"
-          @click="updateAccount">
+          @click="updateAccount"
+        >
           {{ $t('GENERAL_SETTINGS.SUBMIT') }}
         </NextButton>
       </div>

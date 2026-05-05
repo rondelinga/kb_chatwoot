@@ -34,7 +34,11 @@ export default {
       return this.notificationTypes.filter(n =>
         this.isSLAEnabled
           ? true
-          : !['sla_missed_first_response', 'sla_missed_next_response', 'sla_missed_resolution'].includes(n.value)
+          : ![
+              'sla_missed_first_response',
+              'sla_missed_next_response',
+              'sla_missed_resolution',
+            ].includes(n.value)
       );
     },
   },
@@ -56,7 +60,8 @@ export default {
       return this.$t(label);
     },
     checkFlagStatus(type, flagType) {
-      const flags = type === 'email' ? this.selectedEmailFlags : this.selectedPushFlags;
+      const flags =
+        type === 'email' ? this.selectedEmailFlags : this.selectedPushFlags;
       return flags.includes(`${type}_${flagType}`);
     },
     onRequestPermissions(value) {
@@ -141,17 +146,23 @@ export default {
       <!-- Header -->
       <div class="grid grid-cols-12 gap-4 px-4 py-2">
         <div class="col-span-7">
-          <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+          <span
+            class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+          >
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
         </div>
         <div class="col-span-2 flex justify-center">
-          <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+          <span
+            class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+          >
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
           </span>
         </div>
         <div class="col-span-3 flex justify-center">
-          <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+          <span
+            class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+          >
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
           </span>
         </div>
@@ -165,7 +176,9 @@ export default {
       >
         <div class="col-span-7 flex items-center">
           <!-- FIX: no-dynamic-keys — используем метод translateLabel -->
-          <span class="text-sm text-n-slate-9">{{ translateLabel(notification.label) }}</span>
+          <span class="text-sm text-n-slate-9">{{
+            translateLabel(notification.label)
+          }}</span>
         </div>
         <div
           v-for="type in ['email', 'push']"
@@ -176,9 +189,11 @@ export default {
           <button
             type="button"
             class="w-5 h-5 rounded-md border transition-all duration-200 flex items-center justify-center shrink-0"
-            :class="checkFlagStatus(type, notification.value)
-              ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)] shadow-[0_0_8px_rgba(74,222,128,0.2)]'
-              : 'border-white/20 bg-white/5 hover:border-[rgba(74,222,128,0.4)]'"
+            :class="
+              checkFlagStatus(type, notification.value)
+                ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)] shadow-[0_0_8px_rgba(74,222,128,0.2)]'
+                : 'border-white/20 bg-white/5 hover:border-[rgba(74,222,128,0.4)]'
+            "
             @click="handleInput(type, `${type}_${notification.value}`)"
           >
             <fluent-icon
@@ -194,7 +209,9 @@ export default {
 
     <!-- Mobile -->
     <div class="flex flex-col gap-4 sm:hidden">
-      <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">
+      <span
+        class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+      >
         {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
       </span>
       <div class="flex flex-col gap-2">
@@ -207,9 +224,11 @@ export default {
           <button
             type="button"
             class="w-5 h-5 rounded-md border transition-all duration-200 flex items-center justify-center shrink-0"
-            :class="checkFlagStatus('email', notification.value)
-              ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)]'
-              : 'border-white/20 bg-white/5'"
+            :class="
+              checkFlagStatus('email', notification.value)
+                ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)]'
+                : 'border-white/20 bg-white/5'
+            "
           >
             <fluent-icon
               v-if="checkFlagStatus('email', notification.value)"
@@ -219,11 +238,15 @@ export default {
             />
           </button>
           <!-- FIX: no-dynamic-keys — используем метод translateLabel -->
-          <span class="text-sm text-n-slate-9">{{ translateLabel(notification.label) }}</span>
+          <span class="text-sm text-n-slate-9">{{
+            translateLabel(notification.label)
+          }}</span>
         </div>
       </div>
 
-      <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase mt-2">
+      <span
+        class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase mt-2"
+      >
         {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
       </span>
       <div class="flex flex-col gap-2">
@@ -236,9 +259,11 @@ export default {
           <button
             type="button"
             class="w-5 h-5 rounded-md border transition-all duration-200 flex items-center justify-center shrink-0"
-            :class="checkFlagStatus('push', notification.value)
-              ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)]'
-              : 'border-white/20 bg-white/5'"
+            :class="
+              checkFlagStatus('push', notification.value)
+                ? 'bg-[rgba(74,222,128,0.15)] border-[rgba(74,222,128,0.6)]'
+                : 'border-white/20 bg-white/5'
+            "
           >
             <fluent-icon
               v-if="checkFlagStatus('push', notification.value)"
@@ -248,20 +273,27 @@ export default {
             />
           </button>
           <!-- FIX: no-dynamic-keys — используем метод translateLabel -->
-          <span class="text-sm text-n-slate-9">{{ translateLabel(notification.label) }}</span>
+          <span class="text-sm text-n-slate-9">{{
+            translateLabel(notification.label)
+          }}</span>
         </div>
       </div>
     </div>
 
     <!-- Browser permission toggle -->
-    <div class="flex items-center justify-between w-full gap-2 px-4 py-3 rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:border-[rgba(74,222,128,0.2)] mt-1">
+    <div
+      class="flex items-center justify-between w-full gap-2 px-4 py-3 rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:border-[rgba(74,222,128,0.2)] mt-1"
+    >
       <div class="flex flex-row items-center gap-2">
         <fluent-icon icon="alert" class="shrink-0 text-n-slate-10" size="16" />
         <span class="text-sm text-n-slate-9">
           {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
         </span>
       </div>
-      <ToggleSwitch v-model="hasEnabledPushPermissions" @change="onRequestPermissions" />
+      <ToggleSwitch
+        v-model="hasEnabledPushPermissions"
+        @change="onRequestPermissions"
+      />
     </div>
   </div>
 </template>

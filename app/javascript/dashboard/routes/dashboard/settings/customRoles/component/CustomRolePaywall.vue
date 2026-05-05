@@ -75,10 +75,7 @@ const tableHeaders = computed(() => {
 <template>
   <div class="w-full min-h-[12rem] relative">
     <div class="w-full space-y-3 text-sm">
-      <div
-        class="grid grid-cols-4 gap-4 opacity-30 dark:opacity-30"
-        role="row"
-      >
+      <div class="grid grid-cols-4 gap-4 opacity-30 dark:opacity-30" role="row">
         <div
           v-for="thHeader in tableHeaders"
           :key="thHeader"

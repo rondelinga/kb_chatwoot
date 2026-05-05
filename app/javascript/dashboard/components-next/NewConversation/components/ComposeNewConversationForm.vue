@@ -54,6 +54,8 @@ const emit = defineEmits([
   'createConversation',
 ]);
 
+const formatStepNumber = step => String(step).padStart(2, '0');
+
 const DEFAULT_FORMATTING = 'Context::Default';
 
 const copilot = useCopilotReply();
@@ -344,11 +346,16 @@ const isCopilotActive = computed(() => copilot.isActive?.value ?? false);
 
 const isContactStepDone = computed(() => !!props.selectedContact);
 const isInboxStepDone = computed(() => !!props.targetInbox);
-const isMessageStepDone = computed(() => (state.message || '').trim().length > 0);
+const isMessageStepDone = computed(
+  () => (state.message || '').trim().length > 0
+);
 
 const completedSteps = computed(() => {
-  return [isContactStepDone.value, isInboxStepDone.value, isMessageStepDone.value]
-    .filter(Boolean).length;
+  return [
+    isContactStepDone.value,
+    isInboxStepDone.value,
+    isMessageStepDone.value,
+  ].filter(Boolean).length;
 });
 
 const onSubmitCopilotReply = () => {
@@ -375,10 +382,12 @@ useKeyboardEvents({
     <!-- Заголовок: pt-6 pb-5 → pt-4 pb-3, текст 2.8rem → 1.85rem -->
     <div class="px-6 pt-4 pb-3 border-b border-n-strong">
       <p class="text-xs tracking-[0.14em] uppercase text-n-brand mb-1">
-        New message
+        {{ $t('CONTACT_PANEL.NEW_MESSAGE') }}
       </p>
-      <h2 class="text-[1.85rem] leading-none font-semibold text-n-slate-12 mb-0">
-        COMPOSE
+      <h2
+        class="text-[1.85rem] leading-none font-semibold text-n-slate-12 mb-0"
+      >
+        {{ $t('NEW_CONVERSATION.TITLE') }}
       </h2>
     </div>
 
@@ -387,8 +396,12 @@ useKeyboardEvents({
       <div class="grid grid-cols-2 px-6 py-3 gap-4 border-b border-n-strong">
         <div class="compose-step-field border-r border-n-strong pr-4">
           <!-- Номер шага: 1.7rem → 1.1rem -->
-          <p class="text-n-brand text-[1.1rem] font-semibold mb-0.5">01</p>
-          <p class="text-n-slate-11 mb-1.5 text-sm">To</p>
+          <p class="text-n-brand text-[1.1rem] font-semibold mb-0.5">
+            {{ formatStepNumber(1) }}
+          </p>
+          <p class="text-n-slate-11 mb-1.5 text-sm">
+            {{ $t('COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.LABEL') }}
+          </p>
           <ContactSelector
             :contacts="contacts"
             :selected-contact="selectedContact"
@@ -407,8 +420,12 @@ useKeyboardEvents({
         </div>
 
         <div class="compose-step-field">
-          <p class="text-n-brand text-[1.1rem] font-semibold mb-0.5">02</p>
-          <p class="text-n-slate-11 mb-1.5 text-sm">Via</p>
+          <p class="text-n-brand text-[1.1rem] font-semibold mb-0.5">
+            {{ formatStepNumber(2) }}
+          </p>
+          <p class="text-n-slate-11 mb-1.5 text-sm">
+            {{ $t('COMPOSE_NEW_CONVERSATION.FORM.INBOX_SELECTOR.LABEL') }}
+          </p>
           <InboxEmptyState v-if="showNoInboxAlert" />
           <InboxSelector
             v-else
@@ -428,8 +445,11 @@ useKeyboardEvents({
       <!-- Секция Message: py-5 → py-3, mb-3 → mb-2 -->
       <div class="px-6 py-3">
         <div class="mb-2">
-          <p class="text-n-slate-10 tracking-[0.14em] uppercase font-medium mb-0 text-xs">
-            03 Message
+          <p
+            class="text-n-slate-10 tracking-[0.14em] uppercase font-medium mb-0 text-xs"
+          >
+            {{ formatStepNumber(3) }}
+            {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
           </p>
         </div>
 
@@ -520,12 +540,15 @@ useKeyboardEvents({
 
 <style scoped>
 .compose-step-field :deep(.relative.flex-1.px-4.py-3.overflow-y-visible),
-.compose-step-field :deep(.flex.items-center.flex-1.w-full.gap-3.px-4.py-3.overflow-y-visible) {
+.compose-step-field
+  :deep(.flex.items-center.flex-1.w-full.gap-3.px-4.py-3.overflow-y-visible) {
   padding: 0;
 }
 
-.compose-step-field :deep(label.text-sm.font-medium.text-n-slate-11.whitespace-nowrap),
-.compose-step-field :deep(label.mb-0\.5.text-sm.font-medium.text-n-slate-11.whitespace-nowrap) {
+.compose-step-field
+  :deep(label.text-sm.font-medium.text-n-slate-11.whitespace-nowrap),
+.compose-step-field
+  :deep(label.mb-0\.5.text-sm.font-medium.text-n-slate-11.whitespace-nowrap) {
   display: none;
 }
 

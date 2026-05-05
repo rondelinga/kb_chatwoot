@@ -34,7 +34,6 @@ const actionMenuItems = computed(() => {
       label: t('CONTACT_PANEL.MUTE_CONTACT'),
       action: 'mute',
       value: 'mute',
-      action: 'delete',
     });
   } else {
     items.push({

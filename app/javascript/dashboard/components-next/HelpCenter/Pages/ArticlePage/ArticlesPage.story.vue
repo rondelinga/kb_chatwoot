@@ -3,7 +3,8 @@ import ArticlesPage from './ArticlesPage.vue';
 
 const articles = [
   {
-    title: "How to get an SSL certificate for your Support Center's custom domain",
+    title:
+      "How to get an SSL certificate for your Support Center's custom domain",
     status: 'draft',
     updatedAt: '2 days ago',
     author: 'Michael',

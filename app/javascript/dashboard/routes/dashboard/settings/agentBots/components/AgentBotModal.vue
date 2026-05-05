@@ -10,8 +10,6 @@ import { useToggle } from '@vueuse/core';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
-import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 
@@ -36,6 +34,8 @@ const store = useStore();
 const { t } = useI18n();
 const dialogRef = ref(null);
 const uiFlags = useMapGetter('agentBots/getUIFlags');
+
+const formatStepNumber = step => String(step).padStart(2, '0');
 
 const formState = reactive({
   botName: '',
@@ -97,14 +97,6 @@ const confirmButtonLabel = computed(() =>
   props.type === MODAL_TYPES.CREATE
     ? t('AGENT_BOTS.FORM.CREATE')
     : t('AGENT_BOTS.FORM.UPDATE')
-);
-
-const botNameError = computed(() =>
-  v$.value.botName.$error ? v$.value.botName.$errors[0]?.$message : ''
-);
-
-const botUrlError = computed(() =>
-  v$.value.botUrl.$error ? v$.value.botUrl.$errors[0]?.$message : ''
 );
 
 const showAccessTokenInput = computed(
@@ -273,7 +265,7 @@ defineExpose({ dialogRef });
         <p
           class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
         >
-          Bots
+          {{ $t('AGENT_BOTS.HEADER') }}
         </p>
         <h2 class="text-3xl font-black tracking-wide text-white uppercase">
           {{ dialogTitle }}
@@ -290,12 +282,12 @@ defineExpose({ dialogRef });
         <template v-if="!showAccessToken || type === 'edit'">
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-[#4ade80] tracking-widest"
-                >01</span
-              >
+              <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+                formatStepNumber(1)
+              }}</span>
               <span
                 class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
-                >Identity</span
+                >{{ $t('AGENT_BOTS.SECTIONS.IDENTITY') }}</span
               >
             </div>
             <div class="flex items-center gap-4">
@@ -331,12 +323,12 @@ defineExpose({ dialogRef });
 
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-[#4ade80] tracking-widest"
-                >02</span
-              >
+              <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+                formatStepNumber(2)
+              }}</span>
               <span
                 class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
-                >Configuration</span
+                >{{ $t('AGENT_BOTS.SECTIONS.CONFIGURATION') }}</span
               >
             </div>
             <div class="flex flex-col gap-3">
@@ -378,9 +370,9 @@ defineExpose({ dialogRef });
         <div v-if="showAccessTokenInput" class="flex flex-col gap-3">
           <div class="border-t border-white/10" />
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest"
-              >03</span
-            >
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+              formatStepNumber(3)
+            }}</span>
             <span
               class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
               >{{ $t('AGENT_BOTS.ACCESS_TOKEN.TITLE') }}</span

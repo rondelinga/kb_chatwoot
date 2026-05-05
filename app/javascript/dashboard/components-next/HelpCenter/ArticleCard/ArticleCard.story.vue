@@ -4,7 +4,8 @@ import ArticleCard from './ArticleCard.vue';
 const articles = [
   {
     id: 1,
-    title: "How to get an SSL certificate for your Support Center's custom domain",
+    title:
+      "How to get an SSL certificate for your Support Center's custom domain",
     status: 'draft',
     updatedAt: 1729048936,
     author: {

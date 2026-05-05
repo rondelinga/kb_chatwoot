@@ -185,7 +185,8 @@ export default {
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
-      return false;
+      if (this.isEditorDisabled) return false;
+      return this.showAudioRecorder;
     },
     showAudioPlayStopButton() {
       return false;

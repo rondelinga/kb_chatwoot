@@ -65,6 +65,9 @@ export default {
     },
   },
   methods: {
+    formatStepNumber(step) {
+      return String(step).padStart(2, '0');
+    },
     setPageName({ name }) {
       this.v$.content.$touch();
       this.content = name;
@@ -108,7 +111,9 @@ export default {
   <Modal v-model:show="show" :on-close="onClose">
     <div class="flex flex-col gap-0">
       <div class="px-8 pt-8 pb-6 border-b border-white/10">
-        <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">
+        <p
+          class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
+        >
           {{ $t('CANNED_MGMT.EDIT.TITLE') }}
         </p>
         <h2 class="text-3xl font-black tracking-wide text-white uppercase">
@@ -116,11 +121,18 @@ export default {
         </h2>
       </div>
 
-      <form class="flex flex-col gap-6 px-8 py-6" @submit.prevent="editCannedResponse()">
+      <form
+        class="flex flex-col gap-6 px-8 py-6"
+        @submit.prevent="editCannedResponse()"
+      >
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest">01</span>
-            <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+              formatStepNumber(1)
+            }}</span>
+            <span
+              class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+            >
               {{ $t('CANNED_MGMT.EDIT.FORM.SHORT_CODE.LABEL') }}
             </span>
           </div>
@@ -128,7 +140,9 @@ export default {
             class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
             :class="{ 'border-red-500/50': v$.shortCode.$error }"
           >
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase"
+            >
               {{ $t('CANNED_MGMT.EDIT.FORM.SHORT_CODE.LABEL') }}
             </span>
             <input
@@ -145,8 +159,12 @@ export default {
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest">02</span>
-            <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+              formatStepNumber(2)
+            }}</span>
+            <span
+              class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+            >
               {{ $t('CANNED_MGMT.EDIT.FORM.CONTENT.LABEL') }}
             </span>
           </div>
@@ -154,7 +172,9 @@ export default {
             class="rounded-xl border border-white/10 bg-white/5 px-4 py-3 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
             :class="{ 'border-red-500/50': v$.content.$error }"
           >
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase block mb-2">
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase block mb-2"
+            >
               {{ $t('CANNED_MGMT.EDIT.FORM.CONTENT.LABEL') }}
             </span>
             <WootMessageEditor
@@ -174,8 +194,12 @@ export default {
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[#4ade80] tracking-widest">03</span>
-            <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">
+            <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+              formatStepNumber(3)
+            }}</span>
+            <span
+              class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+            >
               {{ $t('CANNED_MGMT.EDIT.FORM.LABELS.LABEL') }}
             </span>
           </div>
@@ -188,7 +212,9 @@ export default {
             class="max-w-xl rounded-xl border border-white/10 bg-white/5 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
             :options="labelMultiSelectOptions"
             :placeholder="$t('CANNED_MGMT.EDIT.FORM.LABELS.PLACEHOLDER')"
-            :search-placeholder="$t('CANNED_MGMT.EDIT.FORM.LABELS.SEARCH_PLACEHOLDER')"
+            :search-placeholder="
+              $t('CANNED_MGMT.EDIT.FORM.LABELS.SEARCH_PLACEHOLDER')
+            "
           />
           <p v-else class="text-sm text-n-slate-11">
             {{ $t('CANNED_MGMT.ADD.FORM.LABELS.EMPTY') }}
@@ -211,7 +237,11 @@ export default {
             type="submit"
             color="teal"
             :label="$t('CANNED_MGMT.EDIT.FORM.SUBMIT')"
-            :disabled="v$.content.$invalid || v$.shortCode.$invalid || editCanned.showLoading"
+            :disabled="
+              v$.content.$invalid ||
+              v$.shortCode.$invalid ||
+              editCanned.showLoading
+            "
             :is-loading="editCanned.showLoading"
           />
         </div>

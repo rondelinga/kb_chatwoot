@@ -30,20 +30,6 @@ export const generateReportURLParams = ({
   return params;
 };
 
-export const parseReportURLParams = query => {
-  const { from, to, business_hours, group_by, range, comparison_periods } =
-    query;
-
-  return {
-    from: from ? Number(from) : null,
-    to: to ? Number(to) : null,
-    businessHours: business_hours === 'true',
-    groupBy: group_by ? Number(group_by) : null,
-    range: range || null,
-    comparisonPeriods: parseComparisonPeriodsQueryValue(comparison_periods),
-  };
-};
-
 export const parseComparisonPeriodsQueryValue = raw => {
   if (!raw || typeof raw !== 'string') return [];
 
@@ -61,6 +47,20 @@ export const parseComparisonPeriodsQueryValue = raw => {
   } catch {
     return [];
   }
+};
+
+export const parseReportURLParams = query => {
+  const { from, to, business_hours, group_by, range, comparison_periods } =
+    query;
+
+  return {
+    from: from ? Number(from) : null,
+    to: to ? Number(to) : null,
+    businessHours: business_hours === 'true',
+    groupBy: group_by ? Number(group_by) : null,
+    range: range || null,
+    comparisonPeriods: parseComparisonPeriodsQueryValue(comparison_periods),
+  };
 };
 
 // Parse filter params from URL (agent_id, inbox_id, team_id, sla_policy_id, label, rating)

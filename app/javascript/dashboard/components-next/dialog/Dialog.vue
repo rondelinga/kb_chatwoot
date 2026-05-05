@@ -134,7 +134,10 @@ defineExpose({ open, close });
           @click.stop
         >
           <!-- title/description slot — если нет кастомного контента -->
-          <div v-if="title || description" class="flex flex-col gap-2 px-6 pt-6">
+          <div
+            v-if="title || description"
+            class="flex flex-col gap-2 px-6 pt-6"
+          >
             <h3 class="text-base font-medium leading-6 text-n-slate-12">
               {{ title }}
             </h3>

@@ -12,8 +12,6 @@ import {
 } from 'chart.js';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
-ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
-
 const props = defineProps({
   ratingPercentage: {
     type: Object,
@@ -23,15 +21,13 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  totalResponseCount: {
-    type: Number,
-    default: 0,
-  },
   isLoading: {
     type: Boolean,
     default: false,
   },
 });
+
+ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
 
 const { t } = useI18n();
 

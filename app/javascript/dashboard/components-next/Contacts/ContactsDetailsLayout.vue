@@ -15,12 +15,11 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 
 const props = defineProps({
   selectedContact: { type: Object, default: () => ({}) },
-  isUpdating: { type: Boolean, default: false },
-  isDetailView: { type: Boolean, default: false },
-  showPaginationFooter: { type: Boolean, default: true },
+  // isDetailView: { type: Boolean, default: false },
+  // showPaginationFooter: { type: Boolean, default: true },
 });
 
-const emit = defineEmits(['goToContactsList', 'blockContact', 'unblockContact']);
+const emit = defineEmits(['blockContact', 'unblockContact']);
 
 const { t } = useI18n();
 const slots = useSlots();
@@ -31,7 +30,7 @@ const showBlockMenu = ref(false);
 const contactId = computed(() => route.params.contactId);
 
 const uiFlags = useMapGetter('contacts/getUIFlags');
-const isUpdating = computed(() => uiFlags.value.isUpdating);
+const isUpdatingFromStore = computed(() => uiFlags.value.isUpdating);
 
 const createdAt = computed(() =>
   props.selectedContact?.createdAt
@@ -47,12 +46,16 @@ const lastActivityAt = computed(() =>
 
 const breadcrumbItems = computed(() => {
   const items = [{ label: t('CONTACTS_LAYOUT.HEADER.BREADCRUMB.CONTACTS') }];
-  if (props.selectedContact?.name) items.push({ label: props.selectedContact.name });
+  if (props.selectedContact?.name)
+    items.push({ label: props.selectedContact.name });
   return items;
 });
 
 const goToContactsList = () => {
-  router.push({ name: 'contacts_dashboard_index', params: { accountId: route.params.accountId } });
+  router.push({
+    name: 'contacts_dashboard_index',
+    params: { accountId: route.params.accountId },
+  });
 };
 
 const onBreadcrumbClick = (item, index) => {
@@ -62,15 +65,33 @@ const onBreadcrumbClick = (item, index) => {
 const isContactBlocked = computed(() => {
   const c = props.selectedContact;
   if (!c) return false;
-  return c.messaging_block_active ?? c.messagingBlockActive ?? c.blocked ?? false;
+  return (
+    c.messaging_block_active ?? c.messagingBlockActive ?? c.blocked ?? false
+  );
 });
 
 const blockDurationMenuItems = computed(() => [
-  { action: 'block', value: 1,  label: t('CONTACTS_LAYOUT.HEADER.BLOCK_1_DAY') },
-  { action: 'block', value: 3,  label: t('CONTACTS_LAYOUT.HEADER.BLOCK_3_DAYS') },
-  { action: 'block', value: 7,  label: t('CONTACTS_LAYOUT.HEADER.BLOCK_7_DAYS') },
-  { action: 'block', value: 30, label: t('CONTACTS_LAYOUT.HEADER.BLOCK_30_DAYS') },
-  { action: 'block', value: 0,  label: t('CONTACTS_LAYOUT.HEADER.BLOCK_PERMANENT') },
+  { action: 'block', value: 1, label: t('CONTACTS_LAYOUT.HEADER.BLOCK_1_DAY') },
+  {
+    action: 'block',
+    value: 3,
+    label: t('CONTACTS_LAYOUT.HEADER.BLOCK_3_DAYS'),
+  },
+  {
+    action: 'block',
+    value: 7,
+    label: t('CONTACTS_LAYOUT.HEADER.BLOCK_7_DAYS'),
+  },
+  {
+    action: 'block',
+    value: 30,
+    label: t('CONTACTS_LAYOUT.HEADER.BLOCK_30_DAYS'),
+  },
+  {
+    action: 'block',
+    value: 0,
+    label: t('CONTACTS_LAYOUT.HEADER.BLOCK_PERMANENT'),
+  },
 ]);
 
 const onBlockDuration = ({ value }) => {
@@ -81,8 +102,9 @@ const onBlockDuration = ({ value }) => {
 
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
-
-    <div class="shrink-0 bg-n-solid-3 border-b border-n-weak px-5 py-3 flex flex-col gap-2">
+    <div
+      class="shrink-0 bg-n-solid-3 border-b border-n-weak px-5 py-3 flex flex-col gap-2"
+    >
       <Breadcrumb :items="breadcrumbItems" @click="onBreadcrumbClick" />
 
       <div class="flex items-center justify-between gap-4 flex-wrap">
@@ -95,14 +117,22 @@ const onBlockDuration = ({ value }) => {
             />
           </slot>
           <div class="min-w-0">
-            <h2 class="text-sm font-semibold text-n-slate-12 truncate leading-snug">
+            <h2
+              class="text-sm font-semibold text-n-slate-12 truncate leading-snug"
+            >
               {{ selectedContact?.name }}
             </h2>
             <div class="flex flex-col gap-0.5 mt-0.5">
               <span class="text-sm text-n-slate-11">
-                {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
+                {{
+                  $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt })
+                }}
                 •
-                {{ $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', { date: lastActivityAt }) }}
+                {{
+                  $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
+                    date: lastActivityAt,
+                  })
+                }}
               </span>
             </div>
           </div>
@@ -114,19 +144,23 @@ const onBlockDuration = ({ value }) => {
             :label="$t('CONTACTS_LAYOUT.HEADER.UNBLOCK_CONTACT')"
             size="sm"
             slate
-            :is-loading="isUpdating"
-            :disabled="isUpdating"
+            :is-loading="isUpdatingFromStore"
+            :disabled="isUpdatingFromStore"
             @click="emit('unblockContact')"
           />
-          <div v-else v-on-click-outside="() => (showBlockMenu = false)" class="relative">
+          <div
+            v-else
+            v-on-click-outside="() => (showBlockMenu = false)"
+            class="relative"
+          >
             <Button
               :label="$t('CONTACTS_LAYOUT.HEADER.BLOCK_CONTACT_MENU')"
               size="sm"
               slate
               trailing-icon
               icon="i-lucide-chevron-down"
-              :is-loading="isUpdating"
-              :disabled="isUpdating"
+              :is-loading="isUpdatingFromStore"
+              :disabled="isUpdatingFromStore"
               @click="showBlockMenu = !showBlockMenu"
             />
             <DropdownMenu
@@ -156,7 +190,9 @@ const onBlockDuration = ({ value }) => {
     </div>
 
     <div class="hidden md:flex flex-1 overflow-hidden">
-      <div class="flex flex-col flex-1 shrink-0 overflow-y-auto border-r border-n-weak bg-n-solid-1 items-center">
+      <div
+        class="flex flex-col flex-1 shrink-0 overflow-y-auto border-r border-n-weak bg-n-solid-1 items-center"
+      >
         <div class="w-full max-w-xl px-6 py-4">
           <slot name="default" />
         </div>
@@ -185,6 +221,5 @@ const onBlockDuration = ({ value }) => {
         <slot name="center" />
       </div>
     </div>
-
   </section>
 </template>

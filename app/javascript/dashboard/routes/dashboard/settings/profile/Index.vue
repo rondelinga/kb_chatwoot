@@ -20,7 +20,10 @@ import SectionLayout from '../account/components/SectionLayout.vue';
 import AccessToken from './AccessToken.vue';
 import MfaSettingsCard from './MfaSettingsCard.vue';
 import Policy from 'dashboard/components/policy.vue';
-import { ROLES, CONVERSATION_PERMISSIONS } from 'dashboard/constants/permissions.js';
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
 
 export default {
   components: {
@@ -59,17 +62,26 @@ export default {
       hotKeys: [
         {
           key: 'enter',
-          title: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'),
-          description: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'),
+          title: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
+          ),
+          description: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
+          ),
           lightImage: '/assets/images/dashboard/profile/hot-key-enter.svg',
           darkImage: '/assets/images/dashboard/profile/hot-key-enter-dark.svg',
         },
         {
           key: 'cmd_enter',
-          title: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'),
-          description: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'),
+          title: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+          ),
+          description: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+          ),
           lightImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
-          darkImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
+          darkImage:
+            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
         },
       ],
       notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
@@ -97,7 +109,9 @@ export default {
         {
           id: 'password',
           title: this.$t('PROFILE_SETTINGS.SECTIONS.PASSWORD.TITLE'),
-          description: this.$t('PROFILE_SETTINGS.SECTIONS.PASSWORD.DESCRIPTION'),
+          description: this.$t(
+            'PROFILE_SETTINGS.SECTIONS.PASSWORD.DESCRIPTION'
+          ),
           visible: !this.globalConfig.disableUserProfileUpdate,
           withBorder: true,
         },
@@ -127,14 +141,18 @@ export default {
         {
           id: 'notifications',
           title: this.$t('PROFILE_SETTINGS.SECTIONS.NOTIFICATIONS.TITLE'),
-          description: this.$t('PROFILE_SETTINGS.SECTIONS.NOTIFICATIONS.DESCRIPTION'),
+          description: this.$t(
+            'PROFILE_SETTINGS.SECTIONS.NOTIFICATIONS.DESCRIPTION'
+          ),
           visible: true,
           withBorder: true,
         },
         {
           id: 'audio',
           title: this.$t('PROFILE_SETTINGS.SECTIONS.AUDIO.TITLE'),
-          description: this.$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE'),
+          description: this.$t(
+            'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE'
+          ),
           visible: true,
           withBorder: true,
         },
@@ -237,10 +255,11 @@ export default {
 
 <template>
   <div class="flex flex-col max-w-2xl ltr:mr-auto rtl:ml-auto">
-
     <div class="pb-6 border-b border-white/10 mb-2">
       <!-- FIX: no-bare-strings-in-template — заменён хардкод 'Account' на i18n-ключ -->
-      <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">
+      <p
+        class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
+      >
         {{ $t('PROFILE_SETTINGS.ACCOUNT_LABEL') }}
       </p>
       <h2 class="text-3xl font-black tracking-wide text-white uppercase">
@@ -302,12 +321,16 @@ export default {
       <div class="flex flex-col gap-3">
         <UserLanguageSelect
           :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
-          :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')"
+          :description="
+            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
+          "
         />
         <FontSize
           :value="currentFontSize"
           :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.TITLE')"
-          :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')"
+          :description="
+            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
+          "
           @change="updateFontSize"
         />
       </div>
@@ -348,10 +371,7 @@ export default {
       </SectionLayout>
     </Policy>
 
-    <Policy
-      v-if="sectionMap.audio"
-      :permissions="audioNotificationPermissions"
-    >
+    <Policy v-if="sectionMap.audio" :permissions="audioNotificationPermissions">
       <SectionLayout
         :title="sectionMap.audio.title"
         :description="sectionMap.audio.description"
@@ -375,6 +395,5 @@ export default {
         @on-reset="resetAccessToken"
       />
     </SectionLayout>
-
   </div>
 </template>

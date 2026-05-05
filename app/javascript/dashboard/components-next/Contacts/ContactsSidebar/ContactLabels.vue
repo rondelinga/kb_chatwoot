@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch, onMounted, ref } from 'vue';
+import { computed, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
@@ -124,7 +124,9 @@ onMounted(() => {
         :model-value="null"
         :options="labelList"
         :empty-state="t('CONTACTS_LAYOUT.SIDEBAR.LABELS.EMPTY_STATE')"
-        :search-placeholder="t('CONTACTS_LAYOUT.SIDEBAR.LABELS.SEARCH_PLACEHOLDER')"
+        :search-placeholder="
+          t('CONTACTS_LAYOUT.SIDEBAR.LABELS.SEARCH_PLACEHOLDER')
+        "
         :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.LABELS.PLACEHOLDER')"
         class="[&>div>button]:bg-n-alpha-black2"
         @update:model-value="handleLabelAction"

@@ -421,6 +421,10 @@
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "View details",
+      "SECTIONS": {
+        "PERSONAL_INFO": "Personal Info",
+        "WORK": "Work"
+      },
       "EDIT_DETAILS_FORM": {
         "TITLE": "Edit contact details",
         "FORM": {

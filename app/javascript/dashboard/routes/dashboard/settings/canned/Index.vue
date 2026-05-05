@@ -113,8 +113,9 @@ const onImportFile = async event => {
     let message = t('CANNED_MGMT.IMPORT.SUCCESS', { count: imported });
     if (rowErrors.length) {
       const details = rowErrors
-        .map(e =>
-          `${t('CANNED_MGMT.IMPORT.LINE_PREFIX', { line: e.line })} ${e.error}`
+        .map(
+          e =>
+            `${t('CANNED_MGMT.IMPORT.LINE_PREFIX', { line: e.line })} ${e.error}`
         )
         .join('; ');
       message = `${message} ${t('CANNED_MGMT.IMPORT.PARTIAL')} ${details}`;
@@ -337,8 +338,8 @@ const labelsForCanned = item => {
     <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
       <EditCanned
         v-if="showEditPopup"
-        :key="activeResponse.id"
         :id="activeResponse.id"
+        :key="activeResponse.id"
         :edshort-code="activeResponse.short_code"
         :edcontent="activeResponse.content"
         :ed-label-ids="activeResponse.label_ids || []"

@@ -70,6 +70,10 @@
       "RESET_SUCCESS": "Access token regenerated successfully",
       "RESET_ERROR": "Unable to regenerate access token. Please try again"
     },
+    "SECTIONS": {
+      "IDENTITY": "Identity",
+      "CONFIGURATION": "Configuration"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"

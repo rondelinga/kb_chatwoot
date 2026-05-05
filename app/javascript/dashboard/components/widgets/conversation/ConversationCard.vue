@@ -421,10 +421,10 @@ const deleteConversation = () => {
   background-color: rgb(16 163 127 / 0.1) !important;
   border: 1px solid rgb(16 163 127 / 0.45) !important;
   border-radius: 8px !important;
-  color: #10A37F !important;
+  color: #10a37f !important;
 }
 
 .selected-chat * {
-  color: #10A37F !important;
+  color: #10a37f !important;
 }
 </style>

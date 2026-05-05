@@ -15,8 +15,7 @@ import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
-const CONTACT_BLOCKED_I18N_KEY =
-  'COMPONENTS.MESSAGE_BUBBLE.CONTACT_BLOCKED';
+const CONTACT_BLOCKED_I18N_KEY = 'COMPONENTS.MESSAGE_BUBBLE.CONTACT_BLOCKED';
 
 const isContactBlockedResponse = error => error?.response?.status === 403;
 
@@ -199,7 +198,11 @@ export const actions = {
   resolveConversation: async ({ dispatch }) => {
     try {
       await toggleStatus();
-      await dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      await dispatch(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
       await dispatch('conversation/syncLatestMessages');
     } catch {
       emitter.emit(BUS_EVENTS.SHOW_ALERT, {

@@ -53,6 +53,8 @@ const store = useStore();
 const route = useRoute();
 const { t } = useI18n();
 
+const formatStepNumber = step => String(step).padStart(2, '0');
+
 const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
@@ -80,10 +82,6 @@ const v$ = useVuelidate(rules, {
   selectedRoleId,
   agentAvailability,
 });
-
-const pageTitle = computed(
-  () => `${t('AGENT_MGMT.EDIT.TITLE')} - ${props.name}`
-);
 
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
@@ -183,20 +181,36 @@ const resetPassword = async () => {
 <template>
   <div class="flex flex-col gap-0">
     <div class="px-8 pt-8 pb-6 border-b border-white/10">
-      <p class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1">Agents</p>
-      <h2 class="text-3xl font-black tracking-wide text-white uppercase">{{ $t('AGENT_MGMT.EDIT.TITLE') }}</h2>
+      <p
+        class="text-xs font-semibold tracking-[0.2em] text-[#4ade80] uppercase mb-1"
+      >
+        {{ $t('AGENT_MGMT.HEADER') }}
+      </p>
+      <h2 class="text-3xl font-black tracking-wide text-white uppercase">
+        {{ $t('AGENT_MGMT.EDIT.TITLE') }}
+      </h2>
     </div>
 
     <form class="flex flex-col gap-6 px-8 py-6" @submit.prevent="editAgent">
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-[#4ade80] tracking-widest">01</span>
-          <span class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase">Agent Info</span>
+          <span class="text-xs font-bold text-[#4ade80] tracking-widest">{{
+            formatStepNumber(1)
+          }}</span>
+          <span
+            class="text-xs font-semibold tracking-[0.18em] text-n-slate-10 uppercase"
+            >{{ $t('AGENT_MGMT.SECTIONS.AGENT_INFO') }}</span
+          >
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <div class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
-            :class="{ 'border-red-500/50': v$.agentName.$error }">
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase">{{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}</span>
+          <div
+            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+            :class="{ 'border-red-500/50': v$.agentName.$error }"
+          >
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-[#4ade80] uppercase"
+              >{{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}</span
+            >
             <input
               v-model="agentName"
               type="text"
@@ -206,42 +220,72 @@ const resetPassword = async () => {
             />
           </div>
 
-          <div class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
-            :class="{ 'border-red-500/50': v$.selectedRoleId.$error }">
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">{{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}</span>
+          <div
+            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+            :class="{ 'border-red-500/50': v$.selectedRoleId.$error }"
+          >
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+              >{{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}</span
+            >
             <select
               v-model="selectedRoleId"
               class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 p-0 appearance-none cursor-pointer"
               @change="v$.selectedRoleId.$touch"
             >
-              <option v-for="role in roles" :key="role.id" :value="role.id" class="bg-n-solid-3">
+              <option
+                v-for="role in roles"
+                :key="role.id"
+                :value="role.id"
+                class="bg-n-solid-3"
+              >
                 {{ role.label }}
               </option>
             </select>
           </div>
 
-          <div class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
-            :class="{ 'border-red-500/50': v$.agentAvailability.$error }">
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">{{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}</span>
+          <div
+            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+            :class="{ 'border-red-500/50': v$.agentAvailability.$error }"
+          >
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+              >{{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}</span
+            >
             <select
               v-model="agentAvailability"
               class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 p-0 appearance-none cursor-pointer"
               @change="v$.agentAvailability.$touch"
             >
-              <option v-for="status in availabilityStatuses" :key="status.value" :value="status.value" class="bg-n-solid-3">
+              <option
+                v-for="status in availabilityStatuses"
+                :key="status.value"
+                :value="status.value"
+                class="bg-n-solid-3"
+              >
                 {{ status.label }}
               </option>
             </select>
           </div>
 
-          <div v-if="showMaxOpenConversations" class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]">
-            <span class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase">{{ $t('AGENT_MGMT.EDIT.FORM.MAX_OPEN_CONVERSATIONS.LABEL') }}</span>
+          <div
+            v-if="showMaxOpenConversations"
+            class="flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 pt-1.5 pb-2 transition-all duration-200 hover:border-[rgba(74,222,128,0.4)] hover:shadow-[0_0_12px_rgba(74,222,128,0.15)] focus-within:border-[rgba(74,222,128,0.5)] focus-within:shadow-[0_0_16px_rgba(74,222,128,0.2)]"
+          >
+            <span
+              class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
+              >{{
+                $t('AGENT_MGMT.EDIT.FORM.MAX_OPEN_CONVERSATIONS.LABEL')
+              }}</span
+            >
             <input
               v-model="maxOpenConversationsInput"
               type="number"
               min="1"
               step="1"
-              :placeholder="$t('AGENT_MGMT.EDIT.FORM.MAX_OPEN_CONVERSATIONS.PLACEHOLDER')"
+              :placeholder="
+                $t('AGENT_MGMT.EDIT.FORM.MAX_OPEN_CONVERSATIONS.PLACEHOLDER')
+              "
               class="h-6 bg-transparent border-0 outline-none text-sm text-n-slate-9 placeholder:text-n-slate-8 p-0"
             />
           </div>

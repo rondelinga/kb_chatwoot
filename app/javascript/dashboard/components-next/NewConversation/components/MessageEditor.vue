@@ -76,8 +76,8 @@ const executeCopilotAction = (action, data) => {
           enable-captain-tools
           :show-character-count="false"
           :signature="messageSignature"
-          :allow-signature="false"
-          :send-with-signature="false"
+          :allow-signature="sendWithSignature"
+          :send-with-signature="sendWithSignature"
           :channel-type="channelType"
           :medium="medium"
           @execute-copilot-action="executeCopilotAction"

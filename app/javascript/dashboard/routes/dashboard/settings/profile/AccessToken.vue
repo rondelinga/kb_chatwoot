@@ -28,7 +28,7 @@ const onReset = () => emit('onReset');
       >
         <span
           class="text-[10px] font-semibold tracking-[0.15em] text-n-slate-10 uppercase"
-          >Token</span
+          >{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}</span
         >
         <span class="text-sm font-mono text-n-slate-9 truncate select-all">{{
           displayValue

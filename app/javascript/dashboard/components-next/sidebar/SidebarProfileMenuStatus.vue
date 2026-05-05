@@ -63,9 +63,9 @@ const autoOfflineToggle = computed({
 });
 
 const themeOptions = [
-  { key: 'auto',  icon: 'i-lucide-monitor' },
+  { key: 'auto', icon: 'i-lucide-monitor' },
   { key: 'light', icon: 'i-lucide-sun' },
-  { key: 'dark',  icon: 'i-lucide-moon' },
+  { key: 'dark', icon: 'i-lucide-moon' },
 ];
 
 const currentTheme = ref(
@@ -75,7 +75,9 @@ const currentTheme = ref(
 const setTheme = key => {
   currentTheme.value = key;
   LocalStorage.set(LOCAL_STORAGE_KEYS.COLOR_SCHEME, key);
-  const isOSOnDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isOSOnDarkMode = window.matchMedia(
+    '(prefers-color-scheme: dark)'
+  ).matches;
   setColorTheme(isOSOnDarkMode);
 };
 
@@ -148,7 +150,7 @@ function changeAvailabilityStatus(availability) {
 
       <DropdownItem preserve-open>
         <div class="flex-grow flex items-center gap-1 text-n-slate-12">
-          Appearance
+          {{ $t('COMMAND_BAR.SECTIONS.APPEARANCE') }}
         </div>
         <div class="flex items-center gap-1 p-0.5 rounded-lg bg-n-alpha-2">
           <button
