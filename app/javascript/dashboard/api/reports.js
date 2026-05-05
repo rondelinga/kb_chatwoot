@@ -38,7 +38,7 @@ class ReportsAPI extends ApiClient {
   getSummary(
     since,
     until,
-    type = 'account',
+    type,
     id,
     groupBy,
     businessHours,
@@ -48,7 +48,7 @@ class ReportsAPI extends ApiClient {
     const params = {
       since,
       until,
-      type,
+      type: type ?? 'account',
       id,
       group_by: groupBy,
       business_hours: businessHours,
@@ -104,6 +104,24 @@ class ReportsAPI extends ApiClient {
     return axios.get(`${this.url}/inboxes`, {
       params: { since, until, business_hours: businessHours },
     });
+  }
+
+  getQueuedCustomers({ from, to, inboxIds = [], teamIds = [] } = {}) {
+    const params = {
+      since: from,
+      until: to,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (teamIds.length > 0) {
+      params.team_ids = teamIds;
+    }
+
+    if (inboxIds.length > 0) {
+      params.inbox_ids = inboxIds;
+    }
+
+    return axios.get(`${this.url}/queued_customers`, { params });
   }
 
   getTeamReports({ from: since, to: until, businessHours }) {

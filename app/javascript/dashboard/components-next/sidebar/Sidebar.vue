@@ -18,8 +18,8 @@ import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
-import ChannelLeaf from './ChannelLeaf.vue';
-import ChannelIcon from 'next/icon/ChannelIcon.vue';
+// import ChannelLeaf from './ChannelLeaf.vue';
+// import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
@@ -156,13 +156,13 @@ useEventListener(document, 'mouseup', onResizeEnd);
 useEventListener(document, 'touchmove', onResizeMove, { passive: false });
 useEventListener(document, 'touchend', onResizeEnd);
 
-const inboxes = useMapGetter('inboxes/getInboxes');
+// const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
-const teams = useMapGetter('teams/getMyTeams');
+// const teams = useMapGetter('teams/getMyTeams');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
-const conversationCustomViews = useMapGetter(
-  'customViews/getConversationCustomViews'
-);
+// const conversationCustomViews = useMapGetter(
+//   'customViews/getConversationCustomViews'
+// );
 
 onMounted(() => {
   store.dispatch('labels/get');
@@ -174,9 +174,9 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
 });
 
-const sortedInboxes = computed(() =>
-  inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
-);
+// const sortedInboxes = computed(() =>
+//   inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
+// );
 
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
@@ -430,6 +430,11 @@ const menuItems = computed(() => {
           name: 'CSAT Statistics',
           label: t('SIDEBAR.CSAT'),
           to: accountScopedRoute('csat_reports'),
+        },
+        {
+          name: 'Reports Queued Customers',
+          label: t('SIDEBAR.REPORTS_QUEUED_CUSTOMERS'),
+          to: accountScopedRoute('queued_customers_reports'),
         },
         // {
         //   name: 'SLA Statistics',
@@ -792,7 +797,7 @@ const menuItems = computed(() => {
         class="flex gap-2"
         :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-4'"
       >
-      <ComposeConversation align-position="right" @close="onComposeClose">
+        <ComposeConversation align-position="right" @close="onComposeClose">
           <template #trigger="{ toggle, isOpen }">
             <Button
               icon="i-lucide-send-horizontal"

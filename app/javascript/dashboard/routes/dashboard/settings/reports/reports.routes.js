@@ -22,9 +22,10 @@ import TeamReports from './TeamReports.vue';
 import CsatResponses from './CsatResponses.vue';
 // import BotReports from './BotReports.vue';
 import AgentActivityReports from './AgentActivityReports.vue';
-import AgentActivityDetail from './AgentActivityDetail.vue'; 
+import AgentActivityDetail from './AgentActivityDetail.vue';
 import LiveReports from './LiveReports.vue';
 // import SLAReports from './SLAReports.vue';
+import QueuedCustomersReports from './QueuedCustomersReports.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
@@ -181,6 +182,12 @@ export default {
           name: 'agent_activity_detail',
           meta,
           component: AgentActivityDetail,
+        },
+        {
+          path: 'queued-customers',
+          name: 'queued_customers_reports',
+          meta,
+          component: QueuedCustomersReports,
         },
       ],
     },
