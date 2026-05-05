@@ -17,7 +17,7 @@ import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import SectionLayout from '../account/components/SectionLayout.vue';
-import AccessToken from './AccessToken.vue';
+// import AccessToken from './AccessToken.vue';
 import MfaSettingsCard from './MfaSettingsCard.vue';
 import Policy from 'dashboard/components/policy.vue';
 import {
@@ -37,7 +37,7 @@ export default {
     ChangePassword,
     NotificationPreferences,
     AudioNotifications,
-    AccessToken,
+    // AccessToken,
     MfaSettingsCard,
   },
   setup() {
@@ -156,15 +156,15 @@ export default {
           visible: true,
           withBorder: true,
         },
-        {
-          id: 'token',
-          title: this.$t('PROFILE_SETTINGS.SECTIONS.TOKEN.TITLE'),
-          description: this.replaceInstallationName(
-            this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE')
-          ),
-          visible: true,
-          withBorder: true,
-        },
+        // {
+        //   id: 'token',
+        //   title: this.$t('PROFILE_SETTINGS.SECTIONS.TOKEN.TITLE'),
+        //   description: this.replaceInstallationName(
+        //     this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE')
+        //   ),
+        //   visible: true,
+        //   withBorder: true,
+        // },
       ]
         .filter(s => s.visible)
         .map((s, i) => ({ ...s, number: String(i + 1).padStart(2, '0') }));
@@ -241,14 +241,14 @@ export default {
       await copyTextToClipboard(value);
       useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
-    async resetAccessToken() {
-      const success = await this.$store.dispatch('resetAccessToken');
-      useAlert(
-        success
-          ? this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS')
-          : this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR')
-      );
-    },
+    // async resetAccessToken() {
+    //   const success = await this.$store.dispatch('resetAccessToken');
+    //   useAlert(
+    //     success
+    //       ? this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS')
+    //       : this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR')
+    //   );
+    // },
   },
 };
 </script>
@@ -382,7 +382,7 @@ export default {
       </SectionLayout>
     </Policy>
 
-    <SectionLayout
+    <!-- <SectionLayout
       v-if="sectionMap.token"
       :title="sectionMap.token.title"
       :description="sectionMap.token.description"
@@ -394,6 +394,6 @@ export default {
         @on-copy="onCopyToken"
         @on-reset="resetAccessToken"
       />
-    </SectionLayout>
+    </SectionLayout> -->
   </div>
 </template>
